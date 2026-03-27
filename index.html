@@ -3,1045 +3,461 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBSE Class 12 Learning Quiz</title>
-    <!-- Include html2pdf library for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Minimalist Learning Portal</title>
     
-    <!-- Include MathJax for LaTeX rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: {
-                fontCache: 'global'
-            }
-        };
+        MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] }, svg: { fontCache: 'global' } };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
+        /* --- Minimalist Design System --- */
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --bg-color: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-light: #64748b;
-            --success: #10b981;
-            --success-bg: #d1fae5;
-            --danger: #ef4444;
-            --danger-bg: #fee2e2;
-            --border: #e2e8f0;
-            --easy-color: #10b981;
-            --medium-color: #f59e0b;
-            --hard-color: #ef4444;
+            --bg-main: #FAFAFA; --bg-surface: #FFFFFF; --sidebar-bg: #F4F4F5;
+            --text-main: #09090B; --text-muted: #71717A;
+            --border: #E4E4E7; --border-hover: #D4D4D8;
+            --primary: #18181B; --primary-hover: #27272A;
+            --success: #10B981; --success-bg: #ECFDF5;
+            --danger: #EF4444; --danger-bg: #FEF2F2;
+            --radius: 6px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; font-size: 15px; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-        }
+        /* --- Login View --- */
+        #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { width: 100%; max-width: 320px; text-align: center; }
+        .login-box h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+        .login-box p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
+        .input-field { width: 100%; padding: 10px 12px; margin-bottom: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.95rem; background: var(--bg-main); outline: none; }
+        .input-field:focus { border-color: var(--text-main); background: var(--bg-surface); }
+        .btn-solid { width: 100%; padding: 10px 12px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .btn-solid:hover { background: var(--primary-hover); }
+        .error-text { color: var(--danger); font-size: 0.85rem; margin-top: 12px; display: none; }
 
-        /* --- Login Overlay Styles --- */
-        #login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .login-card {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .login-input:focus { outline: none; border-color: var(--primary); }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: opacity 0.2s;
-        }
-
-        .login-btn:hover { opacity: 0.9; }
-
-        .error-msg {
-            color: var(--danger);
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-            font-weight: bold;
-        }
+        /* --- Main App Layout --- */
+        #app-view { display: none; width: 100%; height: 100%; display: flex; }
         
-        .troubleshoot-btn {
-            margin-top: 25px;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
+        /* Sidebar */
+        .sidebar { width: 280px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+        .sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .student-name { font-weight: 600; font-size: 0.95rem; }
+        .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .btn-text:hover { color: var(--text-main); }
         
-        .troubleshoot-btn:hover { color: var(--danger); }
-
-        /* --- App Styles --- */
-        #app-content { display: none; }
-        .container { max-width: 900px; margin: 0 auto; }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: var(--surface);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-
-        header h1 { color: var(--primary-dark); font-size: 2rem; margin-bottom: 5px; }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-            font-size: 1.05rem;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            padding: 5px 12px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .logout-btn:hover { background: #dc2626; }
-
-        .export-all-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px 16px;
-            background-color: var(--text-main);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
+        .directory { flex: 1; overflow-y: auto; padding: 16px 8px; }
+        .dir-subject { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; padding: 8px; margin-top: 12px; }
+        .dir-chapter { padding: 6px 8px; font-weight: 500; cursor: pointer; border-radius: var(--radius); transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .dir-chapter:hover { background: var(--border); }
+        .dir-topic-group { padding-left: 12px; margin-left: 12px; border-left: 1px solid var(--border); display: none; margin-top: 4px; margin-bottom: 8px;}
+        .dir-topic-group.open { display: block; }
+        .dir-item { padding: 6px 8px; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; border-radius: var(--radius); transition: 0.2s; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;}
+        .dir-item:hover { color: var(--text-main); background: var(--border-hover); }
+        .dir-item.active { background: var(--bg-surface); color: var(--text-main); font-weight: 500; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
         
-        .export-all-btn:hover { opacity: 0.9; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+        .status-dot.done { background: var(--success); }
 
-        @media (max-width: 600px) {
-            .export-all-btn { position: static; display: block; width: 100%; margin-top: 15px; }
-        }
-
-        /* Level Tabs */
-        .level-tabs { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-        .level-btn {
-            padding: 10px 30px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--text-light);
-            transition: all 0.2s;
-        }
-        .level-btn#btn-easy.active { background: var(--easy-color); color: white; border-color: var(--easy-color); }
-        .level-btn#btn-medium.active { background: var(--medium-color); color: white; border-color: var(--medium-color); }
-        .level-btn#btn-hard.active { background: var(--hard-color); color: white; border-color: var(--hard-color); }
-
-        /* Chapter Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
-        .tab-btn {
-            padding: 12px 24px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text-light);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* Score Badge */
-        .score-badge { background: #e2e8f0; color: var(--text-main); padding: 2px 8px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; }
-        .tab-btn.active .score-badge { background: white; color: var(--primary); }
-
-        /* Main Content Area */
-        .content-card {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: none;
-        }
-        .content-card.active { display: block; }
-
-        /* Questions */
-        .question-block { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); page-break-inside: avoid; }
-        .question-block:last-child { border-bottom: none; }
-        .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: var(--text-main); }
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-            background: #f8fafc;
-        }
-        .option-label:hover:not(.locked) { background: #e2e8f0; }
-        .option-label input[type="radio"] { margin-right: 15px; transform: scale(1.3); accent-color: var(--primary); }
-        .option-label input[type="radio"]:disabled { cursor: not-allowed; }
-
-        .option-label.locked { cursor: not-allowed; opacity: 0.85; }
-        .option-label.correct-choice { background-color: var(--success-bg); border-color: var(--success); font-weight: 600; }
-        .option-label.incorrect-choice { background-color: var(--danger-bg); border-color: var(--danger); opacity: 0.6; text-decoration: line-through; }
-
-        /* Feedback Panels Styles */
-        .feedback-container {
-            margin-top: 15px;
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-        .feedback-header {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .feedback-panels {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-        @media (min-width: 768px) {
-            .feedback-panels { grid-template-columns: 1fr 1fr; }
-        }
-        .panel {
-            background: #f1f5f9;
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .panel h4 {
-            color: var(--primary-dark);
-            margin: 0 0 8px 0;
-            font-size: 1rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 5px;
-        }
-        .panel p { margin: 0; font-size: 0.95rem; color: #334155; line-height: 1.5; }
-        .feedback-container.correct .panel { border-left: 4px solid var(--success); background: #f0fdf4; }
-        .feedback-container.incorrect .panel { border-left: 4px solid var(--danger); background: #fef2f2; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Buttons */
-        .btn { display: inline-block; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; text-align: center; color: white; }
-        .btn:hover { opacity: 0.9; }
-        .btn-primary { background-color: var(--primary); margin-top: 20px; }
-        .btn-secondary { background-color: var(--text-light); margin-top: 10px; }
-        .btn-dark { background-color: var(--text-main); margin-top: 10px; }
-        .btn-danger { background-color: var(--danger); margin-top: 10px; }
-
-        /* Report Styles */
-        .report-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
-        .score-box { background: var(--success-bg); border: 2px solid var(--success); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 30px; }
-        .score-box h2 { color: var(--success); font-size: 2.5rem; margin: 10px 0; }
-        .score-box p { color: #047857; font-weight: 600; font-size: 1.2rem; }
-
-        .review-item { padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 6px solid; background: #f8fafc; page-break-inside: avoid; }
-        .review-item.correct { border-left-color: var(--success); }
-        .review-item.incorrect { border-left-color: var(--danger); }
+        /* Content Area */
+        .content-area { flex: 1; background: var(--bg-surface); overflow-y: auto; position: relative; }
+        .content-inner { max-width: 720px; margin: 0 auto; padding: 60px 40px; animation: fadeIn 0.3s ease; }
         
-        .review-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; margin-bottom: 10px; }
-        .badge-correct { background: var(--success-bg); color: var(--success); }
-        .badge-incorrect { background: var(--danger-bg); color: var(--danger); }
+        /* Quiz Elements */
+        .quiz-header { margin-bottom: 40px; }
+        .quiz-type { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
+        .quiz-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }
+        
+        .q-block { margin-bottom: 48px; }
+        .q-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 16px; line-height: 1.6; }
+        .opt-list { display: flex; flex-direction: column; gap: 8px; }
+        .opt-label { display: flex; align-items: flex-start; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: 0.2s; background: var(--bg-surface); }
+        .opt-label:hover:not(.locked) { border-color: var(--text-muted); background: var(--bg-main); }
+        .opt-label input { margin-top: 4px; margin-right: 12px; accent-color: var(--primary); }
+        .opt-text { flex: 1; line-height: 1.5; }
+        
+        .opt-label.locked { cursor: default; opacity: 0.7; }
+        .opt-label.selected-classic { border-color: var(--primary); background: var(--bg-main); }
+        .opt-label.correct { border-color: var(--success); background: var(--success-bg); color: #065F46; opacity: 1; }
+        .opt-label.incorrect { border-color: var(--danger); background: var(--danger-bg); text-decoration: line-through; opacity: 0.6; }
 
+        /* Feedback Box */
+        .feedback-box { margin-top: 16px; padding: 16px 20px; border-radius: var(--radius); border-left: 3px solid; display: none; font-size: 0.95rem; line-height: 1.6; }
+        .feedback-box.is-correct { background: var(--bg-main); border-left-color: var(--success); }
+        .feedback-box.is-wrong { background: var(--bg-main); border-left-color: var(--danger); }
+        .fb-title { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
+        .fb-section { margin-top: 12px; }
+        .fb-section span { font-weight: 600; color: var(--text-main); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;}
+
+        /* Report UI */
+        .report-summary { padding: 32px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-main); text-align: center; margin-bottom: 48px; }
+        .report-score { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0; }
+        .action-bar { display: flex; gap: 12px; margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
+        .btn-outline { padding: 10px 16px; border: 1px solid var(--border); background: var(--bg-surface); border-radius: var(--radius); cursor: pointer; font-weight: 500; transition: 0.2s; text-align: center; flex: 1; }
+        .btn-outline:hover { background: var(--bg-main); border-color: var(--text-muted); }
+        .empty-state { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<!-- Login Screen -->
-<div id="login-overlay">
-    <div class="login-card">
-        <h2 style="color: var(--primary-dark); margin-bottom: 5px;">CBSE Class 12 Quiz</h2>
-        <p style="color: var(--text-light); margin-bottom: 25px;">Please login to continue</p>
-        
-        <input type="text" id="username" class="login-input" placeholder="Username (e.g. icchansh)">
-        <input type="password" id="password" class="login-input" placeholder="Password" onkeypress="handleEnter(event)">
-        
-        <button class="login-btn" onclick="handleLogin()">Login to Dashboard</button>
-        <div id="login-error" class="error-msg">Invalid username or password.</div>
-        
-        <button class="troubleshoot-btn" onclick="clearAppData()">Clear Local Data (Troubleshooting)</button>
-    </div>
-</div>
-
-<!-- Main Application -->
-<div id="app-content" class="container">
-    <header>
-        <h1>CBSE Class 12 Learning Quiz</h1>
-        <p>NCERT Syllabus | Chemistry, Physics, Mathematics</p>
-        
-        <div class="user-info">
-            <span id="welcome-text"></span>
-            <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    <div id="login-view">
+        <div class="login-box">
+            <h1>Student Portal</h1>
+            <p>Sign in to access your modules</p>
+            <input type="text" id="username" class="input-field" placeholder="Username" onkeypress="if(event.key==='Enter') login()">
+            <input type="password" id="password" class="input-field" placeholder="Password" onkeypress="if(event.key==='Enter') login()">
+            <button class="btn-solid" onclick="login()">Continue</button>
+            <div id="login-error" class="error-text">Invalid credentials</div>
         </div>
-
-        <button class="export-all-btn" onclick="exportAllScores()">📄 Export All Scores</button>
-    </header>
-
-    <div class="level-tabs">
-        <button class="level-btn active" id="btn-easy" onclick="setLevel('easy')">Easy Level</button>
-        <button class="level-btn" id="btn-medium" onclick="setLevel('medium')">Medium Level</button>
-        <button class="level-btn" id="btn-hard" onclick="setLevel('hard')">Hard Level</button>
     </div>
 
-    <div class="tabs" id="tabs-container">
-        <button class="tab-btn active" id="tab-ch1" onclick="loadQuiz('ch1')">Chemistry: Solutions <span id="badge-ch1"></span></button>
-        <button class="tab-btn" id="tab-ch2" onclick="loadQuiz('ch2')">Physics: Electric Charges <span id="badge-ch2"></span></button>
-        <button class="tab-btn" id="tab-ch3" onclick="loadQuiz('ch3')">Math: Inverse Trig <span id="badge-ch3"></span></button>
+    <div id="app-view">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="student-name" id="student-name-display">Student</span>
+                <button class="btn-text" onclick="logout()">Logout</button>
+            </div>
+            <div class="directory" id="directory-container">
+                </div>
+        </aside>
+
+        <main class="content-area" id="content-scroll">
+            <div class="content-inner" id="content-inner">
+                <div class="empty-state" id="empty-state">
+                    <h3>Select a module</h3>
+                    <p style="font-size:0.9rem; margin-top:8px;">Choose an item from the directory to begin.</p>
+                </div>
+
+                <div id="quiz-view" style="display: none;">
+                    <div class="quiz-header">
+                        <span class="quiz-type" id="quiz-mode-tag">Mode</span>
+                        <h1 class="quiz-title" id="quiz-title">Title</h1>
+                        <p style="color: var(--text-muted);" id="quiz-subtitle">Subtitle</p>
+                    </div>
+                    <div id="questions-container"></div>
+                    <div id="submit-container" style="margin-top: 40px;"></div>
+                </div>
+
+                <div id="report-view" style="display: none;">
+                    <div id="printable-report"></div>
+                    <div class="action-bar">
+                        <button class="btn-outline" onclick="exportPDF()">Download PDF Report</button>
+                        <button class="btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="retakeQuiz()">Clear Score & Retake</button>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
-    <div id="quiz-view" class="content-card active">
-        <h2 id="quiz-title" style="margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px;"></h2>
-        <div id="questions-container"></div>
-        <div id="submit-container"></div>
-    </div>
-
-    <div id="report-view" class="content-card">
-        <div id="printable-report"></div>
-        <button class="btn btn-dark" onclick="exportPDF()">📄 Export Detailed Report as PDF</button>
-        <button class="btn btn-primary" onclick="backToQuizzes()">↩ Back to Quizzes</button>
-        <button class="btn btn-danger" onclick="retakeQuiz()">↻ Clear Points & Retake This Quiz</button>
-    </div>
-</div>
-
-<script>
-    const validAccounts = { 'icchansh': '1234', 'roshan': '1234' };
-
-    // --- SAFE LOCAL STORAGE WRAPPER ---
-    // Prevents the app from crashing if GitHub Pages / Iframe / Incognito blocks local storage
-    const safeStorage = {
-        get: function(key) {
-            try { return window.localStorage.getItem(key); } 
-            catch(e) { return null; }
-        },
-        set: function(key, value) {
-            try { window.localStorage.setItem(key, value); } 
-            catch(e) { console.warn('Storage blocked - data will not persist across reloads.'); }
-        },
-        remove: function(key) {
-            try { window.localStorage.removeItem(key); } 
-            catch(e) { console.warn('Storage blocked'); }
-        },
-        clear: function() {
-            try { window.localStorage.clear(); } 
-            catch(e) { console.warn('Storage blocked'); }
-        }
-    };
-
-    const quizData = {
-        easy: {
-            ch1: {
-                title: "Chemistry: Solutions (Easy Level)",
-                questions: [
-                    { q: "Which of the following concentration terms is independent of temperature?", o: ["Molarity", "Normality", "Molality", "Formality"], a: 2, e: "Molality depends only on the mass of the solvent, not volume.", n: "Concentration terms like Molarity and Normality involve the volume of the solution. Because liquids expand and contract with temperature changes, the volume changes, causing these concentration values to fluctuate. Molality, however, is strictly defined as moles of solute per kilogram of solvent. Since mass is an invariant property that doesn't change with temperature, Molality provides a highly reliable, temperature-independent measure. It is crucial for precise thermodynamic calculations." },
-                    { q: "Henry's Law constant ($K_H$) depends on the:", o: ["Nature of the gas only", "Nature of the solvent only", "Temperature and pressure", "Nature of gas and temperature"], a: 3, e: "$K_H$ is a function of the specific gas and varies significantly with temperature.", n: "Henry's Law states that at a constant temperature, the solubility of a gas in a liquid is directly proportional to its partial pressure. The proportionality constant, $K_H$, is entirely specific to the nature of the gas and the chosen solvent. More importantly, $K_H$ increases with an increase in temperature, which mathematically means solubility decreases. This is precisely why aquatic life struggles in warmer waters, as the dissolved oxygen concentration drops. Temperature and gas identity are its masters." },
-                    { q: "The value of the van't Hoff factor ($i$) for $K_2SO_4$ undergoing complete dissociation is:", o: ["1", "2", "3", "4"], a: 2, e: "$K_2SO_4$ dissociates into 2 $K^+$ ions and 1 $SO_4^{2-}$ ion.", n: "The van't Hoff factor ($i$) measures the extent of association or dissociation of a solute in a solution. It is defined as the ratio of the actual number of particles in solution to the number of formula units originally dissolved. Potassium sulfate ($K_2SO_4$) is a strong electrolyte. In an aqueous solution, it dissociates completely to yield two potassium ions (2 $K^+$) and one sulfate ion ($SO_4^{2-}$). The total particles produced per molecule is 3, making $i = 3$." },
-                    { q: "An ideal solution is one which obeys:", o: ["Boyle's Law", "Raoult's Law strictly at all concentrations", "Henry's Law", "Avogadro's Law"], a: 1, e: "Ideal solutions obey Raoult's law perfectly over the entire range of concentrations.", n: "Raoult's Law dictates that the partial vapor pressure of a component in a solution is directly proportional to its mole fraction. In reality, very few liquid mixtures behave perfectly due to differing intermolecular attractive forces. An 'ideal solution' is a theoretical benchmark where the A-B interactions are exactly identical to the pure A-A and B-B interactions. Because the forces are identical, there is no change in enthalpy ($\\Delta H_{mix} = 0$) or volume ($\\Delta V_{mix} = 0$) upon mixing. Benzene and toluene form a nearly ideal solution." },
-                    { q: "Colligative properties depend strictly on:", o: ["The nature of the solute", "The nature of the solvent", "The physical state of the solute", "The number of solute particles"], a: 3, e: "The word 'colligative' means depending upon the collection or number of particles.", n: "Colligative properties are a unique set of physical properties belonging to solutions that stubbornly ignore the chemical identity of the solute. It does not matter if you dissolve sugar, salt, or urea; the only variable that matters is how many particles end up in the liquid. These properties include relative lowering of vapor pressure, elevation of boiling point, depression of freezing point, and osmotic pressure. They are incredibly useful tools in chemistry for experimentally determining the molar mass of unknown, non-volatile solutes." },
-                    { q: "Which of the following is an example of a solid solution?", o: ["Amalgam of mercury with sodium", "Brass", "Dust particles in air", "Pumice stone"], a: 1, e: "Brass is an alloy, which is a homogeneous mixture of two or more solid metals.", n: "A solution is generally thought of as a solid dissolved in a liquid, but chemistry defines a solution as any homogeneous mixture. Solid solutions occur when both the solute and solvent are in the solid phase. Alloys like brass (a mixture of copper and zinc) or bronze are perfect, everyday examples of solid solutions. The atoms of the minor component are dispersed uniformly throughout the crystal lattice of the major component. They drastically alter the physical properties of the pure metal." },
-                    { q: "The osmotic pressure of a solution can be mathematically increased by:", o: ["Decreasing temperature", "Decreasing concentration", "Increasing temperature", "Increasing volume"], a: 2, e: "Osmotic pressure ($\\pi$) = $CRT$. It is directly proportional to Temperature ($T$).", n: "Osmotic pressure is the precise hydrostatic pressure required to completely halt the process of osmosis across a semipermeable membrane. The governing equation, $\\pi = CRT$, beautifully links osmotic pressure to Molarity ($C$), the universal gas constant ($R$), and absolute temperature ($T$). Because $T$ is in the numerator, injecting heat into the system increases the kinetic energy of the solvent molecules. This aggressive movement requires a higher opposing pressure to successfully stop the flow. It acts exactly like the ideal gas law." },
-                    { q: "Isotonic solutions have the same:", o: ["Density", "Molar concentration (if i is same)", "Volume", "Normality"], a: 1, e: "Isotonic means having identical osmotic pressure, which relies on equal molar concentrations of particles.", n: "The prefix 'iso' translates to equal, and 'tonic' refers to tension or pressure. When two solutions are perfectly isotonic, it means they exhibit the exact same osmotic pressure when separated by a semipermeable membrane. Because osmotic pressure ($\\pi = iCRT$) relies entirely on particle concentration at a given temperature, isotonic solutions must have identical effective molar concentrations. This concept is biologically critical; intravenous fluids injected into the human body must be strictly isotonic with blood plasma to prevent red blood cells from violently bursting or shriveling." },
-                    { q: "A plant cell shrinks when placed in a:", o: ["Hypotonic solution", "Hypertonic solution", "Isotonic solution", "Pure water"], a: 1, e: "Water moves out of the cell into the more concentrated hypertonic solution.", n: "Osmosis is the relentless biological drive of water to move from an area of low solute concentration to an area of high solute concentration. A hypertonic solution is highly concentrated, essentially packing less water and more salt/sugar than the inside of the plant cell. When submerged, the cell's internal water flees outward across the membrane in a desperate attempt to dilute the salty exterior. This aggressive water loss rapidly depletes the cell's turgor pressure, causing the physical structure to shrivel and collapse. This is called plasmolysis." },
-                    { q: "If $P_A > P_A^0 x_A$, the solution shows:", o: ["Ideal behavior", "Negative deviation from Raoult's law", "Positive deviation from Raoult's law", "No deviation"], a: 2, e: "If the actual vapor pressure is greater than predicted, it's a positive deviation.", n: "Raoult's Law sets the mathematical expectation for vapor pressure in a perfect world. However, if the new A-B intermolecular forces in the mixture are notably weaker than the original A-A or B-B forces, the molecules escape into the vapor phase far too easily. This frantic escape causes the overall vapor pressure to spike significantly higher than Raoult's equation predicted. This scenario is officially classified as a positive deviation. A classic example is a mixture of ethanol and acetone." },
-                    { q: "The process of getting fresh water from seawater using pressure is called:", o: ["Osmosis", "Reverse Osmosis", "Dialysis", "Distillation"], a: 1, e: "Applying external pressure greater than osmotic pressure forces water out of the salty solution.", n: "Natural osmosis dictates that pure water will voluntarily flow into salty seawater to dilute it. However, engineers can actively reverse this natural flow by applying a massive, mechanical hydraulic pressure to the saltwater side of the membrane. By exceeding the solution's natural osmotic pressure, the pure water molecules are violently squeezed backward through the microscopic pores of the semipermeable membrane, leaving the heavy salt ions trapped behind. This aggressive process, Reverse Osmosis (RO), is a premier global technology for large-scale desalination." },
-                    { q: "Which colligative property is most preferred for determining molar mass of macromolecules?", o: ["Elevation in BP", "Depression in FP", "Relative lowering of VP", "Osmotic pressure"], a: 3, e: "Osmotic pressure changes are large and measurable even for dilute solutions of large molecules.", n: "Macromolecules, such as complex human proteins or industrial polymers, possess staggeringly high molar masses. Consequently, when dissolved, they create incredibly dilute solutions with very few total particles. Measuring boiling point elevation or freezing point depression on these ultra-dilute mixtures yields values so microscopic they are nearly impossible to read accurately. Osmotic pressure, however, generates a massive, easily readable physical pressure value even at microscopic concentrations. Furthermore, the measurement is done safely at room temperature, preventing the delicate biological proteins from denaturing in boiling water." },
-                    { q: "Ebullioscopic constant is the unit for:", o: ["Freezing point depression", "Osmotic pressure", "Elevation of boiling point", "Vapor pressure"], a: 2, e: "It is the molal boiling point elevation constant ($K_b$).", n: "The ebullioscopic constant, mathematically represented as $K_b$, is an intrinsic property unique to every individual solvent. It quantifies exactly how aggressively that specific solvent's boiling point will spike when exactly one mole of a non-volatile solute is dissolved into one kilogram of it. The word itself is derived from 'ebullition', which is the technical scientific term for the act of boiling. For pure water, the $K_b$ is relatively low (0.52 K kg/mol), which allows chemists to reliably predict solution behavior under thermal stress." },
-                    { q: "Cryoscopic constant is the unit for:", o: ["Freezing point depression", "Osmotic pressure", "Elevation of boiling point", "Vapor pressure"], a: 0, e: "It is the molal freezing point depression constant ($K_f$).", n: "Similar to the boiling constant, the cryoscopic constant ($K_f$) is a solvent-specific value dictating freezing behavior. It defines the exact temperature drop a solvent experiences when one mole of particles is forced into one kilogram of the liquid. The term 'cryoscopic' borrows from 'cryo', meaning extreme cold. When salt is thrown onto an icy winter road, it dissolves into the microscopic water layer, invoking this property. The dissolved salt severely depresses the freezing point, forcing the dangerous ice to rapidly melt back into liquid water." },
-                    { q: "What happens to the vapor pressure of a solvent when a non-volatile solute is added?", o: ["It increases", "It decreases", "It remains the same", "It becomes zero"], a: 1, e: "The solute particles occupy surface area, reducing the solvent's ability to evaporate.", n: "Evaporation is strictly a surface phenomenon; molecules can only escape into the vapor phase if they are physically sitting on the surface line. When a heavy, non-volatile solute (like salt) is dumped into pure water, those salt particles selfishly occupy a massive fraction of the surface real estate. This physical blockade actively prevents the energetic water molecules from reaching the surface to escape. Because fewer molecules can break free into the air, the total resulting vapor pressure pushing back down is significantly decreased." }
-                ]
-            },
-            ch2: {
-                title: "Physics: Electric Charges & Fields (Easy Level)",
-                questions: [
-                    { q: "What is the SI unit of electric charge?", o: ["Volt", "Ampere", "Coulomb", "Ohm"], a: 2, e: "Coulomb ($C$) is the standard SI unit of charge.", n: "The Coulomb, named in honor of the pioneering French physicist Charles-Augustin de Coulomb, is the bedrock unit of electromagnetism. It is officially defined via the Ampere: one Coulomb is the exact quantity of electric charge transported by a steady current of one Ampere flowing for exactly one second. It represents a massive amount of charge. A single lightning strike might only transfer a few dozen Coulombs, highlighting just how concentrated and powerful this unit of measurement truly is." },
-                    { q: "The quantization of charge indicates that any macroscopic charge Q must be:", o: ["A fraction of e", "An integral multiple of e", "Equal to e squared", "Independent of e"], a: 1, e: "Charge is quantized: $Q = ne$, where n is an integer.", n: "Nature does not allow electric charge to exist in smooth, infinitely divisible fractions. It is fundamentally grainy or 'quantized'. The absolute smallest independent building block of charge in the universe is the charge of a single electron or proton, denoted by the fundamental constant '$e$'. Therefore, any measurable, macroscopic charge sitting on a balloon or a metal sphere is simply a massive, whole-number accumulation of these tiny '$e$' building blocks. You cannot have 1.5 electrons worth of charge." },
-                    { q: "Electric field lines always originate from:", o: ["Negative charges", "Positive charges", "Neutral bodies", "Infinity"], a: 1, e: "Field lines are defined to point away from positive charges and towards negative charges.", n: "Electric field lines are brilliant visual tools invented by Michael Faraday to map out the invisible chaos of electromagnetic forces. By strict international convention, these lines are drawn acting precisely how a tiny, positive 'test charge' would behave if dropped into the area. Because a positive test charge is violently repelled by another positive charge, the field lines always point aggressively outwards and away from positive sources. Conversely, they always dive sharply inwards to terminate on negative charges. They are the roadmap of electrical force." },
-                    { q: "The formula for Coulomb's force between two point charges is:", o: ["$F = k(q_1+q_2)/r$", "$F = k(q_1 q_2)/r^2$", "$F = k(q_1 q_2)/r$", "$F = k(q_1-q_2)/r^2$"], a: 1, e: "It follows an inverse-square law, just like gravity.", n: "Coulomb's Law is the mathematical dictator of electrostatic interactions. It proves that the crushing force between two resting charges is directly proportional to the multiplication of their raw charge magnitudes ($q_1 \\cdot q_2$). More importantly, the force drops off precipitously with distance, following the brutal inverse-square law ($r^2$). If you simply double the physical gap between two electrons, the repulsive force between them doesn't halve; it violently collapses to a mere one-quarter of its original strength. Distance rapidly murders electrostatic power." },
-                    { q: "What is the value of the constant '$k$' in vacuum (in SI units)?", o: ["$9 \\times 10^9$", "$8.85 \\times 10^{-12}$", "$6.67 \\times 10^{-11}$", "$1.6 \\times 10^{-19}$"], a: 0, e: "$k = 1 / (4\\pi\\epsilon_0) \\approx 9 \\times 10^9$ N m²/C².", n: "The electrostatic constant '$k$' serves as the universal multiplier in Coulomb's equation, dictating the raw scale of electrical forces in our universe. In a pure vacuum, its value is an astronomically large 9 billion ($9 \\times 10^9$). This staggering multiplier is precisely why the electrical repulsion between two protons is vastly, almost incomprehensibly stronger than the weak gravitational attraction pulling them together. If gravity were an ant, electromagnetism would be a supernova. The constant '$k$' mathematically proves electromagnetism's supreme dominance over gravity." },
-                    { q: "Electric dipole moment is a vector quantity pointing from:", o: ["Positive to negative", "Negative to positive", "Center to positive", "It is a scalar"], a: 1, e: "By convention in physics, dipole moment vector '$p$' points from $-q$ to $+q$.", n: "An electric dipole consists of two equal but utterly opposite charges locked together by a tiny distance. To track this system, physicists utilize the dipole moment vector ($p = q \\cdot 2a$). While electric field lines naturally flow from positive to negative, the dipole moment vector stubbornly rebels against this trend. By strict physical convention, the dipole vector is drawn pointing originating at the negative charge and thrusting toward the positive charge. This specific alignment simplifies the complex calculus required when the dipole is tortured by external fields." },
-                    { q: "The net electric flux through any closed surface is equal to $1/\\epsilon_0$ times the net charge enclosed. This is:", o: ["Faraday's Law", "Ampere's Law", "Gauss's Law", "Coulomb's Law"], a: 2, e: "This is the definitive statement of Gauss's Law in electrostatics.", n: "Gauss's Law represents a breathtaking mathematical shortcut in vector calculus. Imagine trapping a charged particle inside a completely closed, hypothetical 3D bubble (a Gaussian surface). Gauss proved that you don't need to calculate the chaotic electric field at a million different points on that bubble. You simply tally up the total, raw charge trapped inside and divide it by the vacuum permittivity constant. The result perfectly equals the total electrical 'wind' (flux) blowing out of the bubble. It effortlessly defeats complex geometry." },
-                    { q: "Two electric field lines can intersect each other:", o: ["At a neutral point", "Never", "If charges are large", "If distance is small"], a: 1, e: "If they intersected, the field would have two directions at one point, which is impossible.", n: "Electric field lines are not merely artistic sketches; they strictly map the absolute, resultant vector force at any given coordinate in space. If two solid lines were to miraculously cross and intersect, it would create a catastrophic physical paradox. A tiny test charge placed directly on that intersection would simultaneously be ordered to travel in two completely different directions at once. Because a single resultant vector cannot point two ways, field lines are mathematically forbidden from ever crossing. They will bend indefinitely to avoid a collision." },
-                    { q: "When a glass rod is rubbed with silk, it acquires a:", o: ["Positive charge", "Negative charge", "Neutral charge", "Magnetic pole"], a: 0, e: "Electrons are transferred from the loosely-held glass to the silk.", n: "This classic classroom demonstration explores the triboelectric effect—generating static charge via aggressive physical friction. The atomic structure of the glass rod holds its outermost electrons quite weakly compared to the woven silk. During the abrasive rubbing process, the friction provides enough energy to violently rip electrons away from the glass lattice and dump them onto the silk fabric. Because the glass has now lost a massive chunk of its negative electrons, it is left with an overwhelming, unbalanced positive charge." },
-                    { q: "The permittivity of free space ($\\epsilon_0$) has the unit:", o: ["C² / (N m²)", "N m² / C²", "V / m", "J / C"], a: 0, e: "It is the inverse of the constant '$k$' units.", n: "Permittivity of free space ($\\epsilon_0$) is a fundamental, inescapable constant of nature that measures how stubbornly a pure vacuum resists the formation of an electric field. Because it sits in the denominator of Coulomb's constant ($k = 1/4\\pi\\epsilon_0$), its units are the exact mathematical inverse of k. The unit $C^2 / (N m^2)$ mathematically balances the Coulomb force equation. This tiny number ($8.854 \\times 10^{-12}$) dictates the absolute baseline capability of empty space to transmit electromagnetic force across the void." },
-                    { q: "What is the electric field inside a perfectly conducting hollow sphere?", o: ["Maximum", "Zero", "Depends on radius", "Depends on charge"], a: 1, e: "In electrostatics, the electric field inside any conductor is always zero.", n: "Conductors are defined by their ocean of free, highly mobile electrons. If you dump a massive charge onto a hollow metal sphere, those electrons instantly panic due to their intense mutual repulsion. They rapidly scramble across the metal, pushing each other until they are all perfectly distributed on the absolute outermost surface. Once settled in this equilibrium, their opposing electric fields perfectly cancel each other out everywhere deep inside the hollow void. This creates a safe 'Faraday Cage' where the internal electric field is absolutely, permanently zero." },
-                    { q: "An electric dipole placed in a uniform electric field experiences:", o: ["Only a net force", "Only a torque", "Both force and torque", "Neither"], a: 1, e: "The equal and opposite forces cancel out translation, leaving only a twisting torque.", n: "Dropping a rigid electric dipole into a perfectly uniform, straight electric field initiates a beautiful mechanical dance. The external field aggressively pushes the positive end of the dipole forward while violently yanking the negative end backward. Because the field is perfectly uniform, these two opposing forces are exactly equal in magnitude, meaning the overall linear push (net force) zeroes out completely. The dipole won't slide across the desk. However, because the forces pull on opposite ends, they generate a massive twisting couple (torque), forcing the dipole to spin into alignment." },
-                    { q: "The concept of 'electric flux' relates to:", o: ["Voltage drops", "Number of field lines passing through an area", "Resistance of a wire", "Magnetic poles"], a: 1, e: "Flux is the measure of the flow of the electric field through a given surface area.", n: "In vector calculus, 'flux' serves as a mathematical net, attempting to catch and count invisible vectors. Electric flux specifically quantifies the sheer density of electric field lines aggressively piercing through a defined two-dimensional window or area. If you angle the window perfectly perpendicular to the field, it catches the maximum 'wind' (maximum flux). If you tilt the window totally flat, the lines slide uselessly past it, and the flux drops to absolute zero. It is the core visualizer for Gauss's Law." },
-                    { q: "If the distance between two charges is tripled, the electrostatic force becomes:", o: ["1/3 times", "3 times", "1/9 times", "9 times"], a: 2, e: "Coulomb's law is an inverse-square law: $1 / (3)^2 = 1/9$.", n: "The brutal inverse-square law dictates the rapid decay of electrostatic power. The distance variable '$r$' sits stubbornly in the denominator and is strictly squared. If you aggressively pull two charged particles apart, tripling the original gap between them, the math punishes the force output exponentially. You must divide the original force by three squared ($3^2 = 9$). The resulting interaction is crippled, surviving at only one-ninth of its original, intense strength. Electrostatics is a strictly short-range dominator." },
-                    { q: "Charge is a property associated with:", o: ["Only mass", "Matter, due to excess or deficiency of electrons", "Only energy", "Vacuum"], a: 1, e: "Charge is an intrinsic property of matter based on its atomic structure.", n: "Electric charge is not a mystical, invisible fluid floating in space; it is a hard-coded, physical property inexorably tied to matter. An object becomes electrically charged exclusively through a brutal imbalance in its atomic ledger. If an atom is violently stripped of its orbiting electrons, it becomes a positive ion. If it aggressively hoards extra electrons, it becomes a negative ion. Without the physical presence of massive protons and electrons, the concept of charge cannot exist. It is a fundamental characteristic of the atom." }
-                ]
-            },
-            ch3: {
-                title: "Math: Inverse Trig (Easy Level)",
-                questions: [
-                    { q: "What is the principal value branch of $\\sin^{-1}(x)$?", o: ["$[0, \\pi]$", "$[-\\pi/2, \\pi/2]$", "$(0, \\pi)$", "$(-\\pi/2, \\pi/2)$"], a: 1, e: "To make sine bijective, we restrict its domain to $[-\\pi/2, \\pi/2]$.", n: "Standard trigonometric functions like sine are highly repetitive and periodic, stubbornly failing the 'horizontal line test' required to possess a true inverse. To engineer a functional inverse ($\\sin^{-1}$), mathematicians must violently amputate the infinite sine wave, restricting it to a single, ascending slice. By rigidly locking the domain exclusively between $-\\pi/2$ and $\\pi/2$, the function becomes strictly one-to-one (bijective). This specific, mandated restriction is universally known as the principal value branch. It is the mathematical foundation of inverse trigonometry." },
-                    { q: "What is the principal value branch of $\\cos^{-1}(x)$?", o: ["$[-\\pi/2, \\pi/2]$", "$[0, \\pi]$", "$(0, \\pi)$", "$(-\\pi/2, \\pi/2)$"], a: 1, e: "The cosine function is restricted to $[0, \\pi]$ to become invertible.", n: "Unlike the sine wave, the standard cosine wave reaches its peak at zero and dives into a trough at $\\pi$. To successfully construct a viable inverse function ($\\cos^{-1}$), we cannot utilize the same $[-\\pi/2, \\pi/2]$ slice used for sine, because the cosine wave forms a repetitive 'U' shape there, failing the horizontal line test. Instead, we must slice the wave strictly from $x = 0$ to $x = \\pi$. In this specific interval, the cosine values cleanly drop from 1 down to -1, guaranteeing the necessary bijective behavior. This is its principal branch." },
-                    { q: "Find the principal value of $\\sin^{-1}(1/2)$.", o: ["$\\pi/3$", "$\\pi/6$", "$\\pi/4$", "$5\\pi/6$"], a: 1, e: "$\\sin(\\pi/6) = 1/2$, and $\\pi/6$ lies in the principal branch $[-\\pi/2, \\pi/2]$.", n: "Evaluating an inverse trigonometric function asks a reverse-engineered question: 'What specific angle yields a sine value of 1/2?'. While an infinite number of angles (like $5\\pi/6$) produce this value, the strict rules of the principal value branch mercilessly eliminate all but one answer. The output must legally fall within the restricted $[-\\pi/2, \\pi/2]$ window. Because $\\sin(30^\\circ)$ or $\\sin(\\pi/6 \\text{ radians})$ equals 1/2, and $\\pi/6$ comfortably sits inside that legal window, it is the sole, correct principal value. Math demands a single, definitive answer." },
-                    { q: "Find the principal value of $\\tan^{-1}(1)$.", o: ["$\\pi/4$", "$3\\pi/4$", "$\\pi/2$", "$\\pi/3$"], a: 0, e: "$\\tan(\\pi/4) = 1$, and $\\pi/4$ is in the principal branch $(-\\pi/2, \\pi/2)$.", n: "The inverse tangent function ($\\tan^{-1}$) aggressively seeks the specific angle that produces a tangent ratio of 1. Knowing our basic geometric triangles, we recall that an isosceles right triangle (45 degrees) has equal opposite and adjacent sides, yielding a ratio of exactly 1. In precise radian measure, 45 degrees is expressed as $\\pi/4$. Crucially, the principal value branch for $\\tan^{-1}$ is restricted to the open interval $(-\\pi/2, \\pi/2)$. Because $\\pi/4$ safely resides within this restricted window, it is mathematically verified as the principal answer." },
-                    { q: "What is the domain of $\\sin^{-1}(x)$?", o: ["All real numbers", "$[-1, 1]$", "$(-1, 1)$", "$[0, 1]$"], a: 1, e: "The domain of an inverse function is the range of the original function.", n: "A fundamental law of functions dictates that the domain (legal inputs) of an inverse function perfectly mirrors the range (legal outputs) of its original counterpart. No matter what crazy angle you feed into a standard sine function, its output is permanently trapped between a maximum height of 1 and a minimum depth of -1. Consequently, the inverse function ($\\sin^{-1}$) can only accept inputs that fall within that exact same strict boundary. Feeding $\\sin^{-1}(2)$ into a calculator will instantly trigger a harsh mathematical error." },
-                    { q: "What is the domain of $\\tan^{-1}(x)$?", o: ["$[-1, 1]$", "$[-\\pi/2, \\pi/2]$", "All real numbers ($\\mathbb{R}$)", "$(0, \\infty)$"], a: 2, e: "The range of the standard $\\tan(x)$ function spans from negative to positive infinity.", n: "The standard tangent wave is a violent, explosive function. As the angle approaches 90 degrees ($\\pi/2$), the tangent ratio aggressively rockets upward toward positive infinity, and dives to negative infinity approaching -90 degrees. Because the standard tangent can literally output any real number in the universe, the inverse function ($\\tan^{-1}$) is uniquely capable of accepting any real number as a legal input. Whether you input zero, 5, or 5 million, the $\\tan^{-1}$ function will successfully process it and output a valid, restricted angle." },
-                    { q: "Simplify: $\\sin(\\sin^{-1} x)$ for $x$ in $[-1, 1]$.", o: ["$1/x$", "$x$", "$\\sin x$", "Cannot be simplified"], a: 1, e: "A function and its inverse neutralize each other.", n: "In the elegant architecture of algebra, a function and its designated inverse act as perfect, neutralizing counterparts, much like multiplication and division. If you take a valid numerical value '$x$', forcefully convert it into an angle using $\\sin^{-1}$, and then instantly run that angle back through the standard sine function, you simply return to your exact starting point. The two operations annihilate each other's effects. Provided the initial '$x$' is a legal input (between -1 and 1), the nested equation gracefully collapses down to just '$x$'." },
-                    { q: "The value of $\\cos^{-1}(-1/2)$ is:", o: ["$-\\pi/3$", "$2\\pi/3$", "$4\\pi/3$", "$\\pi/3$"], a: 1, e: "$\\cos(2\\pi/3) = -1/2$, and $2\\pi/3$ is in $[0, \\pi]$.", n: "Negative inputs heavily complicate inverse trigonometry. We know that the cosine of $\\pi/3$ (60 degrees) is a positive 1/2. Because cosine is negative in the second quadrant, we must find the corresponding angle there. The angle is $\\pi - \\pi/3$, which mathematically equals $2\\pi/3$ (120 degrees). Crucially, we must verify this against the principal value branch for $\\cos^{-1}$, which is strictly locked between 0 and $\\pi$. Because $2\\pi/3$ sits perfectly inside that legal, upper-half window, it is the confirmed principal value. We cannot use negative angles for $\\cos^{-1}$." },
-                    { q: "If $\\sin^{-1} x = y$, then:", o: ["$0 \\leq y \\leq \\pi$", "$-\\pi/2 \\leq y \\leq \\pi/2$", "$-1 \\leq y \\leq 1$", "$0 < y < \\pi$"], a: 1, e: "The output '$y$' must fall within the principal value branch of arcsine.", n: "This question strictly tests your memorization of the foundational boundaries of inverse functions. When you execute the $\\sin^{-1}$ equation, the output variable '$y$' represents a specific geometric angle. However, the strict rules of the principal value branch operate like a mathematical prison. They aggressively mandate that the output angle '$y$' has absolutely no permission to exist outside the boundaries of $-\\pi/2$ (-90 degrees) and $\\pi/2$ (+90 degrees). Any answer falling outside this tight window is considered a failure in inverse calculus." },
-                    { q: "The principal value of $\\sec^{-1}(2)$ is:", o: ["$\\pi/6$", "$\\pi/3$", "$\\pi/4$", "$2\\pi/3$"], a: 1, e: "$\\sec(\\pi/3) = 2$. It is the reciprocal of $\\cos(\\pi/3) = 1/2$.", n: "Secant is simply the inverted mirror of the cosine function. Therefore, asking for $\\sec^{-1}(2)$ is mathematically identical to asking for $\\cos^{-1}(1/2)$. We search our foundational trigonometry tables and find that the cosine of 60 degrees (or $\\pi/3$ radians) yields exactly 1/2. Because secant is the reciprocal, $\\sec(\\pi/3)$ flawlessly equals 2. We verify that $\\pi/3$ sits safely within the principal value branch for $\\sec^{-1}$ (which mimics cosine: $0$ to $\\pi$, excluding $\\pi/2$). The logic is sound, and the principal value is confirmed as $\\pi/3$." },
-                    { q: "$\\sin^{-1}(-x)$ is equal to:", o: ["$\\sin^{-1}(x)$", "$\\pi - \\sin^{-1}(x)$", "$-\\sin^{-1}(x)$", "$\\cos^{-1}(x)$"], a: 2, e: "The inverse sine function is an odd function.", n: "In advanced algebraic analysis, functions are categorized as either 'even' or 'odd' based on their symmetry. Because the standard sine wave possesses rotational symmetry around the origin, it is officially classified as an odd function. This unique geometric property is genetically passed down to its inverse counterpart. Therefore, pulling a negative sign out from inside the $\\sin^{-1}$ bracket simply drops it on the outside of the equation, yielding $-\\sin^{-1}(x)$. This identical 'odd' behavior is shared with the $\\tan^{-1}$ and $\\text{cosec}^{-1}$ functions." },
-                    { q: "$\\cos^{-1}(-x)$ is equal to:", o: ["$-\\cos^{-1}(x)$", "$\\pi - \\cos^{-1}(x)$", "$\\cos^{-1}(x)$", "$\\pi + \\cos^{-1}(x)$"], a: 1, e: "The principal branch of cosine is $[0, \\pi]$, forcing the output to be positive.", n: "The inverse cosine function behaves remarkably differently than sine when confronted with a negative input. Because the principal branch of $\\cos^{-1}$ is strictly locked between 0 and $\\pi$, it is mathematically forbidden from outputting a negative angle. To evaluate a negative input like $\\cos^{-1}(-x)$, the function must intelligently pivot into the second quadrant of the circle (where standard cosine is negative). It achieves this by subtracting the positive angle from $\\pi$, creating the mandatory formula: $\\pi - \\cos^{-1}(x)$. This ensures the final output remains legally positive." },
-                    { q: "What is the value of $\\tan^{-1}(\\sqrt{3})$?", o: ["$\\pi/6$", "$\\pi/4$", "$\\pi/3$", "$\\pi/2$"], a: 2, e: "$\\tan(\\pi/3) = \\sqrt{3}$. The angle 60 degrees is $\\pi/3$ in radians.", n: "Mastering inverse trigonometry demands instant recall of the foundational 30-60-90 and 45-45-90 geometric triangles. In a standard 30-60-90 triangle, the tangent of the 60-degree angle is calculated by dividing the opposite side ($\\sqrt{3}$) by the adjacent side (1). This flawlessly yields the ratio $\\sqrt{3}$. In the language of calculus and higher math, 60 degrees is always expressed as $\\pi/3$ radians. Because $\\pi/3$ falls safely within the principal branch of $(-\\pi/2, \\pi/2)$, it is the unarguable, definitive answer." },
-                    { q: "What is the range of $\\cot^{-1}(x)$?", o: ["$(0, \\pi)$", "$[0, \\pi] - \\{\\pi/2\\}$", "$(-\\pi/2, \\pi/2)$", "$[-1, 1]$"], a: 0, e: "The principal branch for cotangent restricts it to the open interval $(0, \\pi)$.", n: "The standard cotangent graph is characterized by violent vertical asymptotes rocketing to infinity at exactly $x = 0$ and $x = \\pi$. Because the graph physically shatters and ceases to exist at these specific boundaries, the inverse function ($\\cot^{-1}$) can never legally output those exact angles. Therefore, the principal value branch is established as the open interval between 0 and $\\pi$, mathematically denoted with soft parentheses: $(0, \\pi)$. This ensures the output gracefully avoids the catastrophic, undefined asymptotes of the original graph." },
-                    { q: "The domain of $\\sec^{-1}(x)$ is:", o: ["$[-1, 1]$", "All real numbers", "$\\mathbb{R} - (-1, 1)$", "$(0, \\infty)$"], a: 2, e: "Secant values can never fall between -1 and 1.", n: "Because the secant function is simply the mathematical reciprocal of the cosine function ($1/\\cos$), its behavior is deeply inverted. Since cosine is permanently trapped tightly between -1 and 1, dividing 1 by those tiny fractions forces the secant outputs to explode outward. Secant values will rocket toward positive infinity or plummet toward negative infinity, but they will never, ever produce a fraction sitting between -1 and 1. Consequently, the inverse function ($\\sec^{-1}$) aggressively rejects any inputs in that dead zone. Its domain is $\\mathbb{R} - (-1, 1)$." }
-                ]
-            }
-        },
-        medium: {
-            ch1: {
-                title: "Chemistry: Solutions (Medium Level)",
-                questions: [
-                    { q: "A solution of two liquids boils at a temperature higher than either of them. The solution shows:", o: ["Negative deviation", "Positive deviation", "Ideal behavior", "No deviation"], a: 0, e: "Stronger A-B interactions lower the vapor pressure, raising the boiling point.", n: "When mixing two volatile liquids results in a negative deviation from Raoult's Law, it implies that the new A-B intermolecular hydrogen bonds are violently stronger than the original, isolated A-A or B-B bonds. Because the molecules are hugging each other so tightly, they stubbornly refuse to escape into the vapor phase. This drastically plummets the overall vapor pressure of the solution. To force this stubborn solution to boil, you must inject significantly more thermal heat to combat those strong bonds, pushing the boiling point higher than the pure liquids." },
-                    { q: "Which of the following is a minimum boiling azeotrope?", o: ["$HNO_3$ and water", "Ethanol and water", "HCl and water", "Chloroform and acetone"], a: 1, e: "Ethanol-water shows large positive deviations, boiling lower than pure ethanol.", n: "Azeotropes are fascinating, stubborn liquid mixtures that boil at a constant, unified temperature, aggressively defying simple fractional distillation. A mixture of roughly 95% ethanol and 5% water exhibits immense positive deviations from Raoult's Law. Because the hydrogen bonds are severely disrupted by mixing, the molecules escape into vapor far too easily, spiking the vapor pressure. High vapor pressure inherently means the mixture requires less thermal heat to boil. It becomes a 'minimum boiling' azeotrope, boiling at a temperature lower than either pure water or pure ethanol." },
-                    { q: "The elevation in boiling point is directly proportional to:", o: ["Molarity", "Molality", "Mole fraction of solvent", "Normality"], a: 1, e: "$\\Delta T_b = K_b \\times m$. It depends on molality ($m$).", n: "The addition of a non-volatile solute aggressively chokes the surface of a solvent, drastically lowering its vapor pressure. To successfully boil, the solution must now be super-heated to force its crippled vapor pressure to equal atmospheric pressure. This specific temperature spike is known as boiling point elevation. Extensive laboratory experiments prove this thermal elevation ($\\Delta T_b$) scales directly and strictly with the molality ($m$) of the solute particles, not molarity. This relationship creates the reliable formula $\\Delta T_b = K_b \\times m$, utilized for determining unknown molar masses." },
-                    { q: "Calculate the van't Hoff factor ($i$) for a solute that dimerizes 50% in a solvent.", o: ["0.5", "0.75", "1", "1.5"], a: 1, e: "$i = 1 - \\alpha/2$. For 50% dimerization, $\\alpha=0.5$. $i = 1 - 0.25 = 0.75$.", n: "Dimerization is a phenomenon where two independent solute molecules aggressively link together in solution to form a single, massive particle. This chemically halves the total number of floating particles, throwing off standard colligative calculations. The van't Hoff factor mathematically corrects this. If 50% of the molecules dimerize (degree of association $\\alpha = 0.5$), then for every 100 original molecules, 50 pair up into 25 dimers, leaving 50 singles. The total particle count drops to 75. Therefore, the effective particle ratio ($i$) is a compromised 0.75." },
-                    { q: "The osmotic pressure of 0.1M NaCl is approximately how many times that of 0.1M Glucose?", o: ["Same", "Half", "Twice", "Four times"], a: 2, e: "NaCl dissociates into 2 ions ($i=2$), while glucose does not dissociate ($i=1$).", n: "Osmotic pressure is a strict colligative property, completely blind to chemistry but obsessed with raw particle count. Glucose is a stable, covalent organic molecule; when it dissolves in water, it remains fully intact ($i = 1$). Conversely, NaCl is a highly volatile ionic salt. The moment it hits water, it violently shatters into two completely independent floating particles (one $Na^+$, one $Cl^-$). Because the NaCl solution possesses exactly double the concentration of active, floating particles, it will aggressively generate exactly twice the total osmotic pressure." },
-                    { q: "Cryoscopic constant ($K_f$) of water is 1.86 K kg/mol. A 1 molal solution of urea will freeze at:", o: ["0°C", "-1.86°C", "1.86°C", "-3.72°C"], a: 1, e: "$\\Delta T_f = K_f \\times m = 1.86 \\times 1$. The freezing point drops by 1.86 degrees.", n: "The cryoscopic constant mathematically dictates the exact thermal punishment a solvent endures when contaminated with foreign particles. For pure water, adding exactly one mole of a non-associating, non-dissociating solute like urea to a kilogram of fluid guarantees a freezing point depression of exactly 1.86°C. Because pure water naturally freezes at a pristine 0°C, we simply subtract the calculated depression from the baseline. This simple subtraction proves the contaminated urea solution will refuse to freeze until the thermometer plummets to -1.86°C." },
-                    { q: "Which gas law states that partial pressure is proportional to mole fraction in liquid?", o: ["Boyle's Law", "Charles's Law", "Henry's Law", "Gay-Lussac's Law"], a: 2, e: "$p = K_H \\times x$, which is the definition of Henry's Law.", n: "Henry's Law is the absolute governing equation for carbonating beverages and understanding deep-sea diving physiology. It states that the amount of gas willing to dissolve into a liquid heavily depends on how aggressively the gas is being pressurized above the liquid. Mathematically, the partial pressure ($p$) of the gas is directly proportional to its mole fraction ($x$) dissolved inside the solvent. The industrial bottling process weaponizes this law by severely pressurizing $CO_2$ over the soda, forcing it to violently dissolve and carbonate the liquid." },
-                    { q: "If an aqueous solution of NaCl freezes at -0.186°C, what is the elevation in its boiling point? ($K_f=1.86$, $K_b=0.512$)", o: ["0.0512°C", "0.186°C", "0.512°C", "1.86°C"], a: 0, e: "Molality $m = 0.186/1.86 = 0.1$. Then $\\Delta T_b = 0.512 \\times 0.1 = 0.0512^\\circ\\text{C}$.", n: "This is a brilliant, multi-step problem proving that colligative properties are intimately linked through the hidden molality variable. First, we reverse-engineer the freezing point depression (0.186) using the $K_f$ (1.86) to uncover the solution's actual effective molality ($m = 0.1$). Once we have isolated this universal molality value, we simply plug it directly into the boiling point elevation formula. By multiplying the new $K_b$ (0.512) by the proven molality (0.1), we discover the boiling point will predictably spike by a tiny 0.0512°C." },
-                    { q: "A mixture of chloroform and acetone shows:", o: ["Positive deviation", "Negative deviation", "Ideal behavior", "No mixing"], a: 1, e: "Strong hydrogen bonding forms between them, reducing vapor pressure.", n: "When pure chloroform and pure acetone are violently mixed in a beaker, an unexpected and powerful chemical romance occurs. The highly polarized hydrogen atom residing on the chloroform molecule is aggressively drawn to the oxygen atom on the acetone molecule, forming an incredibly strong, new intermolecular hydrogen bond. Because the molecules are now fiercely anchored together, significantly fewer can escape into the air. This severe drop in escaping molecules drastically collapses the overall vapor pressure, officially classifying it as a massive negative deviation from Raoult's Law." },
-                    { q: "Vapor pressure of a pure solvent is $P^0$. Adding a non-volatile solute lowers it to $P$. Relative lowering is:", o: ["$P / P^0$", "$(P^0 - P) / P^0$", "$(P^0 - P) / P$", "$P^0 / P$"], a: 1, e: "Relative lowering is the drop in pressure divided by original pressure.", n: "The introduction of a heavy, non-volatile solute violently sabotages a solvent's ability to evaporate, causing a raw drop in vapor pressure known as ($P^0 - P$). However, raw numbers are often useless without context. To make this drop mathematically meaningful across different solvents, chemists calculate the 'relative lowering'. This involves taking the raw drop in pressure and strictly dividing it by the original, pristine vapor pressure ($P^0$). Raoult brilliantly proved that this specific ratio is mathematically identical to the mole fraction of the polluting solute." },
-                    { q: "Equimolar solutions of NaCl and $BaCl_2$ will have:", o: ["Same boiling point", "Different boiling points", "Same freezing point", "Same osmotic pressure"], a: 1, e: "NaCl gives 2 ions, $BaCl_2$ gives 3 ions. Number of particles differ.", n: "The term 'equimolar' is a dangerous trap, implying the solutions are identical. While they contain the exact same number of original formula units, colligative properties answer only to the final, floating particle count. NaCl shatters into 2 distinct ions ($Na^+, Cl^-$), granting it a van't Hoff factor of 2. However, $BaCl_2$ violently shatters into 3 distinct ions ($Ba^{2+}$, and two $Cl^-$), boasting a factor of 3. Because $BaCl_2$ generates 50% more floating particles, it will aggressively trigger a significantly higher boiling point elevation than the NaCl." },
-                    { q: "To prepare a 1 Molar solution, 1 mole of solute is dissolved in:", o: ["1 kg of solvent", "1 Liter of solvent", "Enough solvent to make 1L solution", "1000g of solution"], a: 2, e: "Molarity is moles per Liter of the total combined solution.", n: "A critical and incredibly common laboratory error is misunderstanding the precise physical definition of Molarity. Molarity is strictly defined as the total moles of solute divided by the total final volume of the entire, mixed solution. You do NOT pour the solute into one liter of pure water, because the solute itself takes up physical space, causing the final volume to overflow past one liter. You must place the solute in a flask and add water ONLY until the combined mixture perfectly reaches the 1-liter calibration mark." },
-                    { q: "The unit of molality is:", o: ["mol/L", "mol/kg", "g/L", "L/mol"], a: 1, e: "Molality is defined as moles of solute per kilogram of pure solvent.", n: "Molality is the preferred concentration metric for thermodynamic chemists because it relies entirely on rigid mass, rendering it perfectly immune to volatile temperature fluctuations. Its strict definition demands dividing the number of moles of solute by the exact mass of the pure solvent, measured exclusively in kilograms. This generates the official unit 'mol/kg', often denoted by a lowercase 'm'. It is the mandatory unit required whenever performing calculations involving freezing point depression or boiling point elevation." },
-                    { q: "In reverse osmosis, the solvent moves from:", o: ["Higher concentration to lower", "Lower concentration to higher", "It doesn't move", "Moves randomly"], a: 0, e: "High external pressure forces solvent out of the concentrated solution.", n: "Natural biological osmosis is driven by a desire for equilibrium, moving pure water toward salty water to dilute it. Reverse osmosis is an act of mechanical violence against nature. Engineers apply a massive hydraulic pressure to the salty, highly concentrated side, overwhelming the natural osmotic pressure. This crushing force literally squeezes the pure water molecules backward through the microscopic membrane pores, forcing them from the high-concentration salty zone into the low-concentration pure zone. It leaves the heavy salt contaminants trapped behind." },
-                    { q: "According to Raoult's law, the partial pressure of a volatile component is proportional to its:", o: ["Molality", "Molarity", "Mole fraction", "Volume fraction"], a: 2, e: "$P_A = P^0_A \\times x_A$. It depends directly on its mole fraction.", n: "François-Marie Raoult established the foundational mathematical law governing the vapor pressure of ideal liquid mixtures. His law asserts that the escaping tendency (partial vapor pressure) of a specific liquid within a mixture is strictly dictated by its proportional presence in the fluid. Mathematically, it is the product of its pure, isolated vapor pressure and its specific mole fraction within the mixture. If a liquid constitutes exactly 50% of the molecules in the beaker (mole fraction 0.5), it will contribute exactly 50% of its normal vapor pressure." }
-                ]
-            },
-            ch2: {
-                title: "Physics: Electric Charges & Fields (Medium Level)",
-                questions: [
-                    { q: "The electric field on the axial line of a short dipole falls off as:", o: ["$1/r$", "$1/r^2$", "$1/r^3$", "$1/r^4$"], a: 2, e: "For a dipole, field E is proportional to $1/r^3$ at large distances.", n: "A single, isolated point charge radiates an electric field that decays predictably following the inverse-square law ($1/r^2$). However, an electric dipole features two opposite, closely tethered charges that aggressively fight and partially cancel each other's fields. Because of this severe geometric cancellation, the surviving resultant field is much weaker and dies off far more rapidly as you retreat from the source. The mathematical derivation proves that for a short dipole, the axial field plummets proportionally to the inverse cube of the distance ($1/r^3$)." },
-                    { q: "Torque on an electric dipole in a uniform electric field is maximum when the angle between $p$ and $E$ is:", o: ["$0^\\circ$", "$45^\\circ$", "$90^\\circ$", "$180^\\circ$"], a: 2, e: "Torque = $pE \\sin(\\theta)$. Maximum when $\\sin(90^\\circ) = 1$.", n: "A dipole placed in a uniform electric field experiences a twisting couple. The governing equation for this mechanical torque is the cross product of the dipole moment and the electric field ($\\tau = p \\times E$), which simplifies to a magnitude of $pE \\sin(\\theta)$. To extract the absolute maximum rotational violence from this field, the sine function must hit its peak value of 1. This mathematically requires the dipole to be positioned at a perfect, perpendicular 90-degree angle to the electric field lines. It represents maximum mechanical leverage." },
-                    { q: "Gauss's law is valid only for:", o: ["Spherical surfaces", "Symmetrical surfaces", "Any closed surface", "Open surfaces"], a: 2, e: "It applies to any imaginary closed 3D surface (Gaussian surface).", n: "The sheer mathematical beauty of Gauss's Law lies in its absolute geometric immunity. It strictly dictates that the total electric flux bleeding out of a trapped charge is tied entirely to the magnitude of the charge, divided by $\\epsilon_0$. The actual physical shape of the hypothetical 3D bubble trapping the charge is completely irrelevant. Whether the enclosing Gaussian surface is a perfect, flawless sphere or a chaotic, deformed amoeba shape, the total calculated flux pushing through the membrane remains stubbornly, identically the same." },
-                    { q: "Electric flux through a cube enclosing a charge Q at its exact center is:", o: ["$Q / \\epsilon_0$", "$Q / 6\\epsilon_0$", "Zero", "$6Q / \\epsilon_0$"], a: 0, e: "Total flux through the entire closed surface is $Q / \\epsilon_0$.", n: "This question tests the core premise of Gauss's Law without distraction. The law states unequivocally that the total, absolute electric flux erupting outward from any closed 3D boundary is equal to the enclosed charge ($Q$) divided by the vacuum permittivity ($\\epsilon_0$). Because the cube represents a complete, unbroken 3D prison around the central charge, it catches 100% of the escaping electric field lines. Therefore, the total flux through the entire cube is simply $Q / \\epsilon_0$. The geometric shape of the prison is irrelevant." },
-                    { q: "What is the electric flux through ONE face of the cube from the previous question?", o: ["$Q / \\epsilon_0$", "$Q / 6\\epsilon_0$", "Zero", "$Q / 4\\epsilon_0$"], a: 1, e: "By symmetry, the total flux divides equally among the 6 faces.", n: "This scenario introduces geometric symmetry to the application of Gauss's Law. We have already established that the total, absolute flux erupting from the trapped charge is $Q / \\epsilon_0$. Because the charge is locked in the absolute dead center of the perfect cube, the electrical radiation strikes all six square walls with identical intensity. We can confidently rely on this flawless symmetry to simply divide the total flux by six. Thus, the flux punching through any single isolated square face is exactly $Q / 6\\epsilon_0$." },
-                    { q: "Two point charges $+q$ and $-q$ are separated by distance $2a$. The field at the exact midpoint is:", o: ["Zero", "Directed towards $+q$", "Directed towards $-q$", "Perpendicular to the axis"], a: 2, e: "Both charges push/pull the field in the same direction (towards $-q$).", n: "Analyzing the electric field dead-center between a perfect dipole reveals a compounding effect. If you place a positive 'test charge' at the exact midpoint, it is subjected to two simultaneous, aggressive forces. The $+q$ charge on the left violently repels it, pushing it toward the right. Simultaneously, the $-q$ charge on the right aggressively attracts it, yanking it further to the right. Because both individual field vectors are pointing in the exact same direction, they aggressively add together, doubling the field strength toward the negative pole." },
-                    { q: "The work done in rotating a dipole from stable ($0^\\circ$) to unstable equilibrium ($180^\\circ$) is:", o: ["0", "$pE$", "$2pE$", "$-pE$"], a: 2, e: "Work = $pE(\\cos 0 - \\cos 180) = pE(1 - (-1)) = 2pE$.", n: "A dipole resting at 0 degrees is perfectly aligned with the electric field, resting in a relaxed, stable energy trough. Forcing it to violently flip 180 degrees backward into an unstable orientation requires immense mechanical effort against the electrical 'wind'. The formula for this rotational work is derived from integrating torque: $W = pE(\\cos\\theta_1 - \\cos\\theta_2)$. Plugging in the angles, we get $pE(\\cos 0 - \\cos 180)$, which algebraically collapses to $pE(1 - (-1))$. The resulting math proves a massive total of $2pE$ Joules of work is required." },
-                    { q: "A soap bubble is given a negative charge. Its radius will:", o: ["Decrease", "Increase", "Remain same", "Burst immediately"], a: 1, e: "The negative charges on the surface repel each other outwards.", n: "When a delicate soap bubble is aggressively bombarded with a surplus of negative electrons, those newly acquired charges frantically scramble to distribute themselves across the watery surface. Because like charges violently repel, every single electron is aggressively trying to shove its neighboring electrons away. This chaotic, outward-pushing electrostatic repulsion acts like an invisible internal pressure pressing against the fragile walls of the bubble. Consequently, this outward electrostatic pressure forces the physical radius of the bubble to slightly expand and swell." },
-                    { q: "Electric field intensity is a:", o: ["Scalar", "Vector", "Tensor", "Unitless number"], a: 1, e: "It has both magnitude (N/C) and a specific direction.", n: "Electric field intensity is not merely a raw number representing energy; it is a strict, aggressive vector quantity dictating spatial action. It is formally defined as the exact physical force (a vector) that would be inflicted upon a standard +1 Coulomb test charge if dropped into the field ($E = F/q$). Because mechanical force inherently possesses a specific directional heading (e.g., pushing left or pulling right), the resulting electric field must mathematically inherit that exact same directional vector. It maps the direction of push." },
-                    { q: "If a solid conducting sphere is charged, the excess charge resides:", o: ["At the center", "Distributed uniformly inside", "Entirely on the outer surface", "In the surrounding air"], a: 2, e: "Mutual repulsion forces charges to the extreme outer boundary of a conductor.", n: "The physics of solid metallic conductors is defined by their vast, chaotic ocean of highly mobile, unbound electrons. If you dump a massive surplus of charge onto a solid copper ball, those excess electrons experience immediate, violent mutual repulsion. Because they are completely free to travel through the metal lattice, they violently flee from one another. The maximum possible physical distance they can achieve from each other is by settling on the absolute extreme outer boundary. The internal volume remains perfectly, electrically neutral." },
-                    { q: "The dimensional formula for electric field $E$ is:", o: ["$MLT^{-2} A^{-1}$", "$MLT^{-3} A^{-1}$", "$ML^2 T^{-3} A^{-1}$", "$M^{-1} L T A$"], a: 1, e: "$E = \\text{Force}/\\text{Charge}$. Force is $MLT^{-2}$, Charge is $AT$.", n: "Deriving dimensional formulas is a vital exercise in deconstructing complex physics. We start with the foundational definition: Electric Field (E) is raw Force divided by raw Charge. We know the mechanical dimension of Force is $MLT^{-2}$ (Mass x Acceleration). The fundamental dimension for Charge is $AT$ (Ampere x Time). When we algebraically divide the Force ($MLT^{-2}$) by the Charge ($AT$), the Time variables combine, and the Ampere moves to the numerator as a negative. The flawless final result is $MLT^{-3} A^{-1}$." },
-                    { q: "Equipotential surfaces and electric field lines always intersect at:", o: ["$0^\\circ$", "$45^\\circ$", "$90^\\circ$", "$180^\\circ$"], a: 2, e: "No work is done moving on an equipotential surface, so Force (Field) must be perpendicular to displacement.", n: "An equipotential surface is a mapped 3D region where the electrical voltage remains absolutely, perfectly constant. A core rule of physics dictates that sliding a charge along this specific surface requires zero mechanical work. For the work equation ($W = Fd \\cos\\theta$) to mathematically equal zero despite movement, the angle must be exactly 90 degrees ($\\cos 90 = 0$). This geometric proof guarantees that electric field lines (the Force) must aggressively pierce through equipotential surfaces at a flawless, razor-sharp perpendicular right angle." },
-                    { q: "A hollow metallic sphere of radius 10cm is given a charge of 10 $\\mu C$. The field at its center is:", o: ["Zero", "10 N/C", "$9 \\times 10^5$ N/C", "Infinite"], a: 0, e: "The electric field inside ANY conductor under electrostatic conditions is zero.", n: "This question intentionally throws chaotic numbers (10cm, 10 $\\mu C$) as a smokescreen to test your foundational theoretical knowledge. The unbreakable law of electrostatics states that once charges achieve equilibrium, they aggressively retreat to the absolute outermost skin of any metallic conductor. Because the charges are perfectly stranded on the exterior shell, they exert opposing, canceling forces on the internal void. This massive geometric cancellation guarantees that the electric field in the absolute dead center—and anywhere else inside the metal—is a perfect zero." },
-                    { q: "An electron falls into a uniform electric field. Its path will be:", o: ["Circular", "Straight line", "Parabolic", "Hyperbolic"], a: 2, e: "Like a mass in gravity, a charge in a uniform field follows a parabolic trajectory.", n: "When an electron is fired horizontally into a vertically oriented, uniform electric field, it mimics the exact physics of a bullet fired off a cliff. The electron possesses a constant horizontal velocity, utterly unaffected by the field. Simultaneously, the uniform electric field exerts a constant, relentless vertical force ($F=qE$), causing steady vertical acceleration. The mathematical blending of constant horizontal motion and accelerating vertical motion always constructs a flawless, sweeping parabolic curve. It is classical projectile kinematics operating on an atomic scale." },
-                    { q: "The ratio of electric force to gravitational force between two electrons is approximately:", o: ["$10^{36}$", "$10^{42}$", "1", "$10^{-42}$"], a: 1, e: "Electric force is vastly, unimaginably stronger than gravity on atomic scales.", n: "This comparison exposes the staggering, terrifying imbalance of the universe's fundamental forces. When you calculate the electrostatic repulsion between two electrons (using Coulomb's constant $9\\times10^9$) and divide it by their microscopic gravitational attraction (using Newton's constant $6.67\\times10^{-11}$), the math breaks the human brain. The resulting ratio explodes to roughly $10^{42}$. This proves that electromagnetism is forty-two orders of magnitude more violent and dominating than gravity on the quantum level. Gravity only dominates planets because planets are electrically neutral." }
-                ]
-            },
-            ch3: {
-                title: "Math: Inverse Trig (Medium Level)",
-                questions: [
-                    { q: "Solve for $x$: $\\tan^{-1}(x) + \\tan^{-1}(2x) = \\pi/4$", o: ["$x = 1/2$", "$x = -1$", "$x = \\sqrt{2} - 1$", "$x = 1$"], a: 0, e: "Use formula: $\\tan^{-1}((x+2x)/(1-2x^2)) = \\pi/4$. Then $3x/(1-2x^2) = 1$.", n: "This algebraic puzzle requires deploying the standard addition formula for inverse tangents. By combining the two terms, we generate the equation $\\tan^{-1}[(x + 2x) / (1 - 2x^2)] = \\pi/4$. Stripping away the inverse function by taking the tangent of both sides reveals a clean quadratic equation: $3x / (1 - 2x^2) = 1$. Rearranging this yields $2x^2 + 3x - 1 = 0$. Solving this via factoring reveals roots, but $x = 1/2$ is the only mathematically valid solution that avoids undefined boundaries." },
-                    { q: "Simplify: $\\cos^{-1}(\\cos(7\\pi/6))$", o: ["$7\\pi/6$", "$\\pi/6$", "$-\\pi/6$", "$5\\pi/6$"], a: 0, e: "$7\\pi/6$ is $210^\\circ$, which is NOT in the principal branch $[0, \\pi]$. Output must be $5\\pi/6$.", n: "This question sets a vicious trap. It is incredibly tempting to simply cancel the inverse cosine and cosine, leaving $7\\pi/6$. However, the unbreakable law of the principal value branch demands that $\\cos^{-1}$ can only output answers strictly between 0 and $\\pi$ (0 to 180 degrees). $7\\pi/6$ is 210 degrees, deeply violating this boundary. We must pivot. Cosine at $210^\\circ$ is negative. The equivalent negative cosine value within the legal 0-to-180 window is found in the second quadrant: $5\\pi/6$ (150 degrees). The math must obey the boundaries." },
-                    { q: "Find the value of $\\sin(2 \\cdot \\sin^{-1}(0.6))$", o: ["0.6", "0.96", "0.36", "1.2"], a: 1, e: "Let $\\sin^{-1}(0.6) = \\theta$. Then $\\sin(\\theta)=0.6$, $\\cos(\\theta)=0.8$. We need $\\sin(2\\theta) = 2\\sin(\\theta)\\cos(\\theta)$.", n: "This is a brilliant integration of inverse functions and double-angle identities. First, we define a dummy variable: let $\\theta = \\sin^{-1}(0.6)$. This fundamentally translates to $\\sin(\\theta) = 0.6$. Using Pythagorean geometry (or the identity $\\cos^2\\theta = 1 - \\sin^2\\theta$), we quickly deduce that $\\cos(\\theta) = 0.8$. The original question now dramatically simplifies to finding $\\sin(2\\theta)$. We unleash the double angle identity: $2 \\cdot \\sin(\\theta) \\cdot \\cos(\\theta)$. Multiplying the values ($2 \\cdot 0.6 \\cdot 0.8$) flawlessly yields the final scalar answer of 0.96." },
-                    { q: "The domain of $f(x) = \\sin^{-1}(2x - 3)$ is:", o: ["$[-1, 1]$", "$[1, 2]$", "$(1, 2)$", "$[0, 1]$"], a: 1, e: "The input must be between -1 and 1. So, $-1 \\leq 2x - 3 \\leq 1$.", n: "Determining the domain of a shifted inverse function requires building a strict algebraic inequality. The fundamental $\\sin^{-1}$ function will aggressively crash if fed any number outside the rigid boundary of -1 to 1. Therefore, the entire internal payload, $(2x - 3)$, must be mathematically imprisoned within these limits: $-1 \\leq 2x - 3 \\leq 1$. By systematically adding 3 to all sides, and then dividing by 2, we carefully isolate $x$. The resulting solved inequality proves that '$x$' is legally restricted to the closed interval $[1, 2]$." },
-                    { q: "Simplify: $\\tan^{-1}[ (\\cos x - \\sin x) / (\\cos x + \\sin x) ]$", o: ["$x$", "$\\pi/4 - x$", "$\\pi/4 + x$", "$-x$"], a: 1, e: "Divide numerator and denominator by $\\cos x$ to get $\\tan^{-1}((1-\\tan x)/(1+\\tan x))$.", n: "This trigonometric simplification relies on a clever, standard algebraic manipulation. By dividing every single term inside the bracket by $\\cos(x)$, the complex fraction beautifully transforms into $(1 - \\tan x) / (1 + \\tan x)$. Recognizing trigonometric identities, we know that the number 1 is identical to $\\tan(\\pi/4)$. Substituting this allows us to collapse the entire fraction into the famous subtraction identity: $\\tan(\\pi/4 - x)$. The outer $\\tan^{-1}$ gracefully neutralizes the inner $\\tan$, leaving the heavily simplified, final algebraic expression of $\\pi/4 - x$." },
-                    { q: "Evaluate: $\\cos(\\sec^{-1} x + \\text{cosec}^{-1} x)$", o: ["1", "-1", "0", "Undefined"], a: 2, e: "Identity: $\\sec^{-1} x + \\text{cosec}^{-1} x = \\pi/2$. $\\cos(\\pi/2) = 0$.", n: "This question appears violently complex but collapses instantly if you recognize fundamental complementary identities. In inverse trigonometry, the sum of a function and its strict co-function—specifically $\\sec^{-1}(x)$ and $\\text{cosec}^{-1}(x)$—will identically and permanently equal exactly $\\pi/2$ (90 degrees), provided '$x$' is within the valid domain. By aggressively substituting $\\pi/2$ into the bracket, the terrifying equation dramatically simplifies to merely finding $\\cos(\\pi/2)$. Basic trigonometric knowledge dictates that the cosine of 90 degrees is an absolute zero." },
-                    { q: "Simplify: $2 \\tan^{-1}(1/3)$", o: ["$\\tan^{-1}(3/4)$", "$\\tan^{-1}(4/3)$", "$\\tan^{-1}(2/3)$", "$\\tan^{-1}(1/6)$"], a: 0, e: "Use $2\\tan^{-1}(x) = \\tan^{-1}(2x / (1-x^2))$. Here $x = 1/3$.", n: "This requires the direct, mechanical application of the double-angle tangent identity translated for inverse functions. The mandatory formula is $2\\tan^{-1}(x) = \\tan^{-1}[2x / (1 - x^2)]$. We carefully inject our specific '$x$' value of 1/3 into the algebraic machinery. The numerator becomes $2(1/3) = 2/3$. The denominator becomes $1 - (1/3)^2 = 1 - 1/9 = 8/9$. Dividing the top fraction by the bottom fraction (2/3 multiplied by 9/8) flawlessly simplifies the internal chaos down to 3/4. The final, simplified term is $\\tan^{-1}(3/4)$." },
-                    { q: "If $\\sin^{-1}(x) + \\sin^{-1}(y) = \\pi$, then $x$ and $y$ must be:", o: ["$x=1, y=0$", "$x=1, y=1$", "$x=0, y=1$", "$x=-1, y=-1$"], a: 1, e: "The maximum value of $\\sin^{-1}$ is $\\pi/2$. For the sum to be $\\pi$, both must be at maximum.", n: "This is a beautiful logic puzzle disguised as algebra. The rigid principal value branch of $\\sin^{-1}$ strictly forbids it from ever outputting an angle larger than $\\pi/2$ (90 degrees). If the mathematical sum of two separate $\\sin^{-1}$ functions equals a massive full $\\pi$ (180 degrees), there is absolutely zero room for variation. Both individual functions are mathematically forced to be firing at their absolute, maximum possible output of $\\pi/2$. Because $\\sin^{-1}(1)$ is the only way to achieve $\\pi/2$, both variables '$x$' and '$y$' must identically equal 1." },
-                    { q: "Write $\\cot^{-1}(1/x)$ in terms of $\\tan^{-1}$ for $x < 0$.", o: ["$\\tan^{-1}(x)$", "$-\\tan^{-1}(x)$", "$\\pi + \\tan^{-1}(x)$", "$\\pi - \\tan^{-1}(x)$"], a: 2, e: "For negative $x$, $\\cot^{-1}(1/x) = \\pi + \\tan^{-1}(x)$ to maintain correct range boundaries.", n: "The conversion between inverse cotangent and inverse tangent is notoriously littered with boundary traps. When '$x$' is a comfortable positive number, $\\cot^{-1}(1/x)$ smoothly and simply converts to $\\tan^{-1}(x)$. However, when '$x$' plunges into negative territory, a violent geometric correction is mandatory. The principal branch of $\\cot^{-1}$ is $(0, \\pi)$, demanding a positive angle output. The principal branch of $\\tan^{-1}$ is $(-\\pi/2, \\pi/2)$, which outputs negative angles for negative inputs. To forcefully shift the negative $\\tan$ output back into the positive $\\cot$ boundary, we must add a full $\\pi$." },
-                    { q: "Solve: $\\sin^{-1}(1-x) - 2\\sin^{-1}(x) = \\pi/2$", o: ["$x = 0, 1/2$", "$x = 1/2$", "$x = 0$", "$x = -1/2$"], a: 2, e: "Testing roots or algebraic substitution shows only $x=0$ satisfies the boundary conditions.", n: "This complex equation is often solved fastest through intelligent trial and error of boundary roots. If we test $x = 1/2$, the equation yields $\\sin^{-1}(1/2) - 2\\sin^{-1}(1/2)$, which collapses to $\\pi/6 - 2(\\pi/6) = -\\pi/6$. This entirely fails to match the required $\\pi/2$ target. However, if we test $x = 0$, the equation transforms to $\\sin^{-1}(1) - 2\\sin^{-1}(0)$. We know $\\sin^{-1}(1)$ is exactly $\\pi/2$, and $\\sin^{-1}(0)$ is 0. The math simplifies to $\\pi/2 - 0$, which flawlessly matches the target. Therefore, $x = 0$ is the sole, valid root." },
-                    { q: "What is the value of $\\tan(\\sec^{-1}(x))$?", o: ["$\\sqrt{x^2 - 1}$", "$\\sqrt{1 - x^2}$", "$1/x$", "$x / \\sqrt{x^2 - 1}$"], a: 0, e: "Draw a right triangle where $\\sec(\\theta) = x/1$. Hyp=$x$, Adj=1. Opp=$\\sqrt{x^2-1}$.", n: "Nested trigonometric functions are easily unraveled using the foolproof 'triangle method'. Let the inner function $\\sec^{-1}(x)$ equal a phantom angle $\\theta$, meaning $\\sec(\\theta) = x$, or $x/1$. In a right-angled triangle, secant is Hypotenuse / Adjacent. Thus, label the Hypotenuse as '$x$' and the Adjacent base as '1'. Using the brutal reliability of Pythagorean theorem, the missing Opposite vertical side must be $\\sqrt{x^2 - 1}$. The outer function demands the tangent of this triangle, which is Opposite / Adjacent. Dividing $\\sqrt{x^2 - 1}$ by 1 yields the final answer." },
-                    { q: "Evaluate $\\sin(1/2 \\cdot \\cos^{-1}(4/5))$", o: ["$1/\\sqrt{10}$", "$2/\\sqrt{10}$", "$3/\\sqrt{10}$", "$1/5$"], a: 0, e: "Use half-angle identity: $\\sin(\\theta/2) = \\sqrt{(1 - \\cos\\theta)/2}$. Let $\\cos^{-1}(4/5) = \\theta$.", n: "This puzzle brilliantly demands the use of the trigonometric half-angle identity. First, we define the inner bracket as a temporary variable: let $\\theta = \\cos^{-1}(4/5)$, meaning $\\cos(\\theta)$ cleanly equals $4/5$. The main problem now significantly simplifies to evaluating $\\sin(\\theta/2)$. We deploy the heavy-duty half-angle formula: $\\sin(\\theta/2) = \\sqrt{(1 - \\cos\\theta) / 2}$. By aggressively injecting our known 4/5 value, the internal math becomes $\\sqrt{(1 - 0.8) / 2}$, which is $\\sqrt{0.2 / 2}$, scaling down to $\\sqrt{0.1}$. This is mathematically identical to the final fraction $1/\\sqrt{10}$." },
-                    { q: "The range of $y = \\sec^{-1}(x)$ is:", o: ["$[0, \\pi]$", "$[0, \\pi] - \\{\\pi/2\\}$", "$(-\\pi/2, \\pi/2)$", "$[-1, 1]$"], a: 1, e: "It mimics cosine's range but strictly excludes $\\pi/2$ where secant is undefined.", n: "Establishing the principal range of the inverse secant function requires surgical precision. Because secant is fundamentally tethered to cosine, its inverse function attempts to mimic the standard $\\cos^{-1}$ range of 0 to $\\pi$. However, a catastrophic mathematical anomaly exists dead in the center. At exactly $\\pi/2$ (90 degrees), the cosine equals zero. Because secant is 1/cosine, attempting to evaluate $\\sec(\\pi/2)$ forces a division by zero, tearing a hole in reality. Therefore, the $\\sec^{-1}$ range must surgically exclude that single, dangerous point: $[0, \\pi] - \\{\\pi/2\\}$." },
-                    { q: "If $\\tan^{-1}(x) + \\tan^{-1}(y) + \\tan^{-1}(z) = \\pi$, then $x+y+z$ is equal to:", o: ["$xyz$", "$x y z$", "0", "1"], a: 0, e: "Standard identity for three tangent inverses equating to $\\pi$.", n: "This explores a beautifully symmetric, advanced identity derived from the tangent addition formulas. When the accumulated angles of three distinct inverse tangents sum perfectly to a flat 180 degrees ($\\pi$), a remarkable algebraic relationship is unlocked. Through exhaustive derivation involving expanding $\\tan(A+B+C)$, the complex fraction collapses, proving that the raw sum of the three internal variables ($x + y + z$) is magically, identically equal to the raw product of those exact same three variables ($xyz$). It is a highly favored shortcut in competitive math exams." },
-                    { q: "Simplify $\\cos^{-1}(2x^2 - 1)$ for $0 \\leq x \\leq 1$", o: ["$2 \\sin^{-1} x$", "$2 \\cos^{-1} x$", "$\\cos^{-1} x$", "$\\pi - 2\\cos^{-1} x$"], a: 1, e: "Substitute $x = \\cos(\\theta)$. The expression becomes $\\cos^{-1}(2\\cos^2\\theta - 1) = \\cos^{-1}(\\cos 2\\theta)$.", n: "Simplifying this dense algebraic chunk requires a highly strategic trigonometric substitution. Because we recognize the structure, we aggressively force the substitution: let $x = \\cos(\\theta)$. The internal payload instantly mutates into $(2\\cos^2\\theta - 1)$. Anyone versed in trigonometry recognizes this immediately as the legendary double-angle identity for cosine, compressing perfectly into $\\cos(2\\theta)$. The outer $\\cos^{-1}$ function gratefully neutralizes the inner cosine, leaving only the $2\\theta$. Finally, we reverse our initial substitution (since $\\theta = \\cos^{-1} x$), yielding the elegant final form: $2 \\cos^{-1}(x)$." }
-                ]
-            }
-        },
-        hard: {
-            ch1: {
-                title: "Chemistry: Solutions (Hard Level)",
-                questions: [
-                    { q: "For a binary ideal liquid solution, the total vapor pressure over the solution is:", o: ["Always greater than pure component pressures", "Always less than pure component pressures", "Linearly dependent on the mole fraction of either component", "A parabolic function of mole fractions"], a: 2, e: "$P_{\\text{total}} = P_A^0 + (P_B^0 - P_A^0)x_B$, which is the equation of a straight line.", n: "In a perfectly ideal solution, Raoult's law governs both volatile components simultaneously without any intermolecular resistance. When you combine the partial pressures ($P_{\\text{total}} = P_A + P_B$), the resulting mathematical formula forms a perfect linear equation ($y = mx + c$). Plotting the total vapor pressure against the mole fraction of either component yields a flawless, straight geometric line connecting the pure vapor pressures of the two liquids. This linearity is the absolute hallmark of thermodynamic ideal behavior, meaning volume and enthalpy changes upon mixing are strictly zero." },
-                    { q: "Azeotropic mixtures boiling at a maximum temperature:", o: ["Show large positive deviation from Raoult's Law", "Show large negative deviation from Raoult's Law", "Are always ideal solutions", "Cannot be formed by liquids"], a: 1, e: "Strong intermolecular forces reduce vapor pressure, requiring a higher boiling temperature.", n: "A 'maximum boiling' azeotrope occurs when the two mixed liquids chemically bond much more aggressively with each other than they did when separated (e.g., Nitric acid and water). These intense new hydrogen bonds brutally trap the molecules in the liquid phase, causing a massive negative deviation—a sharp plummet in the overall vapor pressure. Because the vapor pressure is so low, you must pump significantly more thermal energy into the system to force it to match atmospheric pressure and boil. Hence, it boils at a maximum, higher temperature." },
-                    { q: "Calculate the freezing point of a solution containing 60g of urea (MM=60) and 180g of glucose (MM=180) in 1kg of water. ($K_f = 1.86$ K kg/mol)", o: ["-1.86°C", "-3.72°C", "-5.58°C", "-0.93°C"], a: 1, e: "Total moles = 1 (urea) + 1 (glucose) = 2 moles. $\\Delta T_f = 1.86 \\times 2 = 3.72$.", n: "Colligative properties are entirely blind to the chemical identity of the non-volatile solutes; they act strictly as a raw particle counter. Here, we calculate 1 mole of urea (60g/60g/mol) and 1 mole of glucose (180g/180g/mol), resulting in a total combined payload of 2 moles of particles. Since both are covalent and do not dissociate ($i=1$), the effective molality is simply 2 mol / 1 kg water = 2m. Multiplying this by water's cryoscopic constant ($1.86 \\times 2$) accurately yields a total freezing point depression of $3.72^\\circ\\text{C}$." },
-                    { q: "If the osmotic pressure of a 0.01M aqueous solution of a weak acid HA is 0.25 atm at 298K, calculate its degree of dissociation ($\\alpha$). ($R=0.0821$ L atm/K mol)", o: ["~2% ", "~2.2%", "~0%", "100%"], a: 1, e: "$\\pi = iCRT$. $i = 0.25 / (0.01 \\times 0.0821 \\times 298) \\approx 1.022$. For HA, $i = 1 + \\alpha$, so $\\alpha \\approx 0.022$ or 2.2%.", n: "This complex thermodynamic problem requires reverse-engineering the van't Hoff factor ($i$) from raw physical pressure data. By plugging the knowns into the osmotic pressure equation ($0.25 = i \\times 0.01 \\times 0.0821 \\times 298$), we isolate '$i$' to be approximately 1.022. For a weak monoprotic acid (HA) that splits into two pieces ($H^+$ and $A^-$), the relationship is $i = 1 + \\alpha$. Therefore, $1.022 = 1 + \\alpha$, revealing that $\\alpha$ is 0.022. This proves that only 2.2% of the acid molecules actually shattered into ions." },
-                    { q: "Which equation correctly relates the molal elevation constant ($K_b$) to the enthalpy of vaporization ($\\Delta H_{vap}$)?", o: ["$K_b = (R \\cdot T_b^2) / (1000 \\cdot \\Delta H_{vap})$", "$K_b = (M \\cdot R \\cdot T_b^2) / (1000 \\cdot \\Delta H_{vap})$", "$K_b = \\Delta H_{vap} / (R \\cdot T_b^2)$", "$K_b = (1000 \\cdot R) / (M \\cdot T_b^2)$"], a: 1, e: "This is derived from fundamental thermodynamics (Clausius-Clapeyron equation). M is molar mass of solvent.", n: "The ebullioscopic constant ($K_b$) is not merely an arbitrary number; it is deeply rooted in the rigid laws of thermodynamics. It is mathematically derived using the boiling point of the pure solvent ($T_b$), the universal gas constant ($R$), the molar mass of the solvent ($M$), and the latent enthalpy of vaporization ($\\Delta H_{vap}$). The exact formula is $K_b = (M \\cdot R \\cdot T_b^2) / (1000 \\cdot \\Delta H_{vap})$. This equation proves that solvents with incredibly high boiling points and low enthalpies of vaporization will aggressively exhibit much larger $K_b$ values." },
-                    { q: "A 0.004M solution of $Na_2SO_4$ is isotonic with a 0.01M solution of glucose at the same temperature. The apparent degree of dissociation of $Na_2SO_4$ is:", o: ["25%", "50%", "75%", "100%"], a: 2, e: "$i_{Na_2SO_4} \\cdot C_1 = i_{glucose} \\cdot C_2$. $i \\cdot 0.004 = 1 \\cdot 0.01 \\implies i = 2.5$. Since $i = 1 + 2\\alpha$, $\\alpha = 0.75$.", n: "Isotonic solutions are locked into having perfectly matching effective particle concentrations ($i \\times C$). Setting the two sides equal: $i_{Na_2SO_4} \\cdot 0.004 = 1 \\cdot 0.01$. Solving this isolates the van't Hoff factor for the salt at exactly $i = 2.5$. Sodium sulfate ($Na_2SO_4$) naturally shatters into 3 total ions, so its dissociation formula is $i = 1 + (n-1)\\alpha = 1 + 2\\alpha$. Setting $1 + 2\\alpha = 2.5$ reveals $2\\alpha = 1.5$, meaning $\\alpha = 0.75$. The salt is exactly 75% dissociated." },
-                    { q: "According to Henry's Law, a graph of partial pressure of gas (y-axis) vs mole fraction of gas in solution (x-axis) yields a straight line. Its slope is:", o: ["$1/K_H$", "$K_H$", "$K_H / P$", "Independent of $K_H$"], a: 1, e: "Equation is $P = K_H \\cdot x$. This is $y = mx$, so slope $m = K_H$.", n: "Henry's Law is expressed via the beautifully simple linear equation: $P = K_H \\cdot x$, where $P$ is the partial pressure of the gas and $x$ is its dissolved mole fraction. When you plot this data on a Cartesian plane ($P$ on the y-axis, $x$ on the x-axis), it perfectly mimics the standard linear formula $y = mx + 0$. The slope ($m$) of this resulting straight line is mathematically identical to the Henry's Law constant ($K_H$). A steeper slope indicates a higher $K_H$, which brutally translates to lower gas solubility." },
-                    { q: "If two liquids A and B form an ideal solution, the ratio of their mole fractions in the vapor phase ($y_A/y_B$) is equal to:", o: ["$(P^0_A / P^0_B) \\cdot (x_A / x_B)$", "$(P^0_B / P^0_A) \\cdot (x_A / x_B)$", "$x_A / x_B$", "$P^0_A / P^0_B$"], a: 0, e: "Dalton's law: $y_A = P_A/P_{\\text{total}}$. Therefore $y_A/y_B = P_A / P_B = (P^0_A \\cdot x_A) / (P^0_B \\cdot x_B)$.", n: "Determining the exact chemical makeup of the vapor hovering above a liquid mixture requires merging Raoult's Law with Dalton's Law of Partial Pressures. Dalton dictates that the mole fraction in the vapor phase ($y_A$) equals its partial pressure divided by the total pressure ($P_A / P_{\\text{total}}$). If we divide $y_A$ by $y_B$, the total pressures cancel out, leaving $P_A / P_B$. Substituting Raoult's Law ($P_A = P^0_A \\cdot x_A$) yields the final, powerful ratio: $(P^0_A / P^0_B) \\cdot (x_A / x_B)$. It proves the vapor is always richer in the more volatile component." },
-                    { q: "A 5% (w/v) solution of cane sugar (MM=342) is isotonic with a 1% (w/v) solution of an unknown solute X. The molar mass of X is:", o: ["34.2", "68.4", "136.8", "171.2"], a: 1, e: "Isotonic means $C_1 = C_2$. $(5/342) = (1/M_x)$. $M_x = 342/5 = 68.4$.", n: "When two solutions are biologically or chemically isotonic, their molar concentrations of active particles are perfectly equal. Both sugar and solute X are assumed to be non-electrolytes ($i=1$). We convert the % w/v into mass per 100mL. Setting the molarities equal: $(5g / 342 \\text{ g/mol}) / 0.1L = (1g / M_x) / 0.1L$. The volumes effortlessly cancel out, leaving a clean algebraic ratio: $5/342 = 1/M_x$. Solving for the unknown molar mass ($M_x$) yields exactly 68.4 g/mol. This is a standard laboratory technique for identifying unknown compounds." },
-                    { q: "Which of the following compounds has the highest van't Hoff factor (i) assuming 100% ionization?", o: ["NaCl", "$K_2SO_4$", "$K_3[Fe(CN)_6]$", "$Al_2(SO_4)_3$"], a: 3, e: "$Al_2(SO_4)_3$ dissociates into 2 $Al^{3+}$ and 3 $SO_4^{2-}$ ions, total 5 ions.", n: "The van't Hoff factor ($i$) in a perfectly ideal, 100% ionized scenario is simply a raw count of the shattered fragments produced by one molecule. NaCl yields 2 ions. $K_2SO_4$ yields 3 ions (2 $K^+$, 1 $SO_4^{2-}$). The complex salt $K_3[Fe(CN)_6]$ yields 4 ions (3 $K^+$, and one massive complex bracket ion). However, Aluminum sulfate ($Al_2(SO_4)_3$) shatters violently into 2 Aluminum ions and 3 Sulfate ions, generating a staggering total of 5 independent particles ($i=5$). It will inflict the most extreme colligative effects on a solvent." },
-                    { q: "When acetic acid is dissolved in benzene, its van't Hoff factor (i) is expected to be:", o: ["1", "2", "Close to 0.5", "0"], a: 2, e: "Acetic acid undergoes dimerization in non-polar solvents via hydrogen bonding.", n: "When an organic acid like acetic acid ($CH_3COOH$) is dumped into a non-polar solvent like benzene, it panics and violently seeks stability. Instead of dissociating, pairs of acid molecules aggressively lock together via strong, double intermolecular hydrogen bonds to form singular, massive dimers. Because nearly two molecules are behaving as one unified particle, the total number of floating entities in the solution is brutally halved. Consequently, the van't Hoff factor ($i$), which tracks the ratio of actual particles to expected particles, plummets toward 0.5." },
-                    { q: "In a solution exhibiting a large positive deviation from Raoult's Law, the process of mixing is:", o: ["Exothermic ($\\Delta H < 0$)", "Endothermic ($\\Delta H > 0$)", "Isenthalpic ($\\Delta H = 0$)", "Isentropic ($\\Delta S = 0$)"], a: 1, e: "A-B bonds are weaker, so energy is absorbed to break the stronger pure A-A/B-B bonds.", n: "A massive positive deviation from Raoult's Law indicates that the newly forged A-B intermolecular bonds in the mixture are pathetic and weak compared to the original, pure A-A and B-B bonds. To successfully tear apart those original, stubborn pure bonds, the system must aggressively consume and absorb thermal energy from its surroundings. Because the overall chemical system is absorbing heat to survive the mixing process, the thermodynamic reaction is officially classified as endothermic. Consequently, the enthalpy of mixing ($\\Delta H_{mix}$) is mathematically positive ($>0$)." },
-                    { q: "The freezing point depression constant ($K_f$) of a solvent is inversely proportional to its:", o: ["Boiling point", "Molar mass", "Enthalpy of fusion ($\\Delta H_{fus}$)", "Density"], a: 2, e: "$K_f = (M \\cdot R \\cdot T_f^2) / (1000 \\cdot \\Delta H_{fus})$. It is inversely proportional to $\\Delta H_{fus}$.", n: "Just like the boiling constant, the cryoscopic freezing constant ($K_f$) is hardwired into the thermodynamic soul of the solvent. The rigorous derivation from the Clausius-Clapeyron relation yields the strict formula: $K_f = (M \\cdot R \\cdot T_f^2) / (1000 \\cdot \\Delta H_{fus})$. Looking at the algebra, the latent enthalpy of fusion ($\\Delta H_{fus}$) sits permanently trapped in the denominator. Therefore, solvents that require massive amounts of energy to melt (high $\\Delta H_{fus}$) will inherently possess very small, weak $K_f$ values. They stubbornly resist freezing point depression." },
-                    { q: "Fractional distillation cannot be used to completely separate the components of:", o: ["An ideal solution", "A zeotropic mixture", "An azeotropic mixture", "Any liquid-liquid mixture"], a: 2, e: "Azeotropes boil at a constant temperature with identical liquid and vapor compositions.", n: "Fractional distillation relies entirely on the principle that the vapor boiling off a mixture is richer in the more volatile component, allowing separation. However, an azeotrope is a catastrophic thermodynamic anomaly. At a very specific, stubborn concentration, the mixture locks together and boils at a singular, constant temperature. Crucially, the mole fraction of the components in the boiling liquid exactly matches the mole fraction in the escaping vapor. Because the vapor isn't 'richer' in either chemical, distillation becomes completely useless. It boils as if it were a pure, single element." },
-                    { q: "At high altitudes, the boiling point of water decreases because:", o: ["Atmospheric pressure is low", "Temperature is low", "Atmospheric pressure is high", "Water molecules expand"], a: 0, e: "Boiling occurs when vapor pressure equals atmospheric pressure. Lower atm pressure requires less heating.", n: "The scientific definition of the boiling point is the exact thermal moment when a liquid's internal escaping vapor pressure successfully equals the crushing external atmospheric pressure. At extreme mountainous altitudes, the blanket of the Earth's atmosphere is significantly thinner, causing the external pressure to plummet drastically. Because the target pressure is now so incredibly low, the water does not need to be heated to 100°C to reach it. It achieves the required vapor pressure much earlier, causing it to boil aggressively at lower temperatures, complicating cooking." }
-                ]
-            },
-            ch2: {
-                title: "Physics: Electric Charges & Fields (Hard Level)",
-                questions: [
-                    { q: "The electric field at a distance '$x$' from the center on the axis of a charged ring of radius '$R$' is proportional to:", o: ["$x / (R^2 + x^2)^{3/2}$", "$1 / x^2$", "$x / (R^2 + x^2)^{1/2}$", "$1 / (R^2 + x^2)$"], a: 0, e: "Derived via integration, $E = kQx / (R^2 + x^2)^{3/2}$.", n: "Calculating the electric field generated by a continuous ring of charge requires advanced vector calculus. You must slice the ring into microscopic point charges ($dq$) and integrate their individual field contributions along the central axis. Because of flawless circular symmetry, all perpendicular field vectors aggressively cancel each other out, leaving only the horizontal axial components to survive ($dE \\cos\\theta$). Evaluating the integral yields the complex but elegant formula: $E = kQx / (R^2 + x^2)^{3/2}$. At distances extremely far from the ring ($x \\gg R$), this formula simplifies perfectly back into the point-charge inverse square law ($1/x^2$)." },
-                    { q: "A point charge Q is placed exactly at the corner of a perfect cube. The electric flux passing through this specific cube is:", o: ["$Q / \\epsilon_0$", "$Q / 6\\epsilon_0$", "$Q / 8\\epsilon_0$", "$Q / 4\\epsilon_0$"], a: 2, e: "By symmetry, 8 identical cubes are needed to fully enclose the corner point charge.", n: "This is a legendary, mind-bending application of Gauss's Law utilizing abstract symmetry. Gauss requires the charge to be entirely, 100% swallowed by the closed Gaussian surface. When a point charge rests exactly on the sharp, microscopic corner tip of a cube, it is not enclosed; it is entirely exposed. To fully swallow this corner charge in a 3D grid, you must build a massive super-cube requiring exactly 8 identical smaller cubes. Because the total flux ($Q/\\epsilon_0$) is equally shared among these 8 identical rooms, our specific, single cube only captures exactly 1/8th of the radiation." },
-                    { q: "An electric dipole is placed in a non-uniform electric field. It may experience:", o: ["Only a force", "Only a torque", "Both a net force and a torque", "Neither"], a: 2, e: "Since E is different at the $+q$ and $-q$ positions, the forces don't cancel.", n: "A uniform electric field guarantees that the opposing forces on a dipole are identical, perfectly canceling out linear translation. However, a non-uniform field is chaotic; the field strength at the positive pole is mathematically different from the field strength at the negative pole. Consequently, the force pulling the positive end ($F = +qE_1$) will not cleanly cancel the force pulling the negative end ($F = -qE_2$). This unbalance permanently guarantees a net linear force dragging the dipole across space, while the displaced lines of action simultaneously guarantee a twisting torque." },
-                    { q: "Two unequal opposite point charges are placed a certain distance apart. The neutral (null) point where the net electric field is zero lies:", o: ["Between the charges", "Outside the charges, closer to the larger charge", "Outside the charges, closer to the smaller charge", "Nowhere"], a: 2, e: "Fields must point in opposite directions (outside) and magnitudes must equal (needs to be closer to smaller q).", n: "A neutral point is a dead zone where the conflicting electric fields perfectly annihilate each other. Because the charges are opposite, the region directly between them has fields pointing in the exact same direction, meaning they aggressively add together, never equaling zero. The null point MUST exist outside the pair. To mathematically balance the equations ($kq_1/r_1^2 = kq_2/r_2^2$), the point must be significantly closer to the weaker, smaller charge. This proximity compensates for its pathetic strength, allowing its inverse-square field to finally match the reach of the distant, massive charge." },
-                    { q: "What is the time period of small oscillations of a dipole (moment $p$, moment of inertia $I$) in a uniform field $E$?", o: ["$2\\pi \\sqrt{I/pE}$", "$2\\pi \\sqrt{pE/I}$", "$2\\pi \\sqrt{I/E}$", "$2\\pi \\sqrt{p/IE}$"], a: 0, e: "Torque $\\tau = -pE \\sin\\theta \\approx -pE\\theta$. This is SHM with $\\omega^2 = pE/I$.", n: "When a dipole is gently flicked away from its stable 0-degree equilibrium, the electric field acts like a violent, invisible spring attempting to snap it back. The restoring torque is $\\tau = -pE \\sin\\theta$. For microscopic, tiny oscillations, we apply the small-angle approximation ($\\sin\\theta \\approx \\theta$), yielding $\\tau = -pE\\theta$. This flawlessly matches the rigid blueprint for Simple Harmonic Motion (SHM), where restoring force is proportional to displacement. Using the rotational analog of Newton's second law ($\\tau = I\\alpha$), we prove the angular frequency squared is $\\omega^2 = pE/I$. The time period is therefore $T = 2\\pi \\sqrt{I/pE}$." },
-                    { q: "The electric field generated by an infinite, uniformly charged flat non-conducting sheet (surface charge density $\\sigma$) is:", o: ["$\\sigma / \\epsilon_0$", "$\\sigma / 2\\epsilon_0$", "$2\\sigma / \\epsilon_0$", "Zero"], a: 1, e: "Using a cylindrical Gaussian surface, $2EA = \\sigma A/\\epsilon_0$, so $E = \\sigma / 2\\epsilon_0$.", n: "Determining the field of an infinite flat sheet showcases the sheer elegance of Gauss's Law. We construct an imaginary, cylindrical 'pillbox' that cleanly punches through the sheet. The electric field blasts straight outward, parallel to the cylinder's curved walls (zero flux), only escaping through the two flat end-caps. The total flux is therefore $E \\cdot A$ (front cap) + $E \\cdot A$ (back cap) = $2EA$. The charge trapped inside this pillbox is $\\sigma \\cdot A$. Equating the two ($2EA = \\sigma A / \\epsilon_0$) allows the Area to beautifully cancel out, proving the field is fiercely uniform at $E = \\sigma / 2\\epsilon_0$, regardless of distance." },
-                    { q: "The electric field inside a uniformly charged solid non-conducting sphere of radius R at a distance r (where $r < R$) is:", o: ["Zero", "Proportional to $1/r^2$", "Proportional to $r$", "Constant"], a: 2, e: "$E = (\\rho \\cdot r) / 3\\epsilon_0$. It grows linearly with distance from the center.", n: "Unlike a hollow metal shell, a solid non-conducting plastic sphere can permanently trap charge deep within its internal volume. To find the field deep inside at radius $r$, we draw a smaller internal Gaussian sphere. The charge trapped inside this smaller sphere is proportional to its volume ($Q_{\\text{enclosed}} = \\rho \\cdot \\frac{4}{3}\\pi r^3$). Gauss's law states $E \\cdot 4\\pi r^2 = Q_{\\text{enclosed}} / \\epsilon_0$. When we divide the trapped $r^3$ volume charge by the $r^2$ surface area, we are left with a single $r$ in the numerator. This proves the internal field grows linearly like a spring from the dead center." },
-                    { q: "A cavity is carved out inside a solid uniformly charged non-conducting sphere. The electric field inside the cavity is:", o: ["Zero", "Uniform (constant in magnitude and direction)", "Radially outward", "Proportional to distance from cavity center"], a: 1, e: "Using superposition of a solid positive sphere and a smaller negative sphere, the field vectors sum to a constant.", n: "This is one of the most mathematically stunning results in classical electrostatics. It is solved using the 'principle of superposition'. You imagine the hollow cavity is created by taking a solid, positively charged sphere and violently injecting a smaller, perfectly negatively charged sphere into it to cancel out the space. The electric field inside this zone is the vector sum of the linear field from the big positive sphere and the linear field from the small negative sphere. Through brilliant vector addition, the position variables cancel out entirely, leaving a perfectly uniform, straight, constant electric field throughout the entire cavity void." },
-                    { q: "Two large, thin, parallel conducting plates are given charges $Q_1$ and $Q_2$. The charge on the innermost facing surfaces will be:", o: ["$(Q_1+Q_2)/2$ and $-(Q_1+Q_2)/2$", "$(Q_1-Q_2)/2$ and $-(Q_1-Q_2)/2$", "$Q_1$ and $Q_2$", "Zero and Zero"], a: 1, e: "The outer surfaces must share $(Q_1+Q_2)/2$ to ensure zero field inside the conductors. The rest faces inward.", n: "When two massive, charged metal plates are brought close, their chaotic electron oceans interact aggressively. To satisfy electrostatic equilibrium, the electric field deep inside the solid meat of both metal plates must be mathematically forced to zero. To achieve this, the plates must distribute their total combined global charge ($Q_1 + Q_2$) equally on the two absolute outermost, exterior-facing walls. The remaining leftover charges are forced to migrate to the two inner, facing walls. Because they must perfectly cancel each other's fields internally, these two inner walls will always adopt perfectly equal and opposite charges: $(Q_1-Q_2)/2$ and $-(Q_1-Q_2)/2$." },
-                    { q: "An electric dipole is placed at the center of a hollow conducting sphere. The net electric flux through the sphere is:", o: ["$p / \\epsilon_0$", "$2q / \\epsilon_0$", "Zero", "Infinite"], a: 2, e: "The net charge of a dipole is always $+q - q = 0$.", n: "This is a classic trick question designed to test your strict adherence to the foundational rules of Gauss's Law over complex visualization. An electric dipole is visually complex, radiating a beautiful, twisted array of electric field lines that aggressively blast into the walls of the hollow sphere. However, Gauss's Law is utterly blind to field line geometry; it strictly acts as an accountant for net enclosed charge. Because a dipole consists of exactly one $+q$ and one $-q$, the absolute net algebraic charge trapped inside the sphere is exactly zero. Zero net charge guarantees absolute zero net flux." },
-                    { q: "If the electric potential $V(x) = 4x^2$, the electric field $E$ at $x = 1$m is:", o: ["4 N/C", "-8 N/C", "8 N/C", "-4 N/C"], a: 1, e: "$E = -dV/dx$. Derivative of $4x^2$ is $8x$. At $x=1$, $E = -8$.", n: "The electric field and electric potential (voltage) are two sides of the same thermodynamic coin, linked permanently by a brutal calculus derivative. The electric field is formally defined as the negative spatial gradient of the potential ($E = -dV/dx$). It represents the aggressive 'slope' of the voltage hill. By taking the derivative of the voltage equation ($4x^2$) with respect to $x$, we extract the raw slope equation: $8x$. Because the formula demands the negative gradient, it becomes $-8x$. Plugging in the coordinate $x=1$ yields a final, powerful vector field of -8 N/C, pushing forcefully backward." },
-                    { q: "A hemispherical surface of radius R is placed in a uniform electric field E parallel to its circular base. The flux through the curved surface is:", o: ["$E \\cdot \\pi R^2$", "$-E \\cdot \\pi R^2$", "$E \\cdot 2\\pi R^2$", "Zero"], a: 3, e: "The field lines graze the flat base and curved surface perfectly without piercing them.", n: "Visualizing electric flux requires analyzing how aggressively the field lines physically stab through a solid boundary. In this highly specific orientation, the uniform electric field ($E$) is blasting perfectly parallel to the flat, circular floor of the hemisphere. Because the lines are flying perfectly horizontal, they gracefully skim across the flat floor and shoot straight past the open curved dome. Not a single field line actually pierces into or out of the 3D volume of the shape. Because there is zero penetration, the mathematical flux through both the flat and curved surfaces is an absolute zero." },
-                    { q: "The electrostatic energy of a uniformly charged solid sphere of total charge Q and radius R is:", o: ["$kQ^2 / R$", "$3kQ^2 / 5R$", "$kQ^2 / 2R$", "Zero"], a: 1, e: "Calculated by integrating the energy required to assemble the sphere shell by shell.", n: "Building a highly charged solid sphere is an act of violent thermodynamic labor. You must mathematically start with a neutral core and slowly, agonizingly transport microscopic layers of charge ($dq$) from infinity, fighting the crushing repulsion of the sphere you've already built. Integrating this grueling work ($dW = V \\cdot dq$) from a radius of zero out to the final radius $R$ calculates the absolute total energy trapped in the system. The brutal calculus resolves to the famous self-energy formula: $U = \\frac{3}{5} \\frac{kQ^2}{R}$. This energy is physically stored in the aggressive, stressed electric field radiating throughout space." },
-                    { q: "Two identical conducting spheres carrying charges $+10\\mu C$ and $-6\\mu C$ are brought into contact and then separated. The final charge on each is:", o: ["$+10\\mu C$ and $-6\\mu C$", "$+4\\mu C$ on both", "$+2\\mu C$ on both", "Zero"], a: 2, e: "They share the net charge equally. $(+10 - 6) / 2 = +2\\mu C$.", n: "When two isolated metallic conductors physically crash into each other, their separate electron oceans violently merge into one unified system. Electrostatic laws demand that the system must instantly seek absolute equilibrium. The total global charge of the system ($+10\\mu C + -6\\mu C = +4\\mu C$) is pooled together. Because the two spheres possess the exact same identical radius and geometry, their 'capacitance' is equal. Therefore, the warring electrons will perfectly and symmetrically distribute the surviving $+4\\mu C$ net charge across the two spheres. When ripped apart, each sphere leaves with an identical $+2\\mu C$ payload." },
-                    { q: "What is the force per unit area (electrostatic pressure) acting outward on the surface of a charged conductor?", o: ["$\\sigma^2 / 2\\epsilon_0$", "$\\sigma^2 / \\epsilon_0$", "$\\sigma / 2\\epsilon_0$", "Zero"], a: 0, e: "The surface charge $\\sigma$ interacts with the average field $E = \\sigma/2\\epsilon_0$.", n: "When a metal balloon is aggressively pumped full of electrons, those electrons desperately want to flee from each other due to mutual repulsion. Because they are trapped on the outer skin, their repulsion creates a violent, outward-pushing mechanical stress on the metal itself, known as electrostatic pressure. The electric field right on the metal skin is $\\sigma/\\epsilon_0$, but the charge itself only feels the 'average' field across the boundary, which is $\\sigma/2\\epsilon_0$. Multiplying this average field by the local charge density ($\\sigma$) yields the brutal pressure equation: $P = \\sigma^2 / 2\\epsilon_0$. High charge can literally rip metal apart." }
-                ]
-            },
-            ch3: {
-                title: "Math: Inverse Trig (Hard Level)",
-                questions: [
-                    { q: "What is the formula for $\\tan^{-1}(x) + \\tan^{-1}(y)$ when $xy > 1$ and $x > 0, y > 0$?", o: ["$\\tan^{-1}((x+y)/(1-xy))$", "$\\pi + \\tan^{-1}((x+y)/(1-xy))$", "$-\\pi + \\tan^{-1}((x+y)/(1-xy))$", "$\\pi/2$"], a: 1, e: "When $xy > 1$, the standard output is negative, so we must add $\\pi$ to shift it into the correct quadrants.", n: "The standard addition formula for inverse tangents, $\\tan^{-1}(\\frac{x+y}{1-xy})$, is deceptively fragile. It operates flawlessly only when the product $xy$ is less than 1, keeping the denominator positive. However, if $x$ and $y$ are both large positive numbers (meaning $xy > 1$), the denominator violently crashes into negative territory. This forces the standard $\\tan^{-1}$ function to output a negative angle in the 4th quadrant. But since $x$ and $y$ are positive, their individual angles are in the 1st quadrant, meaning their sum MUST be in the 2nd quadrant (positive). To correct this catastrophic mathematical failure, we must forcefully add a full $\\pi$ to shift the answer to the correct zone." },
-                    { q: "Evaluate: $\\sin^{-1}(\\sin 10)$ where 10 is in radians.", o: ["10", "$3\\pi - 10$", "$10 - 3\\pi$", "$4\\pi - 10$"], a: 1, e: "10 rad is roughly $573^\\circ$. It falls in the 3rd cycle. The reference line is $3\\pi$.", n: "This is a notorious trap designed to punish students who blindly cancel inverse functions. You cannot simply output '10' because 10 radians massively violates the strict $[-\\pi/2, \\pi/2]$ principal branch of $\\sin^{-1}$ (which roughly spans -1.57 to 1.57). We must painstakingly fold the angle back into the legal zone. Since $3\\pi \\approx 9.42$, 10 radians sits just past it. The sine graph behaves like a zigzag. Near odd multiples of $\\pi$ (like $3\\pi$), the line goes downwards, meaning the equation to fold it back is mathematically $(n\\pi - x)$. Therefore, the flawless, legally bound answer is $3\\pi - 10$." },
-                    { q: "Simplify: $\\sin^{-1}(2x \\sqrt{1 - x^2})$ for $-1/\\sqrt{2} \\leq x \\leq 1/\\sqrt{2}$", o: ["$2 \\cos^{-1} x$", "$2 \\sin^{-1} x$", "$\\cos^{-1} 2x$", "$\\sin^{-1} 2x$"], a: 1, e: "Let $x = \\sin \\theta$. The expression becomes $\\sin^{-1}(2 \\sin\\theta \\cos\\theta) = \\sin^{-1}(\\sin 2\\theta) = 2\\theta$.", n: "This terrifying algebraic payload is a disguised invitation for trigonometric substitution. Because we spot the $1 - x^2$ structure, we aggressively substitute $x = \\sin\\theta$. The inner term instantly mutates into $2\\sin\\theta \\sqrt{1 - \\sin^2\\theta}$, which smoothly simplifies to $2\\sin\\theta\\cos\\theta$. This is the legendary double-angle identity, collapsing perfectly into $\\sin(2\\theta)$. The outer $\\sin^{-1}$ function gracefully neutralizes the sine, leaving exactly $2\\theta$. Reversing our substitution ($\\theta = \\sin^{-1} x$) yields $2\\sin^{-1} x$. The strict domain boundary provided ensures that $2\\theta$ legally remains inside the principal branch, validating the cancellation." },
-                    { q: "The maximum value of $f(x) = (\\sin^{-1} x)^2 + (\\cos^{-1} x)^2$ is:", o: ["$\\pi^2 / 4$", "$\\pi^2 / 8$", "$5\\pi^2 / 4$", "$\\pi^2$"], a: 2, e: "Use $(\\sin^{-1} x + \\cos^{-1} x)^2 - 2(\\sin^{-1} x)(\\cos^{-1} x)$ and the identity sum = $\\pi/2$.", n: "This optimization problem requires heavy algebraic manipulation of complementary identities. We know the unbreakable rule: $\\sin^{-1}x + \\cos^{-1}x = \\pi/2$. We rewrite the target function using the algebraic trick $a^2 + b^2 = (a+b)^2 - 2ab$. It becomes $(\\pi/2)^2 - 2(\\sin^{-1}x)(\\pi/2 - \\sin^{-1}x)$. This transforms the equation into a downward-facing quadratic parabola with respect to $\\sin^{-1}x$. To extract the absolute maximum value, we must push the variable $\\sin^{-1}x$ to its extreme, legal negative boundary, which is $-\\pi/2$. Injecting this boundary into the quadratic flawlessly yields the maximum possible peak of $5\\pi^2/4$." },
-                    { q: "Solve for $x$: $\\sin^{-1} x + \\sin^{-1}(1-x) = \\cos^{-1} x$", o: ["0", "1/2", "0, 1/2", "No solution"], a: 2, e: "Convert $\\cos^{-1} x$ to $\\pi/2 - \\sin^{-1} x$. Testing roots shows both 0 and 1/2 are valid.", n: "Solving this complex inverse equation requires funneling all terms into a single trigonometric language. We weaponize the complementary identity, aggressively replacing the right side $\\cos^{-1}x$ with $(\\pi/2 - \\sin^{-1}x)$. The equation now reads: $2\\sin^{-1}x + \\sin^{-1}(1-x) = \\pi/2$. Taking the sine of both sides unleashes a brutal wave of algebra, but testing the standard boundaries is faster. If $x=0$, $0 + \\pi/2 = \\pi/2$ (Valid). If $x=1/2$, $2(\\pi/6) + \\pi/6 = \\pi/2$ (Valid). Both roots survive the rigorous boundary checks and are mathematically confirmed as true solutions." },
-                    { q: "What is the value of $\\cos(\\tan^{-1}(\\sin(\\cot^{-1} x)))$?", o: ["$\\sqrt{(x^2+1)/(x^2+2)}$", "$\\sqrt{x^2/(x^2+1)}$", "$x / \\sqrt{x^2+2}$", "$1 / \\sqrt{x^2+1}$"], a: 0, e: "Unpack from the inside out using right triangles.", n: "This deeply nested Matryoshka doll of trigonometry demands systematic, inside-out annihilation using the 'triangle method'. Start deep inside: let $\\theta = \\cot^{-1}(x)$, meaning $\\cot(\\theta) = x/1$. Building this triangle (Adj=x, Opp=1, Hyp=$\\sqrt{x^2+1}$), we find $\\sin(\\theta) = 1/\\sqrt{x^2+1}$. The equation is now $\\cos(\\tan^{-1}(1/\\sqrt{x^2+1}))$. We build a second, fresh triangle for $\\alpha = \\tan^{-1}(\\dots)$, where Opp=1 and Adj=$\\sqrt{x^2+1}$. The new Hypotenuse is $\\sqrt{1 + (x^2+1)} = \\sqrt{x^2+2}$. The final outer function demands the cosine (Adj/Hyp) of this new triangle, perfectly yielding $\\sqrt{(x^2+1)/(x^2+2)}$." },
-                    { q: "The domain of $f(x) = \\sec^{-1}(2x + 1)$ is:", o: ["$x \\geq 0$ or $x \\leq -1$", "$x > 0$", "$[-1, 1]$", "$\\mathbb{R} - (-1, 0)$"], a: 0, e: "The input for $\\sec^{-1}$ must be $\\leq -1$ or $\\geq 1$.", n: "The inverse secant function is incredibly picky, violently rejecting any input that falls in the dead zone between -1 and 1. Therefore, the entire internal algebraic payload, $(2x + 1)$, must be forced to obey these split boundaries. We construct two separate inequalities: $2x + 1 \\geq 1$ OR $2x + 1 \\leq -1$. Solving the first reveals $2x \\geq 0$, so $x \\geq 0$. Solving the second reveals $2x \\leq -2$, so $x \\leq -1$. Combining these two fractured domains provides the final, legal hunting ground for the variable x: $(-\\infty, -1] \\cup [0, \\infty)$." },
-                    { q: "If $\\sin^{-1} x + \\sin^{-1} y + \\sin^{-1} z = 3\\pi/2$, find the value of $x^2 + y^2 + z^2$.", o: ["0", "1", "3", "9"], a: 2, e: "Each term must be exactly $\\pi/2$, so $x=y=z=1$.", n: "This is a masterful optimization puzzle disguised as basic algebra. The strict mathematical ceiling for any single $\\sin^{-1}$ function is exactly $\\pi/2$ (90 degrees). The equation demands that three of these functions must sum together to achieve a massive $3\\pi/2$. This leaves absolutely zero room for mathematical flexibility or variation. All three functions are violently forced to be firing at their absolute, maximum possible output limits simultaneously. Therefore, $\\sin^{-1}x = \\pi/2$, forcing $x$ to equal 1. The same applies to $y$ and $z$. Finally, $1^2 + 1^2 + 1^2$ flawlessly equals 3." },
-                    { q: "Simplify: $\\cot^{-1}( (\\sqrt{1+\\sin x} + \\sqrt{1-\\sin x}) / (\\sqrt{1+\\sin x} - \\sqrt{1-\\sin x}) )$ for $0 < x < \\pi/2$", o: ["$x/2$", "$x$", "$\\pi/2 - x$", "$\\pi - x/2$"], a: 0, e: "Use $1+\\sin x = (\\cos x/2 + \\sin x/2)^2$. The roots cancel out gracefully.", n: "This horrific-looking fraction collapses beautifully if you deploy a legendary half-angle trick. We rewrite the number '1' as $\\cos^2(x/2) + \\sin^2(x/2)$, and expand $\\sin(x)$ into $2\\sin(x/2)\\cos(x/2)$. This brilliantly transforms the term $(1+\\sin x)$ into a perfect square: $(\\cos x/2 + \\sin x/2)^2$. The heavy square roots instantly neutralize these perfect squares. The massive fraction simplifies down to $[2\\cos(x/2)] / [2\\sin(x/2)]$, which is simply $\\cot(x/2)$. The outer $\\cot^{-1}$ gracefully eliminates the inner cotangent, leaving the final, impossibly clean answer of exactly $x/2$." },
-                    { q: "Evaluate the sum: $\\sec^2(\\tan^{-1} 2) + \\text{cosec}^2(\\cot^{-1} 3)$", o: ["15", "13", "10", "5"], a: 0, e: "Use identities: $\\sec^2\\theta = 1 + \\tan^2\\theta$ and $\\text{cosec}^2\\theta = 1 + \\cot^2\\theta$.", n: "This problem brutally punishes students who attempt to build complex triangles, when a simple Pythagorean identity is the intended key. Let $\\theta_1 = \\tan^{-1} 2$ and $\\theta_2 = \\cot^{-1} 3$. The expression is $\\sec^2(\\theta_1) + \\text{cosec}^2(\\theta_2)$. We aggressively convert these using 10th-grade identities: $\\sec^2\\theta_1 = 1 + \\tan^2\\theta_1$, and $\\text{cosec}^2\\theta_2 = 1 + \\cot^2\\theta_2$. Because $\\tan(\\tan^{-1} 2) = 2$, the first term collapses to $1 + 2^2 = 5$. Because $\\cot(\\cot^{-1} 3) = 3$, the second term collapses to $1 + 3^2 = 10$. The sum is a clean 15." },
-                    { q: "Solve for $x$: $\\tan^{-1}((x-1)/(x-2)) + \\tan^{-1}((x+1)/(x+2)) = \\pi/4$", o: ["$\\pm 1/\\sqrt{2}$", "$\\pm \\sqrt{2}$", "$\\pm 1$", "0"], a: 0, e: "Apply the $\\tan^{-1}(A) + \\tan^{-1}(B)$ formula and solve the resulting quadratic.", n: "We must aggressively deploy the tangent addition formula, fully aware of the impending algebraic chaos. Combining the fractions yields a monstrous numerator and denominator. We set the entire combined chaotic fraction equal to $\\tan(\\pi/4)$, which is exactly 1. Multiplying out the denominators triggers a massive wave of algebraic cancellation, heavily simplifying the equation. The dust settles to reveal a clean, stark quadratic equation: $2x^2 - 4 = -3$. Adding 4 to both sides yields $2x^2 = 1$. Solving for $x$ provides the final two mirrored roots: $x = \\pm 1/\\sqrt{2}$." },
-                    { q: "The value of $\\tan(1/2 \\cdot \\cos^{-1}(\\sqrt{5}/3))$ is:", o: ["$(3-\\sqrt{5})/2$", "$(3-\\sqrt{5})/\\sqrt{2}$", "$(3-\\sqrt{5})/4$", "$\\sqrt{5}/3$"], a: 0, e: "Use $\\tan(\\theta/2) = \\sqrt{(1-\\cos\\theta)/(1+\\cos\\theta)}$. Here $\\cos\\theta = \\sqrt{5}/3$.", n: "This puzzle brilliantly demands the use of the tangent half-angle identity. First, we define the inner bracket as a temporary variable: let $\\theta = \\cos^{-1}(\\sqrt{5}/3)$, meaning $\\cos(\\theta)$ cleanly equals $\\sqrt{5}/3$. The main problem now significantly simplifies to evaluating $\\tan(\\theta/2)$. We deploy the heavy-duty half-angle formula: $\\tan(\\theta/2) = \\sqrt{(1 - \\cos\\theta) / (1 + \\cos\\theta)}$. By injecting our known fraction, we get $\\sqrt{(3 - \\sqrt{5}) / (3 + \\sqrt{5})}$. Rationalizing this nasty denominator by multiplying top and bottom by $(3-\\sqrt{5})$ safely extracts the root, flawlessly yielding the final answer of $(3-\\sqrt{5})/2$." },
-                    { q: "If $2 \\tan^{-1}(\\cos x) = \\tan^{-1}(2 \\text{cosec } x)$, then $x$ is:", o: ["$\\pi/4$", "$\\pi/3$", "$\\pi/6$", "$\\pi/2$"], a: 0, e: "Use $2\\tan^{-1} A = \\tan^{-1}(2A / (1-A^2))$.", n: "We must aggressively manipulate the left side of the equation to match the right side language. Using the double-angle tangent identity, $2\\tan^{-1}(\\cos x)$ morphs into $\\tan^{-1}[2\\cos x / (1 - \\cos^2 x)]$. Knowing the foundational Pythagorean identity, the denominator $(1 - \\cos^2 x)$ becomes $\\sin^2 x$. The left side is now $\\tan^{-1}(2\\cos x / \\sin^2 x)$. We equate this directly to the right side's internal payload: $2\\text{cosec } x$, which is $2/\\sin x$. This yields $2\\cos x / \\sin^2 x = 2 / \\sin x$. Canceling terms proves $\\cos x / \\sin x = 1$, meaning $\\cot x = 1$. Thus, $x = \\pi/4$." },
-                    { q: "Which of the following is equivalent to $\\sin^{-1} x$?", o: ["$\\cos^{-1}(\\sqrt{1-x^2})$ for $0 \\leq x \\leq 1$", "$\\tan^{-1}(x/\\sqrt{1-x^2})$ for $-1 < x < 1$", "Both A and B", "Neither A nor B"], a: 2, e: "Both conversions are valid within their specified restricted domains.", n: "Converting between inverse functions is the ultimate test of right-triangle mastery. Let $\\theta = \\sin^{-1}(x)$, meaning $\\sin\\theta = x/1$. Building the triangle (Opp=$x$, Hyp=1), the Adjacent side is $\\sqrt{1-x^2}$. From this single geometry, we can derive any other inverse. The cosine of this triangle is Adj/Hyp, yielding $\\cos^{-1}(\\sqrt{1-x^2})$. The tangent is Opp/Adj, yielding $\\tan^{-1}(x / \\sqrt{1-x^2})$. Both conversions are mathematically flawless. The strict domain restrictions attached to the options ensure no negative-angle boundary violations occur during the translation." },
-                    { q: "The range of $f(x) = \\sin^{-1} x + \\cos^{-1} x + \\tan^{-1} x$ is:", o: ["$(0, \\pi)$", "$[\\pi/4, 3\\pi/4]$", "$[0, \\pi/2]$", "$(\\pi/2, \\pi)$"], a: 1, e: "$\\sin^{-1} x + \\cos^{-1} x = \\pi/2$. Domain is $[-1, 1]$. Range of $\\tan^{-1} x$ on $[-1, 1]$ is $[-\\pi/4, \\pi/4]$.", n: "This question brilliantly layers multiple mathematical rules. First, we must identify the absolute domain of the entire function. Because $\\sin^{-1}x$ and $\\cos^{-1}x$ aggressively crash outside of $[-1, 1]$, the entire function is mathematically locked into that tight window. We can instantly simplify the first two terms using the complementary identity: they permanently sum to exactly $\\pi/2$. The function simplifies to $f(x) = \\pi/2 + \\tan^{-1}x$. Now we evaluate the remaining $\\tan^{-1}x$ specifically within the allowed $[-1, 1]$ window. Its minimum is $-\\pi/4$ and its maximum is $\\pi/4$. Adding $\\pi/2$ to these boundaries yields the final range: $[\\pi/4, 3\\pi/4]$." }
-                ]
-            }
-        }
-    };
-
-    let currentLevel = 'easy';
-    let currentChapter = 'ch1';
-    let loggedInUser = localStorage.getItem('cbseQuizUser') || null;
-    let userAnswers = {};
-    let quizScores = {};
-
-    function initApp() {
-        if (!loggedInUser) {
-            document.getElementById('login-overlay').style.display = 'flex';
-            document.getElementById('app-content').style.display = 'none';
-            return;
-        }
-
-        document.getElementById('login-overlay').style.display = 'none';
-        document.getElementById('app-content').style.display = 'block';
+    <script>
+        // --- 1. INITIALIZE THE GLOBAL PLUGIN ARRAY ---
+        window.LMS_PORTAL = [];
         
-        const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
-        document.getElementById('welcome-text').innerText = `Welcome, ${displayName}`;
+        // Define allowed users centrally
+        const validAccounts = { 'icchansh': '1234', 'roshan': 'admin' };
 
-        const savedAnswers = localStorage.getItem(`cbseQuizAnswers_${loggedInUser}`);
-        const savedScores = localStorage.getItem(`cbseQuizScores_${loggedInUser}`);
+        // --- STATE MANAGEMENT ---
+        let loggedInUser = null;
+        let currentItem = null;
+        let userAnswers = {}; 
+        let quizScores = {};  
 
-        userAnswers = savedAnswers ? JSON.parse(savedAnswers) : {
-            easy: { ch1: {}, ch2: {}, ch3: {} },
-            medium: { ch1: {}, ch2: {}, ch3: {} },
-            hard: { ch1: {}, ch2: {}, ch3: {} }
-        };
-        
-        quizScores = savedScores ? JSON.parse(savedScores) : {
-            easy: { ch1: null, ch2: null, ch3: null },
-            medium: { ch1: null, ch2: null, ch3: null },
-            hard: { ch1: null, ch2: null, ch3: null }
+        const storage = {
+            get: (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } },
+            set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
         };
 
-        loadQuiz('ch1');
-    }
-
-    function saveState() {
-        if(!loggedInUser) return;
-        localStorage.setItem(`cbseQuizAnswers_${loggedInUser}`, JSON.stringify(userAnswers));
-        localStorage.setItem(`cbseQuizScores_${loggedInUser}`, JSON.stringify(quizScores));
-    }
-    
-    function clearAppData() {
-        if (confirm("Are you sure you want to completely clear the local data? This will fix caching issues but will erase all scores and answers for all accounts on this device.")) {
-            localStorage.clear();
-            alert("Local storage wiped successfully. Reloading the app...");
-            location.reload(true);
+        function getStorageKey() { return `lms_v2_${loggedInUser}`; }
+        function saveState() {
+            storage.set(getStorageKey(), { answers: userAnswers, scores: quizScores });
+            renderDirectory(); 
         }
-    }
 
-    function handleLogin() {
-        const userField = document.getElementById('username').value.trim().toLowerCase();
-        const passField = document.getElementById('password').value.trim();
-
-        if (validAccounts[userField] && validAccounts[userField] === passField) {
-            loggedInUser = userField;
-            localStorage.setItem('cbseQuizUser', loggedInUser);
-            document.getElementById('login-error').style.display = 'none';
-            initApp();
-        } else {
-            document.getElementById('login-error').style.display = 'block';
-        }
-    }
-
-    function handleEnter(e) {
-        if (e.key === 'Enter') handleLogin();
-    }
-
-    function handleLogout() {
-        // Clear local storage key and current user variable
-        localStorage.removeItem('cbseQuizUser');
-        loggedInUser = null;
-        userAnswers = {};
-        quizScores = {};
-
-        // Hide app, show login overlay
-        document.getElementById('app-content').style.display = 'none';
-        document.getElementById('login-overlay').style.display = 'flex';
-
-        // Clear the input fields for the next user
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('login-error').style.display = 'none';
-    }
-
-    function setLevel(level) {
-        currentLevel = level;
-        document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`btn-${level}`).classList.add('active');
-        loadQuiz(currentChapter);
-    }
-
-    function updateTabScores() {
-        const c1 = quizScores[currentLevel]['ch1'];
-        const c2 = quizScores[currentLevel]['ch2'];
-        const c3 = quizScores[currentLevel]['ch3'];
-        
-        const qLen1 = quizData[currentLevel]['ch1'].questions.length;
-        const qLen2 = quizData[currentLevel]['ch2'].questions.length;
-        const qLen3 = quizData[currentLevel]['ch3'].questions.length;
-        
-        document.getElementById('badge-ch1').innerHTML = c1 !== null ? `<span class="score-badge">${c1}/${qLen1}</span>` : '';
-        document.getElementById('badge-ch2').innerHTML = c2 !== null ? `<span class="score-badge">${c2}/${qLen2}</span>` : '';
-        document.getElementById('badge-ch3').innerHTML = c3 !== null ? `<span class="score-badge">${c3}/${qLen3}</span>` : '';
-    }
-
-    function loadQuiz(chapterId) {
-        currentChapter = chapterId;
-        
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(`tab-${chapterId}`).classList.add('active');
-        
-        updateTabScores();
-
-        document.getElementById('quiz-view').classList.add('active');
-        document.getElementById('report-view').classList.remove('active');
-
-        const activeData = quizData[currentLevel][chapterId];
-        document.getElementById('quiz-title').innerText = activeData.title;
-
-        const container = document.getElementById('questions-container');
-        container.innerHTML = '';
-
-        activeData.questions.forEach((qObj, index) => {
-            const qDiv = document.createElement('div');
-            qDiv.className = 'question-block';
+        // --- ENGINE LOGIC ---
+        function login() {
+            const user = document.getElementById('username').value.trim().toLowerCase();
+            const pass = document.getElementById('password').value.trim();
             
-            const answeredOption = userAnswers[currentLevel][chapterId][index];
-            const isAnswered = answeredOption !== undefined;
-            
-            let optionsHTML = '';
-            qObj.o.forEach((opt, optIndex) => {
-                const isChecked = isAnswered && answeredOption === optIndex;
-                let optionClasses = 'option-label ';
+            if (validAccounts[user] && validAccounts[user] === pass) {
+                loggedInUser = user;
+                document.getElementById('login-error').style.display = 'none';
                 
-                if (isAnswered) {
-                    optionClasses += 'locked ';
-                    if (optIndex === qObj.a) optionClasses += 'correct-choice ';
-                    else if (isChecked) optionClasses += 'incorrect-choice ';
+                const saved = storage.get(getStorageKey());
+                userAnswers = saved ? saved.answers : {};
+                quizScores = saved ? saved.scores : {};
+
+                document.getElementById('login-view').style.display = 'none';
+                document.getElementById('app-view').style.display = 'flex';
+                document.getElementById('student-name-display').innerText = user.charAt(0).toUpperCase() + user.slice(1);
+                
+                renderDirectory();
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        }
+
+        function logout() {
+            loggedInUser = null;
+            document.getElementById('app-view').style.display = 'none';
+            document.getElementById('login-view').style.display = 'flex';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            hideContent();
+        }
+
+        // Dynamically build the sidebar from the injected .js modules
+        function renderDirectory() {
+            const dir = document.getElementById('directory-container');
+            dir.innerHTML = '';
+            
+            // Filter modules intended for this user
+            const userModules = window.LMS_PORTAL.filter(mod => mod.targetUser === loggedInUser || mod.targetUser === 'all');
+            
+            // Group by Subject, then Chapter
+            const curriculum = {};
+            userModules.forEach(mod => {
+                if(!curriculum[mod.subjectTitle]) curriculum[mod.subjectTitle] = {};
+                if(!curriculum[mod.subjectTitle][mod.chapterTitle]) curriculum[mod.subjectTitle][mod.chapterTitle] = [];
+                curriculum[mod.subjectTitle][mod.chapterTitle].push(mod);
+            });
+
+            let subIndex = 0;
+            for (const [subject, chapters] of Object.entries(curriculum)) {
+                dir.innerHTML += `<div class="dir-subject">${subject}</div>`;
+                
+                let chIndex = 0;
+                for (const [chapter, items] of Object.entries(chapters)) {
+                    const chId = `ch-${subIndex}-${chIndex}`;
+                    let isOpen = currentItem && items.some(i => i.id === currentItem.id);
+
+                    const chDiv = document.createElement('div');
+                    chDiv.innerHTML = `
+                        <div class="dir-chapter" onclick="toggleAccordion('${chId}')">
+                            <span style="font-size:0.7rem; color:var(--text-muted);" id="icon-${chId}">${isOpen ? '▼' : '▶'}</span>
+                            ${chapter}
+                        </div>
+                        <div class="dir-topic-group ${isOpen ? 'open' : ''}" id="${chId}"></div>
+                    `;
+                    dir.appendChild(chDiv);
+                    
+                    const groupDiv = document.getElementById(chId);
+                    items.forEach(item => {
+                        const isDone = quizScores[item.id] !== undefined;
+                        const isActive = currentItem && currentItem.id === item.id;
+                        
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = `dir-item ${isActive ? 'active' : ''}`;
+                        itemDiv.onclick = () => loadItem(item);
+                        itemDiv.innerHTML = `<span>📝 ${item.moduleTitle}</span><div class="status-dot ${isDone ? 'done' : ''}"></div>`;
+                        groupDiv.appendChild(itemDiv);
+                    });
+                    chIndex++;
+                }
+                subIndex++;
+            }
+        }
+
+        window.toggleAccordion = function(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(`icon-${id}`);
+            if(el.classList.contains('open')) { el.classList.remove('open'); icon.innerText = '▶'; } 
+            else { el.classList.add('open'); icon.innerText = '▼'; }
+        }
+
+        function hideContent() {
+            document.getElementById('empty-state').style.display = 'none';
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('report-view').style.display = 'none';
+        }
+
+        function loadItem(item) {
+            currentItem = item;
+            renderDirectory(); 
+            hideContent();
+
+            if (!userAnswers[item.id]) userAnswers[item.id] = {};
+
+            if (quizScores[item.id] !== undefined) renderReport();
+            else renderQuiz();
+        }
+
+        function renderQuiz() {
+            document.getElementById('quiz-view').style.display = 'block';
+            document.getElementById('quiz-title').innerText = currentItem.moduleTitle;
+            document.getElementById('quiz-subtitle').innerText = `${currentItem.subjectTitle} | ${currentItem.chapterTitle}`;
+            document.getElementById('quiz-mode-tag').innerText = currentItem.mode === 'learning' ? 'Learning Mode' : 'Classic Test';
+            document.getElementById('quiz-mode-tag').style.color = currentItem.mode === 'learning' ? 'var(--success)' : 'var(--text-muted)';
+
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            currentItem.data.forEach((qObj, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'q-block';
+                
+                const ans = userAnswers[currentItem.id][index];
+                const isAns = ans !== undefined;
+                const isLearning = currentItem.mode === 'learning';
+                
+                let optsHTML = '<div class="opt-list">';
+                qObj.o.forEach((opt, optIndex) => {
+                    const isChecked = isAns && ans === optIndex;
+                    let classes = 'opt-label ';
+                    
+                    if (isAns && isLearning) {
+                        classes += 'locked ';
+                        if (optIndex === qObj.a) classes += 'correct ';
+                        else if (isChecked) classes += 'incorrect ';
+                    } else if (isChecked && !isLearning) {
+                        classes += 'selected-classic ';
+                    }
+
+                    optsHTML += `<label class="${classes}" id="lbl-${index}-${optIndex}">
+                            <input type="radio" name="q-${index}" value="${optIndex}" ${isChecked ? 'checked' : ''} ${isAns && isLearning ? 'disabled' : ''} onchange="selectAnswer(${index}, ${optIndex})"> 
+                            <span class="opt-text">${opt}</span></label>`;
+                });
+                optsHTML += '</div>';
+
+                let fbHTML = `<div id="fb-${index}" class="feedback-box"></div>`;
+                if (isAns && isLearning) {
+                    const isCorrect = ans === qObj.a;
+                    fbHTML = `<div id="fb-${index}" class="feedback-box ${isCorrect ? 'is-correct' : 'is-wrong'}" style="display:block;">
+                            <div class="fb-title">${isCorrect ? '<span style="color:var(--success);">✓ Correct</span>' : '<span style="color:var(--danger);">✗ Incorrect</span>'}</div>
+                            <div class="fb-section"><span>Logic</span><p>${qObj.e}</p></div>
+                            <div class="fb-section"><span>Note</span><p>${qObj.n}</p></div></div>`;
                 }
 
-                optionsHTML += `
-                    <label class="${optionClasses}" id="label-${currentLevel}-${chapterId}-${index}-${optIndex}">
-                        <input type="radio" name="q-${currentLevel}-${chapterId}-${index}" value="${optIndex}" 
-                        ${isChecked ? 'checked' : ''}
-                        ${isAnswered ? 'disabled' : ''}
-                        onchange="selectAnswer('${chapterId}', ${index}, ${optIndex})">
-                        ${opt}
-                    </label>
-                `;
+                qDiv.innerHTML = `<div class="q-text">${index + 1}. ${qObj.q}</div>${optsHTML}${fbHTML}`;
+                container.appendChild(qDiv);
             });
 
-            let feedbackHTML = '';
-            if (isAnswered) {
-                const isCorrect = answeredOption === qObj.a;
-                feedbackHTML = `
-                    <div id="feedback-${currentLevel}-${chapterId}-${index}" class="feedback-container ${isCorrect ? 'correct' : 'incorrect'}" style="display:block;">
-                        <div class="feedback-header" style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">
-                            ${isCorrect ? '✓ Correct!' : '✗ Incorrect.'}
-                        </div>
-                        <div class="feedback-panels">
-                            <div class="panel">
-                                <h4>Logic</h4>
-                                <p>${qObj.e}</p>
-                            </div>
-                            <div class="panel">
-                                <h4>Note</h4>
-                                <p>${qObj.n}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                feedbackHTML = `<div id="feedback-${currentLevel}-${chapterId}-${index}" class="feedback-container"></div>`;
-            }
-
-            qDiv.innerHTML = `
-                <div class="question-text">${index + 1}. ${qObj.q}</div>
-                <div class="options-grid">${optionsHTML}</div>
-                ${feedbackHTML}
-            `;
-            container.appendChild(qDiv);
-        });
-
-        const submitContainer = document.getElementById('submit-container');
-        if (quizScores[currentLevel][chapterId] !== null) {
-            submitContainer.innerHTML = `<button class="btn btn-primary" onclick="showReport()">📊 View Report (Score: ${quizScores[currentLevel][chapterId]}/${activeData.questions.length})</button>`;
-        } else {
-            submitContainer.innerHTML = `<button class="btn btn-primary" onclick="submitQuiz()">Submit & Get Final Report</button>`;
+            document.getElementById('submit-container').innerHTML = `<button class="btn-solid" onclick="submitQuiz()">Submit Assignment</button>`;
+            document.getElementById('content-scroll').scrollTo({ top: 0 });
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([container]);
         }
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Trigger MathJax typesetting for newly rendered content
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([container, document.getElementById('quiz-title')]).catch((err) => console.log(err.message));
-        }
-    }
+        window.selectAnswer = function(qIndex, optIndex) {
+            const isLearning = currentItem.mode === 'learning';
+            if (isLearning && userAnswers[currentItem.id][qIndex] !== undefined) return;
 
-    window.selectAnswer = function(chapterId, qIndex, optIndex) {
-        if (userAnswers[currentLevel][chapterId][qIndex] !== undefined) return;
-
-        userAnswers[currentLevel][chapterId][qIndex] = optIndex;
-        saveState(); 
-        
-        const qObj = quizData[currentLevel][chapterId].questions[qIndex];
-        const isCorrect = optIndex === qObj.a;
-        
-        for(let i=0; i<4; i++) {
-            const label = document.getElementById(`label-${currentLevel}-${chapterId}-${qIndex}-${i}`);
-            const input = label.querySelector('input');
+            userAnswers[currentItem.id][qIndex] = optIndex;
+            saveState();
             
-            if (label && input) {
-                label.classList.add('locked');
-                input.disabled = true; 
+            if (isLearning) {
+                const qObj = currentItem.data[qIndex];
+                const isCorrect = optIndex === qObj.a;
                 
-                if (i === qObj.a) label.classList.add('correct-choice'); 
-                else if (i === optIndex) label.classList.add('incorrect-choice'); 
+                for(let i=0; i<4; i++) {
+                    const lbl = document.getElementById(`lbl-${qIndex}-${i}`);
+                    const inp = lbl.querySelector('input');
+                    lbl.classList.add('locked');
+                    inp.disabled = true;
+                    if (i === qObj.a) lbl.classList.add('correct');
+                    else if (i === optIndex) lbl.classList.add('incorrect');
+                }
+                
+                const fb = document.getElementById(`fb-${qIndex}`);
+                fb.className = `feedback-box ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+                fb.innerHTML = `<div class="fb-title">${isCorrect ? '<span style="color:var(--success);">✓ Correct</span>' : '<span style="color:var(--danger);">✗ Incorrect</span>'}</div>
+                    <div class="fb-section"><span>Logic</span><p>${qObj.e}</p></div>
+                    <div class="fb-section"><span>Note</span><p>${qObj.n}</p></div>`;
+                fb.style.display = 'block';
+
+                if (typeof MathJax !== 'undefined') MathJax.typesetPromise([fb]);
+            } else {
+                for(let i=0; i<4; i++) { document.getElementById(`lbl-${qIndex}-${i}`).classList.remove('selected-classic'); }
+                document.getElementById(`lbl-${qIndex}-${optIndex}`).classList.add('selected-classic');
             }
         }
-        
-        const feedbackBox = document.getElementById(`feedback-${currentLevel}-${chapterId}-${qIndex}`);
-        feedbackBox.className = `feedback-container ${isCorrect ? 'correct' : 'incorrect'}`;
-        feedbackBox.innerHTML = `
-            <div class="feedback-header" style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">
-                ${isCorrect ? '✓ Correct!' : '✗ Incorrect.'}
-            </div>
-            <div class="feedback-panels">
-                <div class="panel">
-                    <h4>Logic</h4>
-                    <p>${qObj.e}</p>
-                </div>
-                <div class="panel">
-                    <h4>Note</h4>
-                    <p>${qObj.n}</p>
-                </div>
-            </div>
-        `;
-        feedbackBox.style.display = 'block';
 
-        // Typeset newly revealed feedback
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([feedbackBox]).catch((err) => console.log(err.message));
-        }
-    }
+        window.submitQuiz = function() {
+            const total = currentItem.data.length;
+            const answered = Object.keys(userAnswers[currentItem.id]).length;
+            if (answered < total) {
+                if(!confirm(`You answered ${answered} of ${total}. Submit anyway?`)) return;
+            }
 
-    window.submitQuiz = function() {
-        const activeData = quizData[currentLevel][currentChapter];
-        const totalQ = activeData.questions.length;
-        const answeredQ = Object.keys(userAnswers[currentLevel][currentChapter]).length;
-
-        if (answeredQ < totalQ) {
-            const confirmSubmit = confirm(`You have only answered ${answeredQ} out of ${totalQ} questions. Unanswered questions will be marked wrong. Do you want to submit anyway?`);
-            if(!confirmSubmit) return;
+            let score = 0;
+            currentItem.data.forEach((q, i) => { if(userAnswers[currentItem.id][i] === q.a) score++; });
+            quizScores[currentItem.id] = score;
+            saveState();
+            renderReport();
         }
 
-        let score = 0;
-        activeData.questions.forEach((qObj, index) => {
-            if (userAnswers[currentLevel][currentChapter][index] === qObj.a) score++;
-        });
-        
-        quizScores[currentLevel][currentChapter] = score;
-        saveState(); 
-        
-        updateTabScores();
-        showReport();
-    }
-
-    window.showReport = function() {
-        const data = quizData[currentLevel][currentChapter];
-        const score = quizScores[currentLevel][currentChapter];
-        const totalQ = data.questions.length;
-
-        document.getElementById('quiz-view').classList.remove('active');
-        document.getElementById('report-view').classList.add('active');
-        
-        const reportContainer = document.getElementById('printable-report');
-        let reviewHTML = '';
-
-        data.questions.forEach((qObj, index) => {
-            const userAns = userAnswers[currentLevel][currentChapter][index];
-            const isAnswered = userAns !== undefined;
-            const isCorrect = isAnswered && (userAns === qObj.a);
-
-            const badgeClass = isCorrect ? 'badge-correct' : 'badge-incorrect';
-            const badgeText = isCorrect ? '✓ Correct' : '✗ Incorrect';
-            const userAnswerText = isAnswered ? qObj.o[userAns] : 'Not Answered';
-
-            reviewHTML += `
-                <div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
-                    <span class="review-badge ${badgeClass}">${badgeText}</span>
-                    <div class="question-text">${index + 1}. ${qObj.q}</div>
-                    
-                    <p style="margin-bottom: 5px;"><strong>Your Answer:</strong> 
-                        <span style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'}">${userAnswerText}</span>
-                    </p>
-                    
-                    ${!isCorrect ? `<p style="margin-bottom: 15px;"><strong>Correct Answer:</strong> <span style="color: var(--success); font-weight: bold;">${qObj.o[qObj.a]}</span></p>` : '<br>'}
-                    
-                    <div class="feedback-panels" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                        <div style="background:#fff; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
-                            <strong style="color: var(--primary-dark);">Logic:</strong><br>
-                            <span style="font-size: 0.95rem;">${qObj.e}</span>
-                        </div>
-                        <div style="background:#fff; padding:12px; border-radius:6px; border:1px solid #e2e8f0;">
-                            <strong style="color: var(--primary-dark);">Note:</strong><br>
-                            <span style="font-size: 0.95rem;">${qObj.n}</span>
-                        </div>
-                    </div>
+        function renderReport() {
+            hideContent();
+            document.getElementById('report-view').style.display = 'block';
+            
+            const score = quizScores[currentItem.id];
+            const total = currentItem.data.length;
+            const perc = ((score / total) * 100).toFixed(0);
+            
+            const repDiv = document.getElementById('printable-report');
+            let html = `
+                <div style="text-align:center; margin-bottom:32px;">
+                    <h2 style="font-size:2rem; letter-spacing:-0.02em; margin-bottom:8px;">${currentItem.moduleTitle}</h2>
+                    <p style="color:var(--text-muted);">${currentItem.subjectTitle} | Completed on ${new Date().toLocaleDateString()}</p>
+                </div>
+                <div class="report-summary">
+                    <p style="text-transform:uppercase; font-weight:600; color:var(--text-muted); font-size:0.85rem;">Final Score</p>
+                    <div class="report-score" style="color: ${perc >= 70 ? 'var(--success)' : 'var(--text-main)'};">${score} / ${total}</div>
+                    <p style="font-weight:500;">Accuracy: ${perc}%</p>
                 </div>
             `;
-        });
 
-        const percentage = ((score / totalQ) * 100).toFixed(0);
-        const dateString = new Date().toLocaleDateString();
-        const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
-
-        reportContainer.innerHTML = `
-            <div class="report-header">
-                <h2>Performance Report</h2>
-                <h3 style="color: var(--text-light);">${data.title}</h3>
-                <p>Student: <strong>${displayName}</strong> | Generated on: ${dateString}</p>
-            </div>
-            
-            <div class="score-box">
-                <p>TOTAL MARKS OBTAINED</p>
-                <h2>${score} / ${totalQ}</h2>
-                <p>Accuracy: ${percentage}%</p>
-            </div>
-
-            <h3 style="margin-bottom: 20px; text-align: center; color: var(--primary-dark);">Detailed Review</h3>
-            ${reviewHTML}
-        `;
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Typeset the entire report
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([reportContainer]).catch((err) => console.log(err.message));
-        }
-    }
-
-    window.backToQuizzes = function() {
-        loadQuiz(currentChapter);
-    }
-    
-    window.retakeQuiz = function() {
-        const confirmRetake = confirm(`Are you sure you want to erase your score and retake this quiz?`);
-        if(!confirmRetake) return;
-        
-        userAnswers[currentLevel][currentChapter] = {};
-        quizScores[currentLevel][currentChapter] = null;
-        saveState(); 
-        
-        loadQuiz(currentChapter);
-    }
-
-    window.exportPDF = function() {
-        const element = document.getElementById('printable-report');
-        const filename = `CBSE_Report_${loggedInUser}_${currentLevel}_${currentChapter}.pdf`;
-        
-        const opt = {
-            margin:       [15, 15, 15, 15],
-            filename:     filename,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-        };
-        html2pdf().set(opt).from(element).save();
-    }
-
-    window.exportAllScores = function() {
-        const tempDiv = document.createElement('div');
-        tempDiv.style.padding = '30px';
-        tempDiv.style.fontFamily = 'sans-serif';
-        tempDiv.style.color = '#0f172a';
-        
-        const getScoreText = (val, level, ch) => {
-            if (val !== null) {
-                const total = quizData[level][ch].questions.length;
-                const percentage = ((val / total) * 100).toFixed(0);
-                return `<strong style="color: #10b981;">Marks: ${val} / ${total} &nbsp;&nbsp;|&nbsp;&nbsp; Percentage: ${percentage}%</strong>`;
-            }
-            return '<span style="color: #64748b;">Not Attempted</span>';
-        };
-        
-        const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
-
-        tempDiv.innerHTML = `
-            <div style="text-align: center; margin-bottom: 40px;">
-                <h1 style="color: #2563eb; font-size: 28px;">CBSE Learning Quiz - Master Score Report</h1>
-                <p style="font-size: 16px; color: #64748b;">Student: <strong>${displayName}</strong> | CBSE Grade 12 | Generated on: ${new Date().toLocaleDateString()}</p>
-            </div>
-            
-            <div style="margin-bottom: 30px;">
-                <h2 style="background: #10b981; color: white; padding: 10px; border-radius: 6px;">Easy Level Scores</h2>
-                <ul style="list-style: none; padding: 0; font-size: 18px; line-height: 2;">
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Chemistry: Solutions</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.easy.ch1, 'easy', 'ch1')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Physics: Electric Charges</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.easy.ch2, 'easy', 'ch2')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Math: Inverse Trig</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.easy.ch3, 'easy', 'ch3')}</span></li>
-                </ul>
-            </div>
-
-            <div style="margin-bottom: 30px;">
-                <h2 style="background: #f59e0b; color: white; padding: 10px; border-radius: 6px;">Medium Level Scores</h2>
-                <ul style="list-style: none; padding: 0; font-size: 18px; line-height: 2;">
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Chemistry: Solutions</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.medium.ch1, 'medium', 'ch1')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Physics: Electric Charges</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.medium.ch2, 'medium', 'ch2')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Math: Inverse Trig</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.medium.ch3, 'medium', 'ch3')}</span></li>
-                </ul>
-            </div>
-
-            <div style="margin-bottom: 30px;">
-                <h2 style="background: #ef4444; color: white; padding: 10px; border-radius: 6px;">Hard Level Scores</h2>
-                <ul style="list-style: none; padding: 0; font-size: 18px; line-height: 2;">
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Chemistry: Solutions</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.hard.ch1, 'hard', 'ch1')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Physics: Electric Charges</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.hard.ch2, 'hard', 'ch2')}</span></li>
-                    <li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Math: Inverse Trig</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores.hard.ch3, 'hard', 'ch3')}</span></li>
-                </ul>
-            </div>
-        `;
-
-        const opt = {
-            margin:       15,
-            filename:     `CBSE_Master_Score_Report_${loggedInUser}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        // Render MathJax then generate PDF
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([tempDiv]).then(() => {
-                html2pdf().set(opt).from(tempDiv).save();
-            }).catch((err) => {
-                console.log(err.message);
-                html2pdf().set(opt).from(tempDiv).save(); // fallback
+            currentItem.data.forEach((q, i) => {
+                const uAns = userAnswers[currentItem.id][i];
+                const isCorr = uAns === q.a;
+                const ansText = uAns !== undefined ? q.o[uAns] : 'Skipped';
+                
+                html += `
+                    <div style="padding: 24px 0; border-bottom: 1px solid var(--border);">
+                        <h3 style="font-size:1.1rem; font-weight:500; margin-bottom:12px; line-height:1.5;">${i+1}. ${q.q}</h3>
+                        <p style="margin-bottom:6px;"><strong>Your Answer:</strong> <span style="color: ${isCorr ? 'var(--success)' : 'var(--danger)'}">${ansText}</span></p>
+                        ${!isCorr ? `<p style="margin-bottom:16px;"><strong>Correct Answer:</strong> <span style="color:var(--success); font-weight:500;">${q.o[q.a]}</span></p>` : ''}
+                        
+                        <div style="background: var(--bg-main); padding: 16px; border-radius: var(--radius); margin-top: 16px;">
+                            <span style="font-size:0.8rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:4px;">Logic</span>
+                            <p style="font-size:0.95rem; margin-bottom:12px;">${q.e}</p>
+                            <span style="font-size:0.8rem; font-weight:600; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:4px;">Note</span>
+                            <p style="font-size:0.95rem;">${q.n}</p>
+                        </div>
+                    </div>`;
             });
-        } else {
-            html2pdf().set(opt).from(tempDiv).save();
-        }
-    }
 
-    // Start App verification
-    initApp();
-</script>
+            repDiv.innerHTML = html;
+            document.getElementById('content-scroll').scrollTo({ top: 0 });
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([repDiv]);
+        }
+
+        window.retakeQuiz = function() {
+            if(!confirm(`Clear your score and retake this assignment?`)) return;
+            delete quizScores[currentItem.id];
+            userAnswers[currentItem.id] = {};
+            saveState();
+            loadItem(currentItem);
+        }
+
+        window.exportPDF = function() {
+            const element = document.getElementById('printable-report');
+            const opt = { margin: 15, filename: `${currentItem.moduleTitle}_Report.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Optional: Auto-login if local storage exists
+        window.onload = () => {
+            const savedUser = localStorage.getItem('lms_last_user');
+            if(savedUser) {
+                document.getElementById('username').value = savedUser;
+                // Requires manual password entry for security, or auto-login if you prefer
+            }
+        };
+    </script>
+
+    <script src="modules/sample_quiz.js"></script>
 
 </body>
 </html>
