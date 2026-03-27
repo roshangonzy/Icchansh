@@ -20,102 +20,269 @@
             --primary: #18181B; --primary-hover: #27272A;
             --success: #10B981; --success-bg: #ECFDF5;
             --danger: #EF4444; --danger-bg: #FEF2F2;
-            --radius: 6px;
+            --warning: #F59E0B; --warning-bg: #FEF3C7;
+            --radius: 8px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
         body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; font-size: 15px; }
 
-        /* --- Login View --- */
-        #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-        .login-box { width: 100%; max-width: 320px; text-align: center; }
-        .login-box h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
-        .login-box p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
-        .input-field { width: 100%; padding: 10px 12px; margin-bottom: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.95rem; background: var(--bg-main); outline: none; }
-        .input-field:focus { border-color: var(--text-main); background: var(--bg-surface); }
-        .btn-solid { width: 100%; padding: 10px 12px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-weight: 500; cursor: pointer; transition: 0.2s; }
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 10px 18px; border-radius: var(--radius); font-weight: 500; font-size: 0.95rem; cursor: pointer; border: 1px solid transparent; transition: 0.2s; text-decoration: none; }
+        .btn-solid { background: var(--primary); color: white; }
         .btn-solid:hover { background: var(--primary-hover); }
-        .error-text { color: var(--danger); font-size: 0.85rem; margin-top: 12px; display: none; }
+        .btn-outline { background: var(--bg-surface); border-color: var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-main); border-color: var(--text-muted); }
+        .btn-danger { background: var(--bg-surface); border-color: var(--danger); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger-bg); }
 
-        /* --- Main App Layout --- */
+        /* Login View */
+        #login-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-box { width: 100%; max-width: 340px; text-align: center; }
+        .login-box h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
+        .login-box p { color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; }
+        .input-field { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 0.95rem; background: var(--bg-main); outline: none; transition: 0.2s; }
+        .input-field:focus { border-color: var(--primary); background: var(--bg-surface); }
+        .error-text { color: var(--danger); font-size: 0.85rem; margin-top: 12px; display: none; font-weight: 500; }
+
+        /* Main Layout */
         #app-view { display: none; width: 100%; height: 100%; display: flex; }
         
-        /* Sidebar */
-        .sidebar { width: 280px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
-        .sidebar-header { padding: 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .student-name { font-weight: 600; font-size: 0.95rem; }
-        .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        .btn-text:hover { color: var(--text-main); }
+        /* Deep Hierarchy Sidebar */
+        .sidebar { width: 340px; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; transition: margin-left 0.3s ease; }
+        .sidebar.collapsed { margin-left: -340px; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .student-name { font-weight: 700; font-size: 1.1rem; }
+        .btn-text { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 500; transition: 0.2s; }
+        .btn-text:hover { color: var(--danger); }
         
-        .directory { flex: 1; overflow-y: auto; padding: 16px 8px; }
-        .dir-subject { font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; padding: 8px; margin-top: 12px; }
-        .dir-chapter { padding: 6px 8px; font-weight: 500; cursor: pointer; border-radius: var(--radius); transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        .directory { flex: 1; overflow-y: auto; padding: 16px 12px; }
+        
+        /* Tree Levels */
+        .dir-subject { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; padding: 8px; margin-top: 16px; border-bottom: 1px solid var(--border); }
+        .dir-part { font-size: 0.7rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; padding: 8px; margin-top: 4px; }
+        
+        .dir-chapter { padding: 8px; font-weight: 600; cursor: pointer; border-radius: var(--radius); display: flex; align-items: center; gap: 8px; font-size: 0.95rem; color: var(--text-main); }
         .dir-chapter:hover { background: var(--border); }
-        .dir-topic-group { padding-left: 12px; margin-left: 12px; border-left: 1px solid var(--border); display: none; margin-top: 4px; margin-bottom: 8px;}
-        .dir-topic-group.open { display: block; }
-        .dir-item { padding: 6px 8px; font-size: 0.9rem; color: var(--text-muted); cursor: pointer; border-radius: var(--radius); transition: 0.2s; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;}
-        .dir-item:hover { color: var(--text-main); background: var(--border-hover); }
-        .dir-item.active { background: var(--bg-surface); color: var(--text-main); font-weight: 500; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
         
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+        .dir-topic { padding: 6px 8px 6px 28px; font-weight: 500; cursor: pointer; font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .dir-topic:hover { color: var(--text-main); }
+        
+        .dir-subtopic { padding: 4px 8px 4px 44px; font-weight: 500; cursor: pointer; font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
+        .dir-subtopic:hover { color: var(--text-main); }
+        
+        .dir-item { padding: 6px 8px 6px 60px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer; border-radius: var(--radius); display: flex; justify-content: space-between; align-items: center; margin: 2px 0;}
+        .dir-item:hover { color: var(--text-main); background: var(--border-hover); }
+        .dir-item.active { background: var(--bg-surface); color: var(--text-main); font-weight: 600; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+        
+        .tree-group { display: none; }
+        .tree-group.open { display: block; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); border: 1px solid var(--bg-main); }
         .status-dot.done { background: var(--success); }
 
         /* Content Area */
-        .content-area { flex: 1; background: var(--bg-surface); overflow-y: auto; position: relative; }
-        .content-inner { max-width: 720px; margin: 0 auto; padding: 60px 40px; animation: fadeIn 0.3s ease; }
+        .content-area { flex: 1; background: var(--bg-surface); overflow-y: auto; display: flex; flex-direction: column; }
+        .topbar { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--bg-surface); position: sticky; top: 0; z-index: 10; }
+        .hamburger { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); padding: 4px; border-radius: var(--radius); transition: 0.2s;}
+        .hamburger:hover { background: var(--bg-main); color: var(--text-main); }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-muted); font-weight: 500; }
         
-        /* Quiz Elements */
-        .quiz-header { margin-bottom: 40px; }
-        .quiz-type { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 8px; display: block; }
-        .quiz-title { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 8px; }
+        .content-inner { flex: 1; max-width: 800px; margin: 0 auto; padding: 40px; width: 100%; animation: fadeIn 0.3s ease; }
         
+        /* Views */
+        #view-dashboard, #view-quiz, #view-report { display: none; }
+        
+        .page-header { margin-bottom: 40px; border-bottom: 2px solid var(--bg-main); padding-bottom: 20px;}
+        .page-header h1 { font-size: 2.25rem; font-weight: 700; margin-bottom: 8px; }
+        .page-header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* Quiz UI */
+        .quiz-type { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; display: block; }
+        .quiz-title { font-size: 1.75rem; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
         .q-block { margin-bottom: 48px; }
-        .q-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 16px; line-height: 1.6; }
-        .opt-list { display: flex; flex-direction: column; gap: 8px; }
-        .opt-label { display: flex; align-items: flex-start; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: 0.2s; background: var(--bg-surface); }
-        .opt-label:hover:not(.locked) { border-color: var(--text-muted); background: var(--bg-main); }
-        .opt-label input { margin-top: 4px; margin-right: 12px; accent-color: var(--primary); }
-        .opt-text { flex: 1; line-height: 1.5; }
-        
-        .opt-label.locked { cursor: default; opacity: 0.7; }
-        .opt-label.selected-classic { border-color: var(--primary); background: var(--bg-main); }
-        .opt-label.correct { border-color: var(--success); background: var(--success-bg); color: #065F46; opacity: 1; }
+        .q-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 20px; line-height: 1.6; }
+        .opt-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-label { display: flex; align-items: flex-start; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: 0.2s; background: var(--bg-main); }
+        .opt-label:hover:not(.locked) { border-color: var(--text-muted); background: var(--bg-surface); }
+        .opt-label input { margin-top: 4px; margin-right: 12px; accent-color: var(--primary); transform: scale(1.2); }
+        .opt-label.locked { cursor: default; opacity: 0.8; }
+        .opt-label.selected-classic { border-color: var(--primary); background: var(--bg-surface); box-shadow: 0 0 0 1px var(--primary); }
+        .opt-label.correct { border-color: var(--success); background: var(--success-bg); color: #065F46; }
         .opt-label.incorrect { border-color: var(--danger); background: var(--danger-bg); text-decoration: line-through; opacity: 0.6; }
 
         /* Feedback Box */
-        .feedback-box { margin-top: 16px; padding: 16px 20px; border-radius: var(--radius); border-left: 3px solid; display: none; font-size: 0.95rem; line-height: 1.6; }
+        .feedback-box { margin-top: 20px; padding: 20px; border-radius: var(--radius); border-left: 4px solid; display: none; line-height: 1.6; }
         .feedback-box.is-correct { background: var(--bg-main); border-left-color: var(--success); }
         .feedback-box.is-wrong { background: var(--bg-main); border-left-color: var(--danger); }
-        .fb-title { font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;}
-        .fb-section { margin-top: 12px; }
-        .fb-section span { font-weight: 600; color: var(--text-main); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;}
+        .fb-title { font-weight: 700; margin-bottom: 12px; font-size: 1.1rem;}
+        .fb-section { margin-top: 16px; }
+        .fb-section span { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: var(--text-main); margin-bottom: 4px; display: block;}
 
         /* Report UI */
-        .report-summary { padding: 32px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-main); text-align: center; margin-bottom: 48px; }
-        .report-score { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; margin: 8px 0; }
-        .action-bar { display: flex; gap: 12px; margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--border); }
-        .btn-outline { padding: 10px 16px; border: 1px solid var(--border); background: var(--bg-surface); border-radius: var(--radius); cursor: pointer; font-weight: 500; transition: 0.2s; text-align: center; flex: 1; }
-        .btn-outline:hover { background: var(--bg-main); border-color: var(--text-muted); }
+        .report-summary { padding: 40px; border: 2px solid var(--border); border-radius: var(--radius); background: var(--bg-main); text-align: center; margin-bottom: 48px; }
+        .report-score { font-size: 4rem; font-weight: 700; margin: 10px 0; line-height: 1; }
+        .action-bar { display: flex; gap: 16px; margin-top: 40px; padding-top: 32px; border-top: 1px solid var(--border); }
         .empty-state { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); text-align: center; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
+    <script>
+        window.LMS_PORTAL = []; // Modules dropped in GitHub will push here
+        const validAccounts = { 'icchansh': '1234', 'roshan': 'admin' };
+
+        // This defines the exact structure of the sidebar.
+        // It does NOT hold quiz questions, just the empty folders waiting for modules!
+        const SYLLABUS = [
+            {
+                subject: "Physics",
+                parts: [
+                    {
+                        part: "Part 1",
+                        chapters: [
+                            { title: "1. Electric Charges & Fields", topics: [] },
+                            { 
+                                title: "2. Electrostatic Potential & Capacitance", 
+                                topics: [
+                                    { title: "2.1 Introduction", subtopics: [] },
+                                    { title: "2.2 Electrostatic Potential", subtopics: [] },
+                                    { title: "2.3 Potential due to a Point Charge", subtopics: [] },
+                                    { title: "2.4 Potential due to an Electric Dipole", subtopics: [] },
+                                    { title: "2.5 Potential due to a System of Charges", subtopics: [] },
+                                    { 
+                                        title: "2.6 Equipotential Surfaces", 
+                                        subtopics: [
+                                            { title: "2.6.1 Relation between field and potential" }
+                                        ] 
+                                    },
+                                    { title: "2.7 Potential Energy of a System of Charges", subtopics: [] },
+                                    { 
+                                        title: "2.8 Potential Energy in an External Field", 
+                                        subtopics: [
+                                            { title: "2.8.1 Potential energy of a single charge" },
+                                            { title: "2.8.2 Potential energy of a system of two charges" },
+                                            { title: "2.8.3 Potential energy of a dipole in an external field" }
+                                        ] 
+                                    },
+                                    { 
+                                        title: "2.9 Electrostatics of Conductors", 
+                                        subtopics: [
+                                            { title: "Inside a conductor, field is zero" },
+                                            { title: "At the surface, field must be normal" },
+                                            { title: "Interior can have no excess charge" },
+                                            { title: "Potential is constant throughout" },
+                                            { title: "Electric field at the surface" },
+                                            { title: "Electrostatic shielding" }
+                                        ] 
+                                    },
+                                    { title: "2.10 Dielectrics and Polarisation", subtopics: [] },
+                                    { title: "2.11 Capacitors and Capacitance", subtopics: [] },
+                                    { title: "2.12 The Parallel Plate Capacitor", subtopics: [] },
+                                    { title: "2.13 Effect of Dielectric on Capacitance", subtopics: [] },
+                                    { 
+                                        title: "2.14 Combination of Capacitors", 
+                                        subtopics: [
+                                            { title: "2.14.1 Capacitors in series" },
+                                            { title: "2.14.2 Capacitors in parallel" }
+                                        ] 
+                                    },
+                                    { title: "2.15 Energy Stored in a Capacitor", subtopics: [] }
+                                ]
+                            },
+                            { title: "3. Current Electricity", topics: [] },
+                            { title: "4. Moving Charges and Magnetism", topics: [] },
+                            { title: "5. Magnetism and Matter", topics: [] },
+                            { title: "6. Electromagnetic Induction", topics: [] },
+                            { title: "7. Alternating Current", topics: [] },
+                            { title: "8. Electromagnetic Waves", topics: [] }
+                        ]
+                    },
+                    {
+                        part: "Part 2",
+                        chapters: [
+                            { title: "9. Ray Optics and Optical Instruments", topics: [] },
+                            { title: "10. Wave Optics", topics: [] },
+                            { title: "11. Dual Nature of Radiation and Matter", topics: [] },
+                            { title: "12. Atoms", topics: [] },
+                            { title: "13. Nuclei", topics: [] },
+                            { title: "14. Semiconductor Electronics", topics: [] }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: "Chemistry",
+                parts: [
+                    {
+                        part: "Part 1",
+                        chapters: [
+                            { title: "1. Solutions", topics: [] },
+                            { title: "2. Electrochemistry", topics: [] },
+                            { title: "3. Chemical Kinetics", topics: [] },
+                            { title: "4. The d- and f- Block Elements", topics: [] },
+                            { title: "5. Coordination Compounds", topics: [] }
+                        ]
+                    },
+                    {
+                        part: "Part 2",
+                        chapters: [
+                            { title: "6. Haloalkanes and Haloarenes", topics: [] },
+                            { title: "7. Alcohols, Phenols and Ethers", topics: [] },
+                            { title: "8. Aldehydes, Ketones and Carboxylic Acids", topics: [] },
+                            { title: "9. Amines", topics: [] },
+                            { title: "10. Biomolecules", topics: [] }
+                        ]
+                    }
+                ]
+            },
+            {
+                subject: "Mathematics",
+                parts: [
+                    {
+                        part: "Part 1",
+                        chapters: [
+                            { title: "1. Relations and Functions", topics: [] },
+                            { title: "2. Inverse Trigonometric Functions", topics: [] },
+                            { title: "3. Matrices", topics: [] },
+                            { title: "4. Determinants", topics: [] },
+                            { title: "5. Continuity and Differentiability", topics: [] },
+                            { title: "6. Application of Derivatives", topics: [] }
+                        ]
+                    },
+                    {
+                        part: "Part 2",
+                        chapters: [
+                            { title: "7. Integrals", topics: [] },
+                            { title: "8. Application of Integrals", topics: [] },
+                            { title: "9. Differential Equations", topics: [] },
+                            { title: "10. Vector Algebra", topics: [] },
+                            { title: "11. Three Dimensional Geometry", topics: [] },
+                            { title: "12. Linear Programming", topics: [] },
+                            { title: "13. Probability", topics: [] }
+                        ]
+                    }
+                ]
+            }
+        ];
+    </script>
+
     <div id="login-view">
         <div class="login-box">
             <h1>Student Portal</h1>
-            <p>Sign in to access your modules</p>
-            <input type="text" id="username" class="input-field" placeholder="Username" onkeypress="if(event.key==='Enter') login()">
-            <input type="password" id="password" class="input-field" placeholder="Password" onkeypress="if(event.key==='Enter') login()">
-            <button class="btn-solid" onclick="login()">Continue</button>
+            <p>Sign in to access your curriculum</p>
+            <input type="text" id="username" class="input-field" placeholder="Username (icchansh)" onkeypress="if(event.key==='Enter') login()">
+            <input type="password" id="password" class="input-field" placeholder="Password (1234)" onkeypress="if(event.key==='Enter') login()">
+            <button class="btn btn-solid" style="width: 100%; margin-top: 8px;" onclick="login()">Continue</button>
             <div id="login-error" class="error-text">Invalid credentials</div>
         </div>
     </div>
 
     <div id="app-view">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <span class="student-name" id="student-name-display">Student</span>
                 <button class="btn-text" onclick="logout()">Logout</button>
@@ -125,23 +292,34 @@
         </aside>
 
         <main class="content-area" id="content-scroll">
-            <div class="content-inner" id="content-inner">
-                <div class="empty-state" id="empty-state">
+            <div class="topbar">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <button class="hamburger" onclick="document.getElementById('sidebar').classList.toggle('collapsed')">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    </button>
+                    <div class="breadcrumb" id="breadcrumb">Portal Home</div>
+                </div>
+            </div>
+
+            <div class="content-inner">
+                <div id="view-dashboard" class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom: 16px; opacity:0.5;"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path></svg>
                     <h3>Select a module</h3>
-                    <p style="font-size:0.9rem; margin-top:8px;">Choose an item from the directory to begin.</p>
+                    <p style="font-size:0.9rem; margin-top:8px;">Navigate the sidebar to find your assigned readings and quizzes.</p>
                 </div>
 
-                <div id="quiz-view" style="display: none;">
+                <div id="view-quiz">
                     <div class="quiz-header">
                         <span class="quiz-type" id="quiz-mode-tag">Mode</span>
                         <h1 class="quiz-title" id="quiz-title">Title</h1>
                         <p style="color: var(--text-muted);" id="quiz-subtitle">Subtitle</p>
                     </div>
+                    <div id="reading-container" style="display: none; font-size: 1.05rem; line-height: 1.7; margin-bottom: 40px;"></div>
                     <div id="questions-container"></div>
-                    <div id="submit-container" style="margin-top: 40px;"></div>
+                    <div id="submit-container" style="margin-top: 40px; text-align: right;"></div>
                 </div>
 
-                <div id="report-view" style="display: none;">
+                <div id="view-report">
                     <div id="printable-report"></div>
                     <div class="action-bar">
                         <button class="btn-outline" onclick="exportPDF()">Download PDF Report</button>
@@ -153,34 +331,23 @@
     </div>
 
     <script>
-        // --- 1. INITIALIZE THE GLOBAL PLUGIN ARRAY ---
-        window.LMS_PORTAL = [];
-        
-        // Define allowed users centrally
-        const validAccounts = { 'icchansh': '1234', 'roshan': 'admin' };
-
-        // --- STATE MANAGEMENT ---
         let loggedInUser = null;
         let currentItem = null;
         let userAnswers = {}; 
         let quizScores = {};  
+        let mappedCurriculum = [];
 
         const storage = {
             get: (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch(e) { return null; } },
             set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} }
         };
 
-        function getStorageKey() { return `lms_v2_${loggedInUser}`; }
-        function saveState() {
-            storage.set(getStorageKey(), { answers: userAnswers, scores: quizScores });
-            renderDirectory(); 
-        }
+        function getStorageKey() { return `lms_v4_${loggedInUser}`; }
+        function saveState() { storage.set(getStorageKey(), { answers: userAnswers, scores: quizScores }); renderDirectory(); }
 
-        // --- ENGINE LOGIC ---
         function login() {
             const user = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
-            
             if (validAccounts[user] && validAccounts[user] === pass) {
                 loggedInUser = user;
                 document.getElementById('login-error').style.display = 'none';
@@ -193,7 +360,9 @@
                 document.getElementById('app-view').style.display = 'flex';
                 document.getElementById('student-name-display').innerText = user.charAt(0).toUpperCase() + user.slice(1);
                 
+                buildCurriculum();
                 renderDirectory();
+                document.getElementById('view-dashboard').style.display = 'flex';
             } else {
                 document.getElementById('login-error').style.display = 'block';
             }
@@ -203,93 +372,182 @@
             loggedInUser = null;
             document.getElementById('app-view').style.display = 'none';
             document.getElementById('login-view').style.display = 'flex';
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            hideContent();
+            document.getElementById('username').value = ''; document.getElementById('password').value = '';
+            document.getElementById('view-dashboard').style.display = 'none';
+            document.getElementById('view-quiz').style.display = 'none';
+            document.getElementById('view-report').style.display = 'none';
         }
 
-        // Dynamically build the sidebar from the injected .js modules
+        // --- MAP PLUGINS TO SYLLABUS ---
+        function buildCurriculum() {
+            mappedCurriculum = JSON.parse(JSON.stringify(SYLLABUS)); // Deep copy template
+            
+            const modules = window.LMS_PORTAL.filter(m => m.targetUser === loggedInUser || m.targetUser === 'all');
+            
+            modules.forEach(mod => {
+                // Find matching Subject -> Part -> Chapter -> Topic -> Subtopic
+                const sub = mappedCurriculum.find(s => s.subject === mod.subject);
+                if(!sub) return;
+                const part = sub.parts.find(p => p.part === mod.part);
+                if(!part) return;
+                const ch = part.chapters.find(c => c.title === mod.chapter);
+                if(!ch) return;
+                
+                if (mod.topic) {
+                    const top = ch.topics.find(t => t.title === mod.topic);
+                    if(top) {
+                        if(mod.subtopic) {
+                            const subT = top.subtopics.find(st => st.title === mod.subtopic);
+                            if(subT) { if(!subT.items) subT.items = []; subT.items.push(mod); }
+                        } else {
+                            if(!top.items) top.items = []; top.items.push(mod);
+                        }
+                    }
+                } else {
+                    // Attach directly to chapter
+                    if(!ch.items) ch.items = []; ch.items.push(mod);
+                }
+            });
+        }
+
+        // --- SIDEBAR RENDERER ---
         function renderDirectory() {
             const dir = document.getElementById('directory-container');
             dir.innerHTML = '';
             
-            // Filter modules intended for this user
-            const userModules = window.LMS_PORTAL.filter(mod => mod.targetUser === loggedInUser || mod.targetUser === 'all');
+            let idCounter = 0;
             
-            // Group by Subject, then Chapter
-            const curriculum = {};
-            userModules.forEach(mod => {
-                if(!curriculum[mod.subjectTitle]) curriculum[mod.subjectTitle] = {};
-                if(!curriculum[mod.subjectTitle][mod.chapterTitle]) curriculum[mod.subjectTitle][mod.chapterTitle] = [];
-                curriculum[mod.subjectTitle][mod.chapterTitle].push(mod);
-            });
-
-            let subIndex = 0;
-            for (const [subject, chapters] of Object.entries(curriculum)) {
-                dir.innerHTML += `<div class="dir-subject">${subject}</div>`;
+            mappedCurriculum.forEach(sub => {
+                dir.innerHTML += `<div class="dir-subject">${sub.subject}</div>`;
                 
-                let chIndex = 0;
-                for (const [chapter, items] of Object.entries(chapters)) {
-                    const chId = `ch-${subIndex}-${chIndex}`;
-                    let isOpen = currentItem && items.some(i => i.id === currentItem.id);
-
-                    const chDiv = document.createElement('div');
-                    chDiv.innerHTML = `
-                        <div class="dir-chapter" onclick="toggleAccordion('${chId}')">
-                            <span style="font-size:0.7rem; color:var(--text-muted);" id="icon-${chId}">${isOpen ? '▼' : '▶'}</span>
-                            ${chapter}
-                        </div>
-                        <div class="dir-topic-group ${isOpen ? 'open' : ''}" id="${chId}"></div>
-                    `;
-                    dir.appendChild(chDiv);
+                sub.parts.forEach(part => {
+                    dir.innerHTML += `<div class="dir-part">${part.part}</div>`;
                     
-                    const groupDiv = document.getElementById(chId);
-                    items.forEach(item => {
-                        const isDone = quizScores[item.id] !== undefined;
-                        const isActive = currentItem && currentItem.id === item.id;
+                    part.chapters.forEach(ch => {
+                        const chId = `tree-${idCounter++}`;
+                        let isChOpen = currentItem && (currentItem.chapter === ch.title);
                         
-                        const itemDiv = document.createElement('div');
-                        itemDiv.className = `dir-item ${isActive ? 'active' : ''}`;
-                        itemDiv.onclick = () => loadItem(item);
-                        itemDiv.innerHTML = `<span>📝 ${item.moduleTitle}</span><div class="status-dot ${isDone ? 'done' : ''}"></div>`;
-                        groupDiv.appendChild(itemDiv);
+                        let chHTML = `
+                            <div class="dir-chapter" onclick="toggleTree('${chId}')">
+                                <span style="font-size:0.6rem; color:var(--text-muted); width:12px;" id="icon-${chId}">${isChOpen ? '▼' : '▶'}</span>
+                                <span style="flex:1;">${ch.title}</span>
+                            </div>
+                            <div class="tree-group ${isChOpen ? 'open' : ''}" id="${chId}">
+                        `;
+                        
+                        // Render Chapter-level items
+                        if(ch.items) chHTML += renderItems(ch.items);
+                        
+                        // Render Topics
+                        ch.topics.forEach(top => {
+                            const topId = `tree-${idCounter++}`;
+                            let isTopOpen = currentItem && (currentItem.topic === top.title);
+                            
+                            chHTML += `
+                                <div class="dir-topic" onclick="toggleTree('${topId}')">
+                                    <span style="font-size:0.5rem; width:10px;" id="icon-${topId}">${isTopOpen ? '▼' : '▶'}</span>
+                                    <span>${top.title}</span>
+                                </div>
+                                <div class="tree-group ${isTopOpen ? 'open' : ''}" id="${topId}">
+                            `;
+                            
+                            if(top.items) chHTML += renderItems(top.items);
+                            
+                            // Render Subtopics
+                            if(top.subtopics) {
+                                top.subtopics.forEach(subT => {
+                                    const subTId = `tree-${idCounter++}`;
+                                    let isSubOpen = currentItem && (currentItem.subtopic === subT.title);
+                                    
+                                    chHTML += `
+                                        <div class="dir-subtopic" onclick="toggleTree('${subTId}')">
+                                            <span style="font-size:0.5rem; width:10px;" id="icon-${subTId}">${isSubOpen ? '▼' : '▶'}</span>
+                                            <span>${subT.title}</span>
+                                        </div>
+                                        <div class="tree-group ${isSubOpen ? 'open' : ''}" id="${subTId}">
+                                    `;
+                                    if(subT.items) chHTML += renderItems(subT.items);
+                                    chHTML += `</div>`; // Close Subtopic
+                                });
+                            }
+                            chHTML += `</div>`; // Close Topic
+                        });
+                        
+                        chHTML += `</div>`; // Close Chapter
+                        dir.innerHTML += chHTML;
                     });
-                    chIndex++;
-                }
-                subIndex++;
-            }
+                });
+            });
         }
 
-        window.toggleAccordion = function(id) {
+        function renderItems(itemsArray) {
+            let html = '';
+            itemsArray.forEach(item => {
+                const isDone = quizScores[item.id] !== undefined;
+                const isActive = currentItem && currentItem.id === item.id;
+                html += `
+                    <div class="dir-item ${isActive ? 'active' : ''}" onclick="loadItem('${item.id}')">
+                        <span>${item.type === 'reading' ? '📄' : (item.mode==='learning'?'🧠':'📝')} ${item.title}</span>
+                        <div class="status-dot ${isDone ? 'done' : ''}"></div>
+                    </div>`;
+            });
+            return html;
+        }
+
+        window.toggleTree = function(id) {
             const el = document.getElementById(id);
             const icon = document.getElementById(`icon-${id}`);
             if(el.classList.contains('open')) { el.classList.remove('open'); icon.innerText = '▶'; } 
             else { el.classList.add('open'); icon.innerText = '▼'; }
         }
 
-        function hideContent() {
-            document.getElementById('empty-state').style.display = 'none';
-            document.getElementById('quiz-view').style.display = 'none';
-            document.getElementById('report-view').style.display = 'none';
+        // --- CONTENT ROUTING ---
+        window.loadItem = function(itemId) {
+            currentItem = window.LMS_PORTAL.find(m => m.id === itemId);
+            if(!currentItem) return;
+
+            renderDirectory(); 
+            document.getElementById('view-dashboard').style.display = 'none';
+            document.getElementById('view-report').style.display = 'none';
+            
+            document.getElementById('breadcrumb').innerHTML = `${currentItem.subject} / ${currentItem.chapter}`;
+
+            if (!userAnswers[currentItem.id]) userAnswers[currentItem.id] = {};
+
+            if (currentItem.type === 'reading') {
+                renderReading();
+            } else if (quizScores[currentItem.id] !== undefined) {
+                renderReport();
+            } else {
+                renderQuiz();
+            }
         }
 
-        function loadItem(item) {
-            currentItem = item;
-            renderDirectory(); 
-            hideContent();
-
-            if (!userAnswers[item.id]) userAnswers[item.id] = {};
-
-            if (quizScores[item.id] !== undefined) renderReport();
-            else renderQuiz();
+        function renderReading() {
+            document.getElementById('view-quiz').style.display = 'block';
+            document.getElementById('quiz-title').innerText = currentItem.title;
+            document.getElementById('quiz-subtitle').innerText = currentItem.subtopic || currentItem.topic || currentItem.chapter;
+            document.getElementById('quiz-mode-tag').innerText = 'Reading Material';
+            
+            document.getElementById('questions-container').innerHTML = '';
+            document.getElementById('submit-container').innerHTML = '';
+            
+            const rCont = document.getElementById('reading-container');
+            rCont.style.display = 'block';
+            rCont.innerHTML = currentItem.html;
+            
+            quizScores[currentItem.id] = 'read'; 
+            saveState();
+            document.getElementById('content-scroll').scrollTo({ top: 0 });
+            if (typeof MathJax !== 'undefined') MathJax.typesetPromise([rCont]);
         }
 
         function renderQuiz() {
-            document.getElementById('quiz-view').style.display = 'block';
-            document.getElementById('quiz-title').innerText = currentItem.moduleTitle;
-            document.getElementById('quiz-subtitle').innerText = `${currentItem.subjectTitle} | ${currentItem.chapterTitle}`;
-            document.getElementById('quiz-mode-tag').innerText = currentItem.mode === 'learning' ? 'Learning Mode' : 'Classic Test';
-            document.getElementById('quiz-mode-tag').style.color = currentItem.mode === 'learning' ? 'var(--success)' : 'var(--text-muted)';
+            document.getElementById('view-quiz').style.display = 'block';
+            document.getElementById('reading-container').style.display = 'none';
+            document.getElementById('quiz-title').innerText = currentItem.title;
+            document.getElementById('quiz-subtitle').innerText = currentItem.subtopic || currentItem.topic || currentItem.chapter;
+            document.getElementById('quiz-mode-tag').innerText = currentItem.mode === 'learning' ? '🧠 Learning Mode' : '📝 Classic Test';
 
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
@@ -306,7 +564,6 @@
                 qObj.o.forEach((opt, optIndex) => {
                     const isChecked = isAns && ans === optIndex;
                     let classes = 'opt-label ';
-                    
                     if (isAns && isLearning) {
                         classes += 'locked ';
                         if (optIndex === qObj.a) classes += 'correct ';
@@ -314,7 +571,6 @@
                     } else if (isChecked && !isLearning) {
                         classes += 'selected-classic ';
                     }
-
                     optsHTML += `<label class="${classes}" id="lbl-${index}-${optIndex}">
                             <input type="radio" name="q-${index}" value="${optIndex}" ${isChecked ? 'checked' : ''} ${isAns && isLearning ? 'disabled' : ''} onchange="selectAnswer(${index}, ${optIndex})"> 
                             <span class="opt-text">${opt}</span></label>`;
@@ -334,7 +590,7 @@
                 container.appendChild(qDiv);
             });
 
-            document.getElementById('submit-container').innerHTML = `<button class="btn-solid" onclick="submitQuiz()">Submit Assignment</button>`;
+            document.getElementById('submit-container').innerHTML = `<button class="btn btn-solid" onclick="submitQuiz()">Submit Assignment</button>`;
             document.getElementById('content-scroll').scrollTo({ top: 0 });
             if (typeof MathJax !== 'undefined') MathJax.typesetPromise([container]);
         }
@@ -349,26 +605,22 @@
             if (isLearning) {
                 const qObj = currentItem.data[qIndex];
                 const isCorrect = optIndex === qObj.a;
-                
                 for(let i=0; i<4; i++) {
                     const lbl = document.getElementById(`lbl-${qIndex}-${i}`);
-                    const inp = lbl.querySelector('input');
                     lbl.classList.add('locked');
-                    inp.disabled = true;
+                    lbl.querySelector('input').disabled = true;
                     if (i === qObj.a) lbl.classList.add('correct');
                     else if (i === optIndex) lbl.classList.add('incorrect');
                 }
-                
                 const fb = document.getElementById(`fb-${qIndex}`);
                 fb.className = `feedback-box ${isCorrect ? 'is-correct' : 'is-wrong'}`;
                 fb.innerHTML = `<div class="fb-title">${isCorrect ? '<span style="color:var(--success);">✓ Correct</span>' : '<span style="color:var(--danger);">✗ Incorrect</span>'}</div>
                     <div class="fb-section"><span>Logic</span><p>${qObj.e}</p></div>
                     <div class="fb-section"><span>Note</span><p>${qObj.n}</p></div>`;
                 fb.style.display = 'block';
-
                 if (typeof MathJax !== 'undefined') MathJax.typesetPromise([fb]);
             } else {
-                for(let i=0; i<4; i++) { document.getElementById(`lbl-${qIndex}-${i}`).classList.remove('selected-classic'); }
+                for(let i=0; i<4; i++) document.getElementById(`lbl-${qIndex}-${i}`).classList.remove('selected-classic');
                 document.getElementById(`lbl-${qIndex}-${optIndex}`).classList.add('selected-classic');
             }
         }
@@ -376,9 +628,7 @@
         window.submitQuiz = function() {
             const total = currentItem.data.length;
             const answered = Object.keys(userAnswers[currentItem.id]).length;
-            if (answered < total) {
-                if(!confirm(`You answered ${answered} of ${total}. Submit anyway?`)) return;
-            }
+            if (answered < total) { if(!confirm(`You answered ${answered} of ${total}. Submit anyway?`)) return; }
 
             let score = 0;
             currentItem.data.forEach((q, i) => { if(userAnswers[currentItem.id][i] === q.a) score++; });
@@ -388,8 +638,8 @@
         }
 
         function renderReport() {
-            hideContent();
-            document.getElementById('report-view').style.display = 'block';
+            document.getElementById('view-quiz').style.display = 'none';
+            document.getElementById('view-report').style.display = 'block';
             
             const score = quizScores[currentItem.id];
             const total = currentItem.data.length;
@@ -398,11 +648,11 @@
             const repDiv = document.getElementById('printable-report');
             let html = `
                 <div style="text-align:center; margin-bottom:32px;">
-                    <h2 style="font-size:2rem; letter-spacing:-0.02em; margin-bottom:8px;">${currentItem.moduleTitle}</h2>
-                    <p style="color:var(--text-muted);">${currentItem.subjectTitle} | Completed on ${new Date().toLocaleDateString()}</p>
+                    <h2 style="font-size:2rem; margin-bottom:8px;">${currentItem.title}</h2>
+                    <p style="color:var(--text-muted);">${currentItem.chapter} | Completed on ${new Date().toLocaleDateString()}</p>
                 </div>
                 <div class="report-summary">
-                    <p style="text-transform:uppercase; font-weight:600; color:var(--text-muted); font-size:0.85rem;">Final Score</p>
+                    <p style="text-transform:uppercase; font-weight:700; color:var(--text-muted); font-size:0.85rem;">Final Score</p>
                     <div class="report-score" style="color: ${perc >= 70 ? 'var(--success)' : 'var(--text-main)'};">${score} / ${total}</div>
                     <p style="font-weight:500;">Accuracy: ${perc}%</p>
                 </div>
@@ -415,7 +665,7 @@
                 
                 html += `
                     <div style="padding: 24px 0; border-bottom: 1px solid var(--border);">
-                        <h3 style="font-size:1.1rem; font-weight:500; margin-bottom:12px; line-height:1.5;">${i+1}. ${q.q}</h3>
+                        <h3 style="font-size:1.1rem; font-weight:500; margin-bottom:12px;">${i+1}. ${q.q}</h3>
                         <p style="margin-bottom:6px;"><strong>Your Answer:</strong> <span style="color: ${isCorr ? 'var(--success)' : 'var(--danger)'}">${ansText}</span></p>
                         ${!isCorr ? `<p style="margin-bottom:16px;"><strong>Correct Answer:</strong> <span style="color:var(--success); font-weight:500;">${q.o[q.a]}</span></p>` : ''}
                         
@@ -435,30 +685,36 @@
 
         window.retakeQuiz = function() {
             if(!confirm(`Clear your score and retake this assignment?`)) return;
-            delete quizScores[currentItem.id];
-            userAnswers[currentItem.id] = {};
-            saveState();
-            loadItem(currentItem);
+            delete quizScores[currentItem.id]; userAnswers[currentItem.id] = {};
+            saveState(); loadItem(currentItem);
         }
 
         window.exportPDF = function() {
-            const element = document.getElementById('printable-report');
-            const opt = { margin: 15, filename: `${currentItem.moduleTitle}_Report.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-            html2pdf().set(opt).from(element).save();
+            const opt = { margin: 15, filename: `${currentItem.title}_Report.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
+            html2pdf().set(opt).from(document.getElementById('printable-report')).save();
         }
-
-        // Optional: Auto-login if local storage exists
-        window.onload = () => {
-            const savedUser = localStorage.getItem('lms_last_user');
-            if(savedUser) {
-                document.getElementById('username').value = savedUser;
-                // Requires manual password entry for security, or auto-login if you prefer
-            }
-        };
     </script>
 
-    <script src="modules/sample_quiz.js"></script>
-    <script src="modules/physics_2_1.js"></script>
+    <script>
+        window.LMS_PORTAL.push({
+            id: 'read_phys_2_1', targetUser: 'icchansh', 
+            subject: 'Physics', part: 'Part 1', chapter: '2. Electrostatic Potential & Capacitance', 
+            topic: '2.1 Introduction', subtopic: null, 
+            title: 'Theory: Conservative Forces', type: 'reading',
+            html: `<h2 style="color: var(--primary); margin-bottom: 15px;">2.1 Introduction: Conservative Forces</h2>
+                   <p>The electrostatic force between two stationary charges is a <strong>conservative force</strong>. This means the work done by or against them depends <em>only</em> on the initial and final positions, not on the path taken.</p>`
+        });
 
+        window.LMS_PORTAL.push({
+            id: 'quiz_phys_2_8_3', targetUser: 'icchansh', 
+            subject: 'Physics', part: 'Part 1', chapter: '2. Electrostatic Potential & Capacitance', 
+            topic: '2.8 Potential Energy in an External Field', subtopic: '2.8.3 Potential energy of a dipole in an external field',
+            title: 'Quiz: Dipole Energy', type: 'quiz', mode: 'learning',
+            data: [
+                { q: "What is the electrostatic potential energy of an electric dipole with dipole moment $p$ placed parallel to a uniform electric field $E$?", o: ["$+pE$", "$-pE$", "Zero", "$pE \\sin\\theta$"], a: 1, e: "The potential energy is $U = -\\vec{p} \\cdot \\vec{E} = -pE \\cos\\theta$. When parallel ($\\theta = 0^\\circ$), $U = -pE$.", n: "This represents stable equilibrium." }
+            ]
+        });
+    </script>
+<script src="modules/physics/part1/ch2_topic2_1.js"></script>
 </body>
 </html>
