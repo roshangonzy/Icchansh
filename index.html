@@ -37,337 +37,77 @@
             --medium-color: #f59e0b;
             --hard-color: #ef4444;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        /* --- Login Overlay Styles --- */
-        #login-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .login-card {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            border-top: 6px solid var(--primary);
-        }
-
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .login-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: opacity 0.2s;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding: 20px; }
+        #login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--bg-color); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .login-card { background: var(--surface); padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; border-top: 6px solid var(--primary); }
+        .login-input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; transition: border-color 0.2s; }
+        .login-input:focus { outline: none; border-color: var(--primary); }
+        .login-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: opacity 0.2s; }
         .login-btn:hover { opacity: 0.9; }
-
-        .error-msg {
-            color: var(--danger);
-            font-size: 0.9rem;
-            margin-top: 10px;
-            display: none;
-            font-weight: bold;
-        }
-        
-        .troubleshoot-btn {
-            margin-top: 25px;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-        
+        .error-msg { color: var(--danger); font-size: 0.9rem; margin-top: 10px; display: none; font-weight: bold; }
+        .troubleshoot-btn { margin-top: 25px; background: none; border: none; color: var(--text-light); text-decoration: underline; cursor: pointer; font-size: 0.85rem; transition: color 0.2s; }
         .troubleshoot-btn:hover { color: var(--danger); }
-
-        /* --- App Styles --- */
         #app-content { display: none; }
-
         .container { max-width: 900px; margin: 0 auto; }
-
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 25px;
-            background: var(--surface);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            position: relative;
-            border-bottom: 4px solid var(--primary);
-        }
-
-        header h1 {
-            color: var(--primary-dark);
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 10px;
-            font-size: 1.05rem;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            padding: 5px 12px;
-            background: #ef4444;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
+        header { text-align: center; margin-bottom: 20px; padding: 25px; background: var(--surface); border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: relative; border-bottom: 4px solid var(--primary); }
+        header h1 { color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 5px; }
+        .user-info { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 10px; font-size: 1.05rem; color: var(--text-light); font-weight: 600; }
+        .logout-btn { padding: 5px 12px; background: #ef4444; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
         .logout-btn:hover { background: #dc2626; }
-
-        .export-all-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 8px 16px;
-            background-color: var(--text-main);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        
+        .export-all-btn { position: absolute; top: 20px; right: 20px; padding: 8px 16px; background-color: var(--text-main); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
         .export-all-btn:hover { opacity: 0.9; }
-
-        @media (max-width: 600px) {
-            .export-all-btn { position: static; display: block; width: 100%; margin-top: 15px; }
-        }
-
-        /* Level Tabs */
+        @media (max-width: 600px) { .export-all-btn { position: static; display: block; width: 100%; margin-top: 15px; } }
         .level-tabs { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; }
-
-        .level-btn {
-            padding: 10px 30px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: var(--text-light);
-            transition: all 0.2s;
-        }
-
+        .level-btn { padding: 10px 30px; background: var(--surface); border: 2px solid var(--border); border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: var(--text-light); transition: all 0.2s; }
         .level-btn#btn-easy.active { background: var(--easy-color); color: white; border-color: var(--easy-color); }
         .level-btn#btn-medium.active { background: var(--medium-color); color: white; border-color: var(--medium-color); }
         .level-btn#btn-hard.active { background: var(--hard-color); color: white; border-color: var(--hard-color); }
-
-        /* Mode Tabs */
-        .mode-tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            justify-content: center;
-            background: #e2e8f0;
-            padding: 8px;
-            border-radius: 30px;
-            width: fit-content;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .mode-btn {
-            padding: 10px 25px;
-            background: transparent;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 1.05rem;
-            color: var(--text-light);
-            transition: all 0.3s ease;
-        }
-
-        .mode-btn.active {
-            background: var(--primary-dark);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Chapter Tabs */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .tab-btn {
-            padding: 12px 24px;
-            background: var(--surface);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--text-light);
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .mode-tabs { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; background: #e2e8f0; padding: 8px; border-radius: 30px; width: fit-content; margin-left: auto; margin-right: auto; }
+        .mode-btn { padding: 10px 25px; background: transparent; border: none; border-radius: 20px; cursor: pointer; font-weight: 800; font-size: 1.05rem; color: var(--text-light); transition: all 0.3s ease; }
+        .mode-btn.active { background: var(--primary-dark); color: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+        .tab-btn { padding: 12px 24px; background: var(--surface); border: 2px solid var(--border); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; color: var(--text-light); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* Score Badge on Tabs */
-        .score-badge {
-            background: #e2e8f0;
-            color: var(--text-main);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
+        .score-badge { background: #e2e8f0; color: var(--text-main); padding: 2px 8px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; }
         .tab-btn.active .score-badge { background: white; color: var(--primary); }
-
-        /* Main Content Area */
-        .content-card {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            display: none;
-        }
-
+        .content-card { background: var(--surface); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: none; }
         .content-card.active { display: block; }
-
-        /* Questions */
         .question-block { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border); page-break-inside: avoid; }
         .question-block:last-child { border-bottom: none; }
-
         .question-text { font-size: 1.15rem; font-weight: 600; margin-bottom: 15px; color: var(--text-main); }
-
         .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-            background: #f8fafc;
-        }
-
+        .option-label { display: flex; align-items: center; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: background 0.2s; background: #f8fafc; }
         .option-label:hover:not(.locked) { background: #e2e8f0; }
-
         .option-label input[type="radio"] { margin-right: 15px; transform: scale(1.3); accent-color: var(--primary); }
         .option-label input[type="radio"]:disabled { cursor: not-allowed; }
-
-        /* Locked Answer Styling */
         .option-label.locked { cursor: not-allowed; opacity: 0.85; }
-        .option-label.correct-choice { background-color: var(--success-bg); border-color: var(--success); font-weight: 600; }
-        .option-label.incorrect-choice { background-color: var(--danger-bg); border-color: var(--danger); opacity: 0.6; text-decoration: line-through; }
-
-        /* Immediate Feedback Box */
-        .feedback-box {
-            margin-top: 15px;
-            padding: 20px;
-            border-radius: 8px;
-            display: none;
-            font-size: 0.95rem;
-            animation: fadeIn 0.3s ease-in;
-            line-height: 1.6;
-        }
-        
+        .option-label.correct-choice { background: var(--success-bg); border-color: var(--success); font-weight: 600; }
+        .option-label.incorrect-choice { background: var(--danger-bg); border-color: var(--danger); opacity: 0.6; text-decoration: line-through; }
+        .feedback-box { margin-top: 15px; padding: 20px; border-radius: 8px; display: none; font-size: 0.95rem; animation: fadeIn 0.3s ease-in; line-height: 1.6; }
         .feedback-box strong.title { display: block; margin-bottom: 8px; font-size: 1.1rem; }
-        .feedback-box.correct { background-color: #f0fdf4; border: 1px solid var(--success); color: #065f46; }
-        .feedback-box.incorrect { background-color: #fef2f2; border: 1px solid var(--danger); color: #991b1b; }
-
+        .feedback-box.correct { background: #f0fdf4; border: 1px solid var(--success); color: #065f46; }
+        .feedback-box.incorrect { background: #fef2f2; border: 1px solid var(--danger); color: #991b1b; }
         .logic-section { margin-bottom: 10px; font-weight: 500; }
         .note-section { color: var(--text-main); }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Buttons */
         .btn { display: inline-block; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; text-align: center; color: white; }
         .btn:hover { opacity: 0.9; }
         .btn-primary { background-color: var(--primary); margin-top: 20px; }
         .btn-secondary { background-color: var(--text-light); margin-top: 10px; }
         .btn-dark { background-color: var(--text-main); margin-top: 10px; }
         .btn-danger { background-color: var(--danger); margin-top: 10px; }
-
-        /* Report Styles */
         .report-header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
         .score-box { background: var(--success-bg); border: 2px solid var(--success); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 30px; }
         .score-box h2 { color: var(--success); font-size: 2.5rem; margin: 10px 0; }
         .score-box p { color: #047857; font-weight: 600; font-size: 1.2rem; }
-
         .review-item { padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 6px solid; background: #f8fafc; page-break-inside: avoid; }
         .review-item.correct { border-left-color: var(--success); }
         .review-item.incorrect { border-left-color: var(--danger); }
-        
         .review-badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; margin-bottom: 10px; }
         .badge-correct { background: var(--success-bg); color: var(--success); }
         .badge-incorrect { background: var(--danger-bg); color: var(--danger); }
-
         .explanation { margin-top: 15px; padding: 15px; background: #e2e8f0; border-radius: 6px; font-size: 0.95rem; line-height: 1.6; }
-
         @media (min-width: 600px) { .options-grid { grid-template-columns: 1fr 1fr; } }
     </style>
 </head>
@@ -377,13 +117,10 @@
     <div class="login-card">
         <h2 style="color: var(--primary-dark); margin-bottom: 5px;">CBSE Chemistry Quiz</h2>
         <p style="color: var(--text-light); margin-bottom: 25px;">Please login to continue</p>
-        
         <input type="text" id="username" class="login-input" placeholder="Username (e.g. icchansh)">
         <input type="password" id="password" class="login-input" placeholder="Password (1234)" onkeypress="handleEnter(event)">
-        
         <button class="login-btn" onclick="handleLogin()">Login to Dashboard</button>
         <div id="login-error" class="error-msg">Invalid username or password.</div>
-        
         <button class="troubleshoot-btn" onclick="clearAppData()">Clear Local Data (Troubleshooting)</button>
     </div>
 </div>
@@ -391,13 +128,11 @@
 <div id="app-content" class="container">
     <header>
         <h1>CBSE Class 12 Chemistry Quiz</h1>
-        <p>Chapter 2: Electrochemistry</p>
-        
+        <p>Chapter 2: Electrochemistry (Overall)</p>
         <div class="user-info">
             <span id="welcome-text"></span>
             <button class="logout-btn" onclick="handleLogout()">Logout</button>
         </div>
-
         <button class="export-all-btn" onclick="exportAllScores()">📄 Export All Scores</button>
     </header>
 
@@ -412,13 +147,14 @@
         <button class="level-btn" id="btn-hard" onclick="setLevel('hard')">Hard Level</button>
     </div>
 
-    <!-- TABS WILL BE INJECTED HERE DYNAMICALLY -->
-    <div class="tabs" id="tabs-container"></div>
+    <div class="tabs" id="tabs-container">
+        <button class="tab-btn active" id="tab-ch1" onclick="loadQuiz('ch1')">Overall Chapter <span id="badge-ch1"></span></button>
+    </div>
 
     <div id="quiz-view" class="content-card active">
         <h2 id="quiz-title" style="margin-bottom: 5px; border-bottom: 2px solid var(--border); padding-bottom: 10px;"></h2>
         <p id="cbse-legend" style="display: none; font-size: 0.95rem; color: var(--text-light); margin-bottom: 20px; font-weight: 600;">
-            <span style="font-size: 1.1rem;">📜</span> Questions marked with this icon are derived from previous CBSE board exams (including numericals adapted to MCQs).
+            <span style="font-size: 1.1rem;">📜</span> Questions marked with this icon are derived from previous CBSE board exams.
         </p>
         <div id="questions-container"></div>
         <div id="submit-container"></div>
@@ -433,37 +169,136 @@
 </div>
 
 <script>
-    // --- LOGIN ACCOUNTS ---
-    const validAccounts = {
-        'icchansh': '1234',
-        'roshan': '1234'
-    };
+    const validAccounts = { 'icchansh': '1234', 'roshan': '1234' };
 
-    // --- DYNAMIC DATA REGISTRY ---
-    // Instead of hardcoding massive data blocks here, we will register them.
     const masterQuizData = {
-        conceptual: { easy: {}, medium: {}, hard: {} },
-        cbse: { easy: {}, medium: {}, hard: {} }
+        conceptual: {
+            easy: {
+                ch1: {
+                    title: "Conceptual Focus: Electrochemistry (Easy)",
+                    questions: [
+                        { q: "What is the primary function of a Galvanic (Voltaic) cell?", o: ["Converting electrical energy to chemical energy", "Converting spontaneous chemical energy into electrical energy", "Storing static electricity", "Heating an electrolyte solution"], a: 1, logic: "Galvanic cells harness the energy released during a spontaneous redox reaction to generate an electrical current.", note: "A Galvanic cell operates on the principle of spontaneous redox reactions ($\\Delta G < 0$). The cell physically separates the oxidation and reduction half-reactions, forcing the transferred electrons to flow through an external wire to produce a useful current." },
+                        { q: "In an operating standard Daniell cell, which metal acts as the anode?", o: ["Copper", "Silver", "Zinc", "Platinum"], a: 2, logic: "Zinc has a higher oxidation potential than copper, meaning it loses electrons more readily and undergoes oxidation.", note: "In a Daniell cell, the anode is the zinc electrode. By definition, the anode is the site where oxidation (loss of electrons) occurs. Because zinc is more reactive than copper, solid zinc atoms actively dissolve into the solution." },
+                        { q: "What crucial component maintains the electrical neutrality of the half-cells in a Galvanic cell?", o: ["The external wire", "The voltmeter", "The salt bridge", "The metallic electrodes"], a: 2, logic: "The salt bridge provides a pathway for inert ions to migrate, neutralizing the excess charge building up in the half-cells.", note: "As a galvanic cell operates, oxidation at the anode floods the solution with positive ions, while reduction at the cathode depletes positive ions. The salt bridge supplies negative ions to the anode half-cell and positive ions to the cathode half-cell to maintain perfect electrical harmony." },
+                        { q: "By standard convention, the Standard Hydrogen Electrode (SHE) is assigned an electrode potential of exactly what value at all temperatures?", o: ["$1.00\\text{ V}$", "$-1.00\\text{ V}$", "$0.00\\text{ V}$", "$10.0\\text{ V}$"], a: 2, logic: "The SHE is chosen as the universal baseline reference point, so its potential is arbitrarily but universally defined as exactly zero.", note: "Absolute electrode potentials cannot be measured directly; we can only physically measure the potential difference between two electrodes. To create a standardized table of potentials, chemists required a universal reference point. By strict international agreement, the standard reduction potential of the SHE is assigned a value of exactly $0.00\\text{ V}$ at all temperatures." },
+                        { q: "What is the fundamental difference between an electrolytic cell and a galvanic cell?", o: ["Electrolytic cells use spontaneous reactions, galvanic cells do not.", "Galvanic cells consume electricity, electrolytic cells produce it.", "Electrolytic cells use electrical energy to drive non-spontaneous chemical reactions.", "There is no difference; they are the same device."], a: 2, logic: "Galvanic cells produce energy ($\\Delta G < 0$), while electrolytic cells consume energy to force a reaction ($\\Delta G > 0$).", note: "While a galvanic cell derives electrical current from a naturally occurring spontaneous reaction, an electrolytic cell does the exact opposite. It requires an external power source (like a battery or power supply) to pump electrons into the system, forcibly driving a non-spontaneous chemical reaction (such as splitting water into hydrogen and oxygen)." },
+                        { q: "In an operating Galvanic cell, what is the strict physical direction of electron flow in the external circuit?", o: ["From Cathode to Anode", "From Anode to Cathode", "Through the salt bridge", "Electrons do not flow; ions do"], a: 1, logic: "Oxidation at the anode generates free electrons, which are then pushed through the wire toward the cathode where reduction consumes them.", note: "The anode is the site of oxidation (loss of electrons), making it the negative terminal as electrons build up there. These electrons forcefully travel through the external metallic wire toward the cathode (the positive terminal), where they are actively consumed by the reduction reaction." },
+                        { q: "Where does the chemical process of reduction fundamentally occur in any electrochemical cell?", o: ["At the salt bridge", "At the anode", "At the cathode", "In the external wire"], a: 2, logic: "By universal definition, reduction (the gain of electrons) exclusively occurs at the cathode.", note: "Regardless of whether a cell is galvanic (spontaneous) or electrolytic (non-spontaneous), IUPAC definitions dictate that the electrode where reduction takes place is always called the cathode. Remember the mnemonic 'Red Cat' (Reduction at Cathode)." },
+                        { q: "What physically happens to the operation of a Galvanic cell when the underlying chemical reaction completely reaches equilibrium?", o: ["The output voltage spikes.", "The electrical current reverses.", "The measured cell potential drops to exactly zero.", "The salt bridge dissolves."], a: 2, logic: "At perfect chemical equilibrium, there is no longer a net driving thermodynamic force, meaning zero free energy is available.", note: "A galvanic cell produces a voltage as long as the reaction is actively moving toward equilibrium. The cell potential ($E_{cell}$) measures this driving force. When the system reaches perfect equilibrium, no net work can be done, and the voltage drops to zero." },
+                        { q: "In an electrolytic solution, what physical entities are primarily responsible for carrying the electrical current?", o: ["Free delocalized electrons", "Neutrons", "Mobile positively and negatively charged ions", "Solid metal atoms"], a: 2, logic: "Unlike solid metallic wires which use electrons, solutions conduct electricity via the physical migration of dissolved ions.", note: "In electrolytic conductance, there are no free electrons in the liquid. The electrical current is carried by the physical movement of the dissolved ions. Positive cations migrate toward the cathode, while negative anions swim toward the anode." },
+                        { q: "Which of the following is the standard SI unit for generic bulk Conductivity ($\\kappa$)?", o: ["$S\\ m^2 mol^{-1}$", "$S\\ m^{-1}$", "Ohms", "Volts"], a: 1, logic: "Conductivity is the reciprocal of resistivity, measured in Siemens per meter ($S\\ m^{-1}$) or $S\\ cm^{-1}$.", note: "Conductivity ($\\kappa$) mathematically represents the ease with which current flows through exactly one unit volume of the material. Its fundamental SI unit is Siemens per meter ($S\\ m^{-1}$), though Siemens per centimeter is also heavily used in laboratory settings." },
+                        { q: "What does Kohlrausch's Law of Independent Migration of Ions strictly state?", o: ["Resistance is proportional to length.", "Current is proportional to voltage.", "The limiting molar conductivity of an electrolyte is the sum of the individual contributions of its constituent ions.", "Weak electrolytes do not conduct."], a: 2, logic: "At infinite dilution, interionic attractions vanish, allowing each specific ion to contribute a fixed amount to total conductivity.", note: "Kohlrausch formulated that at infinite dilution, ions completely stop interacting with one another. Because they don't drag each other down, every specific type of ion moves at its absolute maximum speed, independently contributing to the overall molar conductivity." },
+                        { q: "Faraday's First Law of Electrolysis mathematically links which two fundamental physical quantities?", o: ["Temperature and Pressure", "Voltage and Resistance", "The mass of substance deposited and the total quantity of electrical charge passed.", "Concentration and Volume"], a: 2, logic: "The sheer amount of chemical change produced is directly proportional to the amount of electricity pushed through the cell.", note: "Michael Faraday established that the exact physical mass ($m$) of any substance deposited at an electrode is strictly proportional to the total quantity of electrical charge ($Q$) forcefully pushed through the solution ($m \\propto Q$). Higher current deposits more mass." },
+                        { q: "What is the physical significance of the Faraday constant ($F$ = ~96487 C/mol)?", o: ["The speed of an electron.", "The exact electrical charge collectively carried by one single mole of electrons.", "The mass of one mole of copper.", "The maximum voltage of a cell."], a: 1, logic: "Multiplying the fundamental charge of one single electron by Avogadro's number yields the total charge of a macroscopic mole.", note: "The charge of one isolated electron is $1.602 \\times 10^{-19}\\text{ C}$. Multiplying this by Avogadro's number yields approximately $96487\\text{ C}$. This massive collective charge is universally named the Faraday constant ($F$)." },
+                        { q: "What precisely defines a 'Primary Cell' or primary battery?", o: ["A cell that can be recharged endlessly.", "A cell where the reaction occurs only once and becomes completely dead after use.", "A cell that only uses primary elements.", "A cell that powers primary transformers."], a: 1, logic: "Primary cells rely on irreversible chemical reactions, making them single-use devices.", note: "In a primary cell, like the common alkaline dry cell used in clocks, the internal chemical reaction is thermodynamically irreversible. Once the active reactants are fully consumed and equilibrium is reached, the battery cannot be recharged and must be discarded." },
+                        { q: "Which of the following is an example of a Secondary Cell?", o: ["Leclanche cell", "Standard dry cell", "Mercury button cell", "Lead storage battery"], a: 3, logic: "Secondary cells rely on reversible chemical reactions, allowing them to be actively recharged by applying an external voltage.", note: "A secondary cell, such as the lead-acid battery found in cars, can be discharged to provide power and then completely recharged by passing a reverse current through it. This forcefully reverses the chemical reaction, restoring the original reactants." },
+                        { q: "What perfectly and strictly defines the 'Cell Constant' ($G^*$) of a specific conductivity cell?", o: ["The type of metal used.", "The geometric ratio of the exact distance between the electrodes ($l$) divided by their cross-sectional area ($A$).", "The laboratory temperature.", "The molarity of the solution."], a: 1, logic: "The cell constant is a purely geometric property of the rigid physical hardware, remaining unaffected by the liquid inside.", note: "Manufacturers calculate a 'Cell Constant' ($G^* = l/A$) for every single glass probe. This constant is the physical distance between the two metallic plates divided precisely by their surface area, allowing chemists to extract pure conductivity from raw resistance." },
+                        { q: "What is the standard SI unit for Molar Conductivity ($\\Lambda_m$)?", o: ["$S\\ m^{-1}$", "$S\\ m^2\\ mol^{-1}$", "Ohms", "$V\\ m^{-1}$"], a: 1, logic: "Molar conductivity normalizes generic conductivity by molar concentration, introducing area and mole dimensions.", note: "Molar Conductivity ($\\Lambda_m$) measures the total conducting power of all ions produced by exactly one mole of substance. Its standard SI unit is strictly $S\\ m^2\\ mol^{-1}$, though $S\\ cm^2\\ mol^{-1}$ is frequently used in chemistry labs." },
+                        { q: "In a standard dry cell (Leclanche cell), what material makes up the central positive cathode?", o: ["Zinc cylinder", "Graphite (Carbon) rod", "Copper wire", "Lead plate"], a: 1, logic: "The central graphite rod provides an inert, highly conductive surface for the reduction of manganese dioxide.", note: "In a standard commercial dry cell, the outer zinc container acts directly as the oxidizing anode. The core cathode is a highly conductive, inert graphite (carbon) rod surrounded firmly by a thick paste of manganese dioxide ($MnO_2$) and carbon powder." },
+                        { q: "What term describes the slow, spontaneous electrochemical destruction of metals when exposed to the environment?", o: ["Galvanization", "Electrolysis", "Corrosion", "Passivation"], a: 2, logic: "Corrosion, such as the rusting of iron, is fundamentally a naturally occurring, spontaneous galvanic cell reaction.", note: "Corrosion heavily involves the active oxidation of a metal surface by environmental agents like oxygen and moisture. The metal surface itself acts as a miniature galvanic cell, where specific spots act as anodes (losing electrons) and others as cathodes." },
+                        { q: "Which generic equation physically represents Ohm's Law for electrolytic solutions?", o: ["$V = I/R$", "$V = IR$", "$R = V^2/I$", "$I = V^2 R$"], a: 1, logic: "Ohm's Law universally dictates that the applied voltage is directly proportional to the resulting current, scaled by the resistance.", note: "Just like solid metallic wires, liquid electrolytic solutions strictly obey Ohm's Law ($V = IR$). The electrical resistance ($R$) of the solution depends on the specific concentration and mobility of the dissolved ions carrying the massive electrical current." }
+                    ]
+                }
+            },
+            medium: {
+                ch1: {
+                    title: "Conceptual Focus: Electrochemistry (Medium)",
+                    questions: [
+                        { q: "What fundamental relationship does the Nernst equation mathematically describe?", o: ["How resistance scales with wire length", "How to calculate deposited metal mass", "How cell potential varies dynamically with reactant concentration and operating temperature", "How conductivity changes with extreme dilution"], a: 2, logic: "The Nernst equation rigorously modifies the standard cell potential by factoring in the actual real-time reaction quotient (Q).", note: "Standard potentials ($E^\\circ$) are only valid at exactly $1\\text{ Molar}$ concentration. The Nernst equation beautifully bridges this gap, providing a precise mathematical formula to calculate the actual, real-time cell potential ($E_{cell}$) based heavily on the exact, fluctuating molar concentrations of the reacting species." },
+                        { q: "In the thermodynamic equation $\\Delta G^\\circ = -nFE^\\circ_{cell}$, what does the variable 'n' explicitly represent?", o: ["Moles of solvent", "The exact integer number of moles of electrons transferred in the balanced redox reaction", "The Avogadro constant", "Principal quantum number"], a: 1, logic: "Electrical work is total charge multiplied by potential. Total charge is the moles of electrons ($n$) times Faraday's constant.", note: "This equation elegantly connects thermodynamics directly to electrochemistry. The variable '$n$' is absolutely critical; it explicitly represents the exact, balanced integer number of moles of tiny electrons that are physically transferred from the reducing agent to the oxidizing agent." },
+                        { q: "For a chemical reaction in a cell to be considered fully spontaneous, what must be the mathematical sign of $\\Delta G$?", o: ["Strictly Positive", "Strictly Negative", "Exactly Zero", "It does not matter"], a: 1, logic: "A negative change in Gibbs free energy definitively indicates that the system is naturally and aggressively releasing energy to perform work.", note: "Gibbs Free Energy ($G$) is the ultimate thermodynamic arbiter. A spontaneous process means the system naturally moves to a more stable, lower energy state, making the change ($\\Delta G$) strictly negative. Because $\\Delta G = -nFE_{cell}$, a negative $\\Delta G$ inherently requires a mathematically positive cell voltage." },
+                        { q: "When using the Nernst equation for a pure solid metal electrode, what is its mathematical concentration value taken as?", o: ["Zero", "Exactly 1 (Unity)", "Depends on its mass", "Infinity"], a: 1, logic: "The active mass of any pure solid or pure liquid is constant and conventionally taken as exactly 1 to simplify the reaction quotient.", note: "Pure dense solids and unmixed liquids do not have a variable 'concentration' in the aqueous sense; their internal density remains flawlessly constant. To prevent these constants from complicating algebraic expressions, physical chemistry rigidly dictates their active mass is assigned a fixed value of exactly 1." },
+                        { q: "Unlike overall bulk conductivity, why does specific Molar Conductivity ($\\Lambda_m$) strictly increase upon massive dilution for strong electrolytes?", o: ["Because they suddenly generate billions of fresh new ions.", "Because extreme dilution heavily decreases interionic electrostatic friction, massively boosting overall mobility.", "Because pure neutral water suddenly conducts.", "Because the applied voltage mysteriously increases."], a: 1, logic: "$\\Lambda_m$ measures the total conducting power of exactly one mole of substance. Dilution drastically spreads ions apart, reducing drag.", note: "Strong highly active electrolytes are already $100\\%$ completely dissociated. However, in a highly concentrated state, the incredibly dense crowds of ions violently exert strong electrostatic drag on one another. Dilution spreads them out, dramatically reducing this interionic friction and allowing them to swim much faster." },
+                        { q: "Why does molar conductivity ($\\Lambda_m$) aggressively and sharply increase as a WEAK electrolyte (like Acetic Acid) is heavily diluted?", o: ["Because the individual ions get heavier.", "Because extreme dilution significantly increases the chemical degree of dissociation, actively creating many more fresh, free ions.", "Because the water molecules boil.", "Because the electrodes move closer."], a: 1, logic: "Weak electrolytes are highly stubborn and only partially ionized. Diluting them aggressively forces the chemical equilibrium forward.", note: "In a concentrated state, only a tiny fraction of weak acid molecules have successfully split into active ions. According to Ostwald's dilution law, adding massive amounts of pure water heavily forces the equilibrium forward, violently breaking apart the neutral molecules to create a massive flood of highly mobile charge carriers." },
+                        { q: "In standard IUPAC cell notation (e.g., $Zn | Zn^{2+} || Cu^{2+} | Cu$), what specific physical feature does the double vertical line ($||$) represent?", o: ["A solid metallic wire connection", "The sharp physical phase boundary between solid and liquid", "The neutralizing internal salt bridge separating the two half-cells", "A semi-permeable membrane"], a: 2, logic: "The double line universally denotes the critical physical division and essential ionic connection flawlessly provided by the salt bridge.", note: "By strict international IUPAC convention, the active oxidation half-cell (anode) is absolutely always written on the far left. A single vertical line ($|$) strictly indicates a physical phase boundary. The highly prominent double vertical line ($||$) perfectly in the middle exclusively represents the internal salt bridge." },
+                        { q: "If the molar concentration of the product ions in an operating galvanic cell increases significantly, what mathematically happens to the overall cell potential ($E_{cell}$)?", o: ["It aggressively increases.", "It strictly and steadily decreases.", "It remains completely unchanged.", "It unpredictably fluctuates."], a: 1, logic: "According to Le Chatelier's principle and the Nernst equation, heavily increasing product concentration actively reduces the thermodynamic driving force.", note: "The Nernst equation explicitly subtracts a term involving $\\log(\\text{Products} / \\text{Reactants})$ from the baseline standard potential. If product concentration becomes massive, the calculated log term becomes a significantly large positive number. Mathematically subtracting this larger number strictly decreases the final calculated overall $E_{cell}$." },
+                        { q: "What specific, spontaneous electrochemical process occurs during the rusting of an iron object?", o: ["Iron is strictly reduced by pure Hydrogen gas.", "Iron is actively oxidized to $Fe^{2+}$ at specific anodic spots on the metal surface, while ambient Oxygen is reduced.", "The iron completely evaporates.", "Iron heavily absorbs pure Nitrogen gas."], a: 1, logic: "Corrosion heavily involves the active oxidation of a metal surface by environmental agents like oxygen and moisture.", note: "During rusting, the iron surface acts as a miniature galvanic cell. Specific strained spots act as anodes where solid Iron ($Fe$) oxidizes into $Fe^{2+}$ ions. The released electrons actively flow through the metal to cathodic spots, where ambient oxygen and water are fiercely reduced to form hydroxide ions." },
+                        { q: "How does the industrial process of Galvanization successfully protect iron from aggressive corrosion?", o: ["By painting the iron completely black.", "By coating the iron strictly with a layer of more reactive Zinc, which preferentially oxidizes instead of the iron.", "By freezing the iron permanently.", "By heavily wrapping it in pure plastic."], a: 1, logic: "Zinc possesses a higher oxidation potential than iron, meaning it acts as a sacrificial anode, dying to protect the iron cathode.", note: "Galvanization is a brilliant application of electrochemistry. The iron object is heavily coated with a thin layer of highly reactive Zinc. Because Zinc oxidizes much more readily than iron, it aggressively acts as a 'sacrificial anode'. Even if the coating is heavily scratched, the Zinc will preferentially corrode, violently forcing the exposed iron to remain safely as a protected cathode." },
+                        { q: "In a standard Hydrogen-Oxygen Fuel Cell, what are the primary chemical reactants that are continuously fed into the system?", o: ["Pure liquid gasoline and air", "Continuously flowing Hydrogen gas ($H_2$) and Oxygen gas ($O_2$)", "Solid Lead and Sulfuric Acid", "Pure aqueous Zinc and Copper"], a: 1, logic: "Fuel cells brilliantly extract electrical energy directly from the continuous, controlled redox reaction of elemental hydrogen and oxygen.", note: "Unlike standard batteries which contain a finite, closed amount of chemical reactants, a fuel cell is continuously and aggressively fed with fresh active fuels. In the classic $H_2/O_2$ fuel cell, hydrogen gas is constantly oxidized at the porous anode, and oxygen gas is continuously reduced at the cathode, flawlessly producing only pure liquid water as a byproduct." },
+                        { q: "Why are advanced Fuel Cells considered significantly thermodynamically superior to traditional thermal power plants for large-scale electricity generation?", o: ["They aggressively violate strict thermodynamics.", "They convert raw chemical energy directly into electricity with incredibly high theoretical efficiency, entirely bypassing massive heat-loss inefficiencies.", "They use absolutely zero chemical fuel.", "They produce extreme levels of greenhouse gases."], a: 1, logic: "Fuel cells do not blindly burn fuel to create crude heat; they extract energy directly, avoiding the severe mechanical efficiency caps of steam turbines.", note: "In a traditional crude thermal plant, fuel is violently burned to create massive heat, boiling water into high-pressure steam to spin a heavy turbine. This crude chain violently loses massive amounts of energy to sheer entropy (capping efficiency near $40\\%$). Fuel cells actively avoid this, flawlessly converting chemical free energy directly into electricity (often ~70% efficient)." },
+                        { q: "During the active discharging process of a commercial Lead Storage Battery, what specific chemical reaction occurs at the porous Lead anode?", o: ["$PbO_2$ is aggressively reduced to $PbSO_4$.", "Solid pure Lead ($Pb$) is aggressively oxidized, reacting with heavily concentrated sulfate ions to rapidly form solid $PbSO_4$.", "Acidic protons are violently reduced.", "Lead completely evaporates."], a: 1, logic: "As a discharging galvanic cell, the pure lead anode actively loses electrons (oxidation) and precipitates as highly insoluble lead sulfate.", note: "During discharge, the battery acts entirely as a standard spontaneous Galvanic cell. At the highly porous pure Lead anode, neutral $Pb$ atoms are aggressively oxidized, actively losing two electrons to become $Pb^{2+}$. These active ions instantly react with the dense aqueous sulfate ions suspended in the acid, rapidly forming a thick layer of solid Lead(II) Sulfate ($PbSO_4$)." },
+                        { q: "What specific chemical compound serves as the active, highly concentrated electrolyte in a standard Lead Storage Battery?", o: ["Pure Sodium Chloride ($NaCl$)", "Aqueous roughly 38% Sulfuric Acid ($H_2SO_4$)", "Solid Potassium Hydroxide ($KOH$)", "Pure liquid Mercury"], a: 1, logic: "Sulfuric acid explicitly provides the massive quantities of highly active sulfate ions and protons required for both half-reactions.", note: "The heavily concentrated $H_2SO_4$ is absolutely critical to the battery's operation. It actively participates directly in the primary chemical reactions at both the lead anode and the $PbO_2$ cathode, turning into water and solid $PbSO_4$ as the battery fiercely discharges. Measuring the specific density of this acid tells mechanics exactly how 'charged' the battery currently is." },
+                        { q: "Which specific secondary cell is highly renowned for maintaining a flawlessly constant operational voltage throughout its entire functional lifespan?", o: ["Standard Lead Storage Battery", "Classic Leclanche Dry Cell", "Nickel-Cadmium (Ni-Cd) Cell", "Hydrogen Fuel Cell"], a: 2, logic: "The overall cell reaction involves absolutely no ions in solution whose concentration can significantly change, locking the Nernst potential at a fixed value.", note: "The Nickel-Cadmium cell is a highly advanced, rechargeable secondary battery. Its massive advantage is delivering a perfectly flat, highly constant voltage. This happens because the overall strictly balanced chemical redox reaction exclusively features only pure solid reactants and pure solid products. Since solids have a fixed active mass of 1 in the Nernst equation, the reaction quotient $Q$ never changes, keeping the voltage perfectly steady until it suddenly dies." },
+                        { q: "Faraday's Second Law of Electrolysis states that when the exact same quantity of electricity is passed through different electrolytes, the mass of substances deposited is proportional to:", o: ["Their strict atomic volumes", "Their precise chemical Equivalent Weights", "Their ambient operating temperatures", "Their physical densities"], a: 1, logic: "The equivalent weight effectively normalizes the atomic mass by the exact number of electrons required to reduce one single ion.", note: "Faraday's incredibly powerful Second Law allows chemists to physically link different cells connected strictly in series. Because they share the exact same wire, they receive the exact same massive flow of electrons. The specific mass deposited depends entirely on the substance's Equivalent Weight (Molar Mass divided by the required valency/electron count $n$). Elements requiring fewer electrons heavily deposit far more massive weight." },
+                        { q: "Why is the Standard Cell Potential ($E^\\circ_{cell}$) vigorously classified strictly as an intensive physical property, unlike Gibbs Free Energy ($\\Delta G^\\circ$)?", o: ["Voltage depends on beaker shape.", "Voltage purely represents the specific potential energy difference strictly per individual unit charge, which does not mathematically scale with massive bulk chemicals.", "Voltage wildly changes with time.", "Standard potentials are theoretical."], a: 1, logic: "Intensive physical properties do not depend on the sheer quantity of matter present. Voltage is highly specific energy per single electron.", note: "Extensive physical properties (like Free Energy $\\Delta G$) explicitly depend on the sheer amount of chemical material actively reacting. If you double the battery's size, you get twice as much total chemical energy. However, cell voltage ($E_{cell}$) is strictly an intensive property. It is the specific energy carried by *each individual electron*. Scaling the balanced equation never mathematically changes the calculated baseline voltage." },
+                        { q: "What is the correct rigorous definition of the 'Equivalent Weight' of a specific metal ion during active electrolysis?", o: ["Its exact Molar Mass divided by exactly 2", "Its Molar Mass rigorously divided by 'n' (the exact number of electrons required to fully reduce one specific ion)", "Its exact atomic radius", "Its total number of stable protons"], a: 1, logic: "Equivalent weight effectively normalizes the raw atomic mass strictly by the specific electrical charge explicitly required to process it.", note: "In heavy electrolysis calculations, the sheer atomic mass is highly insufficient because different ions require drastically different amounts of electricity. To deposit one single mole of pure Silver ($Ag^+$), you explicitly need exactly 1 mole of electrons. But to heavily deposit one mole of pure Aluminum ($Al^{3+}$), you explicitly require exactly 3 moles of electrons. Dividing the molar mass by this required valency integer ($n$) flawlessly yields the true Equivalent Weight." },
+                        { q: "If an aggressive external opposing voltage ($E_{ext}$) is heavily applied to a discharging Galvanic cell and $E_{ext}$ becomes strictly greater than the cell's natural $E_{cell}$, what physically happens?", o: ["The cell violently explodes.", "The underlying chemical reaction completely and aggressively reverses, effectively violently turning it into an electrolytic cell.", "The output voltage purely doubles.", "The internal salt bridge solidifies."], a: 1, logic: "A massively larger external voltage forcefully overwhelms the battery, forcing electrons to aggressively flow backward against their natural spontaneous direction.", note: "A healthy galvanic cell operates spontaneously, powerfully pushing electrons out of the negative anode. If you actively apply an opposing voltage, it fiercely fights the cell. The very moment $E_{ext} > E_{cell}$, the external power source completely dominates the system. It aggressively forces the massive flow of electrons in absolute reverse. This unnatural reverse flow physically forces the non-spontaneous reverse chemical reaction to actually occur, actively recharging the battery." },
+                        { q: "Which specific theoretical physical condition is absolutely strictly required to successfully calculate a completely flawless Standard Electrode Potential ($E^\\circ$)?", o: ["The concentration of all active aqueous ions must be locked to exactly $1\\text{ Molar}$.", "The solid electrode must literally weigh exactly $1\\text{ kg}$.", "The internal salt bridge must strictly be completely removed.", "The applied external voltage must be exactly $100\\text{ V}$."], a: 0, logic: "Highly rigorous Standard conditions strictly dictate uniform molar concentration, specific pressure, and highly controlled reference states.", note: "Standard Electrode Potential ($E^\\circ$) is an intensely specific thermodynamic value. To flawlessly ensure strict global consistency, it must be meticulously measured under absolutely strict standard conditions. The concentration of all actively participating aqueous species must be aggressively locked to exactly $1\\text{ mol/L}$, and the partial pressure of any participating gases must be fiercely locked to exactly $1\\text{ bar}$. Measurements must completely utilize the SHE as the baseline absolute zero." }
+                    ]
+                }
+            },
+            hard: {
+                ch1: {
+                    title: "Conceptual Focus: Electrochemistry (Hard)",
+                    questions: [
+                        { q: "How does the complex phenomenon of 'Overpotential' (or overvoltage) directly mathematically contradict standard theoretical thermodynamic predictions during high-speed industrial electrolysis?", o: ["It magically generates free unlimited massive electrical energy.", "It strictly and aggressively demands a physically much higher applied external voltage than purely thermodynamically calculated to successfully overcome severe kinetic activation barriers at the solid electrode surface.", "It massively and violently cools down the entire electrolytic cell.", "It instantly reverses the total chemical reaction."], a: 1, logic: "Pure thermodynamics predicts the strict absolute minimum mathematical voltage threshold, but extreme kinetic sluggishness rigidly requires a massive 'over-push' of extra wasted voltage to actually force the reaction to proceed at a usable commercial speed.", note: "This thoroughly tests the highly critical boundary completely between pure theoretical thermodynamics and harsh real-world laboratory kinetics. Standard thermodynamic equations precisely predict the absolute minimum, precise theoretical voltage rigorously required to successfully initiate an electrolytic chemical reaction. However, during heavy large-scale industrial operations (like generating bubbling pure Oxygen gas), scientists frequently observe that applying this exact minimum theoretical voltage achieves absolutely nothing. The reaction physically refuses to run. Certain complex physical reactions, especially those heavily generating gas bubbles on solid metallic surfaces, suffer from incredibly high kinetic activation barriers. To forcefully overcome this extreme physical sluggishness, engineers are fiercely forced to actively apply a significantly higher, incredibly wasteful 'over-voltage'." },
+                        { q: "When deeply analyzing the degree of dissociation ($\\alpha$) for weak electrolytes using advanced conductivity, the formula is $\\alpha = \\Lambda_m / \\Lambda^\\circ_m$. Why is this specific mathematical ratio highly conceptually valid?", o: ["Because strong electrolytes are entirely banned.", "Because it elegantly compares the actual mediocre conducting power of the partially ionized state strictly against the theoretical absolute maximum power if it were 100% fully dissociated.", "Because it perfectly cancels out the mass of water.", "Because Kohlrausch's law explicitly demands it."], a: 1, logic: "The ratio mathematically beautifully isolates the specific fraction of highly stubborn molecules that have actually successfully broken apart into highly conductive active ions.", note: "Determining the exact dissociation percentage of a weak acid is a legendary application of advanced conductivity measurements. Weak electrolytes stubbornly refuse to fully split into active ions. The formula $\\alpha = \\Lambda_m / \\Lambda^\\circ_m$ is an incredibly elegant and highly powerful mathematical ratio. The top numerator ($\\Lambda_m$) strictly represents the mediocre, real-world molar conductivity currently being physically measured in the laboratory, heavily bottlenecked by the lack of free ions. The bottom denominator ($\\Lambda^\\circ_m$) tightly represents the absolute maximum, theoretically perfect conductivity the weak acid would fiercely possess if it magically achieved $100\\%$ complete dissociation." },
+                        { q: "What perfectly and strictly defines the 'Cell Constant' ($G^*$) of a specific, commercial glass conductivity cell?", o: ["The specific type of heavy metal used for the solid electrodes.", "The specific, highly regulated temperature of the active laboratory.", "The rigorously fixed, highly physical geometric ratio of the exact distance strictly between the solid electrodes ($l$) perfectly divided by their exact cross-sectional surface area ($A$).", "The exact molarity of the highly pure calibration solution."], a: 2, logic: "The highly critical cell constant is a purely, strictly geometric physical property of the rigid physical hardware, remaining totally and utterly unaffected by absolutely whatever liquid is poured inside.", note: "When highly meticulous laboratory chemists carefully measure the raw resistance of a liquid solution, the raw output number depends heavily on two completely different, totally unrelated factors: the chemical nature of the specific active liquid itself, and the precise physical geometry of the strict glass cell heavily holding it. To brilliantly separate these massive factors, manufacturers flawlessly calculate a highly specific 'Cell Constant' ($G^* = l/A$) for absolutely every single glass probe they commercially produce. This highly critical constant is the exact, rigid physical distance between the two metallic solid plates mathematically divided precisely by their exact, rigid surface area." },
+                        { q: "Why is the Standard Cell Potential ($E^\\circ_{cell}$) vigorously classified strictly as an intensive physical property, unlike Gibbs Free Energy ($\\Delta G^\\circ$)?", o: ["Because the measured voltage heavily depends on the exact shape of the glass beaker.", "Because voltage purely represents the specific potential energy difference *strictly per individual unit charge*, which absolutely does not mathematically scale with the sheer massive total amount of bulk chemicals.", "Because voltage wildly changes with time.", "Because standard potentials are entirely and purely theoretical abstractions."], a: 1, logic: "Intensive physical properties absolutely do not depend on the sheer massive quantity of matter present. Voltage is highly specific energy precisely per single electron, which stubbornly remains constant regardless of exactly how many total massive billions of electrons physically flow.", note: "This is a critically massive conceptual distinction in highly advanced physical chemistry. Extensive physical properties (like total mass, total liquid volume, and the total, massive bulk Free Energy $\\Delta G$) explicitly and heavily depend on the sheer massive physical amount of chemical material actively reacting. If you heavily double the sheer size of the battery, you violently get exactly twice as much total massive chemical energy out of it. However, the precise cell voltage ($E_{cell}$) is strictly and fiercely an intensive fundamental property. Voltage is physically and rigorously defined as exact Joules per precise Coulomb—it is the highly specific energy violently carried by *each individual, single electron*." },
+                        { q: "In an arbitrarily highly advanced, purely theoretical specific setup, if a highly specific functional galvanic cell intensely operates completely and perfectly theoretically reversibly at all incredibly microscopic times, what is the exact strict thermodynamic mathematical relationship regarding its heavily generated maximum electrical work?", o: ["The heavily generated work is completely magically exactly zero.", "The generated electrical work flawlessly and explicitly exactly equates strictly to the absolute maximum theoretical Gibbs free energy strictly actively available from the incredibly complex massive system ($W_{max} = -\\Delta G$).", "The heavily generated work wildly aggressively infinitely rapidly physically approaches massive absolute mathematical infinity.", "The heavily generated work heavily furiously perfectly creates a massive severe amount of intense explosive laboratory heat."], a: 1, logic: "Perfect flawless absolute thermodynamic reversibility strictly and inherently guarantees that absolutely zero massive usable energy is foolishly aggressively lost to crude massive entropy or highly chaotic internal microscopic physical friction, completely fully maximizing absolute work output.", note: "The highly advanced theoretical concept of 'perfect reversibility' is the absolute crown jewel of advanced physical chemical thermodynamics. A perfectly completely theoretically reversible chemical process is an incredibly powerful theoretical extreme abstraction where a highly complex physical chemical system aggressively strictly operates infinitely incredibly slowly, flawlessly maintaining a strict pristine state of flawless, perfect absolute pristine equilibrium at absolutely every single microscopic mathematical step of its highly complex journey. Because the entire highly delicate system is perfectly theoretically mathematically balanced, absolutely zero massive free energy is foolishly aggressively wasted as highly chaotic internal friction, highly useless massive heat, or violent aggressive entropy generation. Under these impossibly incredibly perfect idealized highly strict constraints, 100% of the heavily actively available Gibbs free energy is flawlessly completely extracted." }
+                    ]
+                }
+            }
+        },
+        cbse: {
+            easy: {
+                ch1: {
+                    title: "CBSE Focus: Electrochemistry (Easy)",
+                    questions: [
+                        { q: "What is the primary function of a standard Galvanic cell in practical applications? 📜", o: ["Converting electrical energy back into stored chemical energy", "Converting the energy of a spontaneous chemical redox reaction directly into useful electrical energy", "Storing high-voltage static electricity", "Heating an industrial electrolyte solution"], a: 1, logic: "Galvanic cells harness the energy released during a naturally occurring, spontaneous redox reaction to generate an external electrical current.", note: "In board exams, this is a highly frequent 1-mark conceptual question distinguishing cell types. A Galvanic cell operates fundamentally on the principle of spontaneous redox reactions where $\\Delta G$ is strictly negative. The physical design of the cell intentionally separates the oxidation and reduction half-reactions, forcing the transferred electrons to detour through an external wire to produce a useful electrical current." },
+                        { q: "In an operating Galvanic cell, what is the strict physical direction of electron flow in the external circuit? 📜", o: ["From Cathode to Anode", "From Anode to Cathode", "Through the salt bridge", "Electrons do not flow; ions do"], a: 1, logic: "Oxidation at the anode generates free electrons, which are then pushed through the wire toward the cathode where reduction consumes them.", note: "This fundamental concept is frequently tested. The anode is the site of oxidation (loss of electrons), making it the negative terminal as electrons build up there. These electrons forcefully travel through the external metallic wire toward the cathode (the positive terminal), where they are actively consumed by the reduction reaction." },
+                        { q: "What crucial internal component is completely necessary to maintain the electrical neutrality of the two half-cells in a Galvanic cell? 📜", o: ["The external connecting wire", "The high-resistance voltmeter", "The internal salt bridge", "The pure metallic electrodes"], a: 2, logic: "The salt bridge explicitly provides a vital pathway for inert spectator ions to migrate, neutralizing the aggressive excess charge building up in both half-cells.", note: "Board examiners frequently test the specific functions of this crucial component. Continuous oxidation at the anode violently floods that solution with excess positive ions, while continuous reduction at the cathode severely depletes positive ions. The salt bridge actively supplies negative ions to the anode half-cell and positive ions to the cathode half-cell to maintain perfect electrical harmony." },
+                        { q: "What physically happens to the operation of a Galvanic cell when the underlying chemical reaction completely reaches perfect chemical equilibrium? 📜", o: ["The output voltage instantly spikes to its maximum peak.", "The electrical current aggressively reverses its direction.", "The measured cell potential drops to exactly zero.", "The internal salt bridge rapidly dissolves."], a: 2, logic: "At perfect chemical equilibrium, there is absolutely no longer a net driving thermodynamic force for the reaction, meaning zero free energy is available to push electrons.", note: "A functional galvanic cell exclusively produces a measurable voltage as long as the internal chemical reaction is spontaneously moving toward equilibrium. The measured cell potential ($E_{cell}$) is a direct measurement of the thermodynamic driving force. As reactants are consumed, this driving force decreases. When the system reaches perfect chemical equilibrium, no net work can be done, and the voltage flawlessly drops to exactly zero." },
+                        { q: "By strict international standard convention, the Standard Hydrogen Electrode (SHE) is firmly assigned an electrode potential of exactly what value? 📜", o: ["$1.00\\text{ V}$", "$-1.00\\text{ V}$", "Exactly $0.00\\text{ V}$", "$10.0\\text{ V}$"], a: 2, logic: "The SHE is exclusively chosen as the universal baseline reference point, so its potential is arbitrarily but universally defined as exactly zero.", note: "Absolute electrode potentials cannot be measured directly in isolation; scientists can only measure the potential difference between two connected electrodes. To create a standardized table of potentials, chemists required a universal reference point. By strict international agreement, the SHE is assigned exactly $0.00\\text{ V}$ at all temperatures." },
+                        { q: "How is the electrostatic potential of exactly 1 Volt formally defined? 📜", o: ["1 Newton of force moving 1 Coulomb.", "1 Joule of work done to move 1 Coulomb of charge from infinity to a point.", "1 Ampere of current flowing for 1 second.", "1 Joule of work done to move 1 electron."], a: 1, logic: "Since $V = W/q$, 1 Volt strictly equals 1 Joule divided by 1 Coulomb.", note: "Defining fundamental SI units is a standard 1-mark question in board exams. The electrostatic potential at any specific point is mathematically defined by the master equation $V = W / q$. Therefore, the potential is rigorously defined as 1 Volt if exactly 1 Joule of external mechanical work is required to successfully move a positive charge of exactly 1 Coulomb from infinity to that specific point." },
+                        { q: "In a standard Daniell cell operating normally, which specific metal acts as the active anode? 📜", o: ["Pure Copper", "Pure Silver", "Solid Zinc", "Inert Platinum"], a: 2, logic: "Zinc fundamentally possesses a higher oxidation potential than copper, meaning it loses electrons much more readily and undergoes oxidation.", note: "Identifying the correct electrodes is a highly mandatory skill for any electrochemical schematic. In a standard Daniell cell, the anode is universally the solid zinc electrode. Because zinc is fundamentally a more reactive metal than copper, solid zinc atoms rapidly dissolve into the surrounding aqueous solution as positive $Zn^{2+}$ ions." },
+                        { q: "What is the correct dimensional formula for Electrostatic Potential Energy? 📜", o: ["$[M L T^{-2}]$", "$[M L^2 T^{-2}]$", "$[M L^2 T^{-3} A^{-1}]$", "$[M L T^{-1}]$"], a: 1, logic: "Potential energy is a form of mechanical energy/work, which universally shares the dimensional formula of Force $\\times$ Distance.", note: "Board examiners frequently test dimensional analysis to ensure foundational mechanics knowledge is intact. All standard forms of energy and mechanical work share the exact same dimensional formula. Work is derived as Force ($[M L T^{-2}]$) multiplied by physical Displacement ($[L]$). Multiplying these dimensions cleanly yields $[M L^2 T^{-2}]$." },
+                        { q: "1 electron-volt (1 eV) is a convenient unit of energy. What is its exact numerical value in Joules? 📜", o: ["$1.6 \\times 10^{-19}\\text{ J}$", "$9.1 \\times 10^{-31}\\text{ J}$", "$1.0 \\times 10^0\\text{ J}$", "$8.85 \\times 10^{-12}\\text{ J}$"], a: 0, logic: "1 eV is the work done to move one electron ($1.6 \\times 10^{-19}\\text{ C}$) through a potential difference of 1 Volt ($W = qV$).", note: "While the Joule is the standard SI unit, atomic physics heavily relies on the electron-volt (eV). Board exams frequently feature numerical problems demanding this conversion. By rigorous definition, 1 eV is the kinetic energy gained when a single electron is accelerated through exactly 1 Volt. Using $W = qV$, substituting the fundamental charge of an electron yields precisely $1.602 \\times 10^{-19}\\text{ Joules}$." },
+                        { q: "Which of the following is the standard SI unit for Electrostatic Potential Energy? 📜", o: ["Volt", "Newton", "Joule", "Coulomb"], a: 2, logic: "As a measure of stored mechanical work, potential energy universally utilizes the Joule as its standard SI unit.", note: "A common pitfall for students is confusing 'Potential Energy' with 'Potential'. The question specifically asks for Electrostatic Potential Energy, denoted by $U$. Because this represents accumulated mechanical work, its standard SI unit must invariably be the Joule (J). If asked for the unit of Potential ($V$), the answer would be the Volt." }
+                    ]
+                }
+            },
+            medium: {
+                ch1: {
+                    title: "CBSE Focus: Electrochemistry (Medium)",
+                    questions: [
+                        { q: "In the highly expanded Nernst equation evaluated at precisely $298\\text{ K}$, what is the final simplified constant value resulting from $2.303 RT/F$? 📜", o: ["Exactly $0.059\\text{ V}$", "Exactly $8.314\\text{ V}$", "Exactly $96500\\text{ V}$", "Exactly $1.00\\text{ V}$"], a: 0, logic: "Meticulously substituting standard fixed values for $R$, $T$ (298K), and $F$, and rigorously multiplying by 2.303 flawlessly yields a highly convenient constant of roughly 0.0591.", note: "The raw thermodynamic derivation of the Nernst equation heavily utilizes the natural logarithm ($\\ln$). To make complex numerical calculations much simpler for students, it is globally standard protocol to aggressively convert the natural log to a standard base-10 logarithm. Since the vast majority of standard laboratory electrochemistry occurs at room temperature ($298\\text{ K}$), chemists substitute $T = 298$, $R = 8.314$, and $F = 96487$. Crunching this entire cluster of constants together flawlessly yields the highly memorable simplification constant of approximately $0.0591\\text{ V}$." },
+                        { q: "What is the deep, fundamental physical significance of the Faraday constant ($F$ = ~96487 C/mol) heavily utilized in electrochemistry formulas? 📜", o: ["It simply represents the speed of an incredibly fast electron.", "It rigorously represents the exact electrical charge collectively carried by one single, full mole of electrons.", "It precisely represents the atomic mass of one mole of pure solid copper.", "It dictates the absolute maximum theoretical voltage any cell can ever produce."], a: 1, logic: "Mathematically multiplying the microscopic fundamental charge of one single electron by Avogadro's number flawlessly yields the massive total charge of a macroscopic mole.", note: "In practical electrochemistry, dealing with the microscopic charge of individual electrons is exhausting. Instead, chemists heavily scale calculations up to macroscopic 'moles'. The fundamental electrical charge of one isolated electron is exactly $1.602 \\times 10^{-19}\\text{ Coulombs}$. A standard chemical mole contains Avogadro's number of particles. If you multiply the tiny charge of a single electron by the number of electrons in a full mole, you get approximately $96487\\text{ Coulombs}$. This massive chunk of collective charge is universally named the Faraday constant ($F$)." },
+                        { q: "Unlike overall bulk conductivity, why does specific Molar Conductivity ($\\Lambda_m$) strictly and actively increase upon aggressive massive dilution for strong electrolytes like $KCl$? 📜", o: ["Because strong electrolytes suddenly generate billions of fresh new ions.", "Because extreme dilution heavily decreases interionic friction, massively boosting overall mobility of the existing ions.", "Because pure neutral water molecules suddenly start highly conducting.", "Because the heavily applied voltage mysteriously increases."], a: 1, logic: "$\\Lambda_m$ measures the total conducting power of all ions produced by exactly one mole of substance. Dilution drastically reduces drag.", note: "Molar Conductivity ($\\Lambda_m$) strictly measures the combined conducting power of exactly one precise mole of an electrolyte. For strong highly active electrolytes, they are already $100\\%$ dissociated; diluting them absolutely does not create any fresh new charge carriers. However, in a highly concentrated state, the incredibly dense crowds of positive and negative ions violently exert strong electrostatic drag on one another, physically slowing down their migration speeds. Dilution spreads them out, dramatically reducing this friction." },
+                        { q: "For an arbitrary electrochemical cell reaction, if the calculated $E^\\circ_{cell}$ is mathematically evaluated to be a heavily negative number, what is the strict thermodynamic conclusion? 📜", o: ["The forward reaction is intensely and violently spontaneous.", "The forward reaction is strictly highly non-spontaneous, while the exact reverse reaction is highly spontaneous.", "The reaction is flawlessly operating at perfect chemical equilibrium.", "The reaction will aggressively produce incredible amounts of heat rather than raw electricity."], a: 1, logic: "A negative cell potential perfectly mathematically corresponds to a highly positive change in Gibbs free energy ($\\Delta G$), which is the absolute hallmark of a non-spontaneous process.", note: "The strict mathematical sign of the standard cell potential is the ultimate thermodynamic indicator of a reaction's natural physical viability. The foundational linking equation is $\\Delta G^\\circ = -nFE^\\circ_{cell}$. If the calculated $E^\\circ_{cell}$ is heavily negative, the two negative signs in the equation perfectly cancel out, violently resulting in a strictly positive $\\Delta G^\\circ$. A positive $\\Delta G^\\circ$ flawlessly dictates that the forward reaction requires massive external energy input to occur; it is heavily non-spontaneous." },
+                        { q: "In the highly strict, meticulous measurement of Standard Electrode Potentials, why is the highly inert, solid Platinum (Pt) electrode incredibly and meticulously chosen specifically for the Standard Hydrogen Electrode (SHE)? 📜", o: ["Solid Platinum is massively highly conductive, provides a rigid surface for gas dissociation, and chemically completely ignores the highly acidic solution.", "Solid Platinum is the absolute cheapest available laboratory metal.", "Solid Platinum readily and actively dissolves to violently provide massive extra ions.", "Solid Platinum selectively and aggressively blocks microscopic protons."], a: 0, logic: "A flawless, mathematically ideal reference electrode deeply requires a highly exceptionally conductive solid surface that aggressively facilitates electron transfer without chemically participating in the actual reaction itself.", note: "Constructing the flawless Standard Hydrogen Electrode (SHE) is an incredibly extreme engineering challenge. The core driving chemical reaction is the active equilibrium between aqueous highly acidic hydrogen ions ($H^+$) and violently bubbling pure hydrogen gas ($H_2$). Neither of these distinct physical states can easily act as a solid conductive wire. To physically bridge this gap, meticulous chemists absolutely require a highly specific inert metallic solid electrode like Platinum." },
+                        { q: "What basic formula correctly relates Work Done ($W$), Charge ($q$), and Potential Difference ($\\Delta V$)? 📜", o: ["$W = q / \\Delta V$", "$W = \\Delta V / q$", "$W = q \\cdot \\Delta V$", "$W = q^2 \\cdot \\Delta V$"], a: 2, logic: "Algebraically rearranging the fundamental definition $\\Delta V = W / q$ directly yields $W = q \\Delta V$.", note: "This specific, compact equation is arguably the most frequently utilized formula in all CBSE electrostatics numericals. The foundational definition of potential difference establishes that $\\Delta V = W / q$. By executing simple algebraic multiplication, moving the charge $q$ to the opposite side, we obtain the highly practical formula $W = q \\cdot \\Delta V$. This dictates that total mechanical work is simply the magnitude of charge multiplied by the established potential difference." },
+                        { q: "If an external agent does negative work when bringing a positive test charge from infinity, what is the sign of the potential at that point? 📜", o: ["Positive", "Negative", "Zero", "Depends on the test charge mass"], a: 1, logic: "Since $V = W/q$, if the calculated work $W$ is negative and $q$ is positive, the resulting potential $V$ must algebraically be negative.", note: "Interpreting the mathematical signs of calculated work is a critical skill for board exams. By convention, we evaluate spatial potential by bringing a unit positive test charge inward from infinity. If the calculated external work is negative, it explicitly means the external agent had to actively pull backward as a brake. The agent only needs to brake if the natural electric field is already pulling the positive test charge inward. Since opposite charges attract, a naturally attractive field definitively proves the source charges must be negative." },
+                        { q: "According to textbook conventions, what is mathematically assumed to be the electrostatic potential of the Earth? 📜", o: ["$100\\text{ V}$", "Infinity", "Exactly Zero", "Depends on the local geography"], a: 2, logic: "The Earth is vastly large and acts as an infinite charge sink, so its relative potential is standardized as zero.", note: "In practical electrical engineering and board exam numericals, the Earth serves as a vital reference point. Because the Earth is astronomically large and highly conductive, it effectively acts as an infinite, stable sink for electrical charge. Adding or removing standard amounts of charge physically does not change its overall electrical state. Therefore, by convention, the electrostatic potential of the Earth is mathematically standardized as exactly zero volts." },
+                        { q: "If $50\\text{ J}$ of work must be done to forcefully move a $2\\text{ C}$ charge from point A to point B, what is the potential difference $(V_B - V_A)$? 📜", o: ["$100\\text{ V}$", "$25\\text{ V}$", "$0.04\\text{ V}$", "$-25\\text{ V}$"], a: 1, logic: "Applying the core formula $\\Delta V = W/q$, dividing $50\\text{ J}$ by $2\\text{ C}$ exactly yields $25\\text{ V}$.", note: "This represents the most standard, foundational 1-mark numerical in board examinations. The problem states the total external work done ($W$) is exactly $50\\text{ J}$. It provides the magnitude of the moving charge ($q$) as $2\\text{ C}$. By directly applying the defining formula $\\Delta V = W / q$, you substitute the values to get $\\Delta V = 50 / 2$. This flawless division yields exactly $25\\text{ Volts}$." },
+                        { q: "In which specific spatial direction does the electrostatic potential always aggressively decrease? 📜", o: ["Perpendicular to the electric field.", "In the exact direction of the electric field.", "Opposite to the direction of the electric field.", "Potential does not decrease."], a: 1, logic: "Positive charges naturally accelerate in the direction of the field, moving from higher potential energy to lower potential energy.", note: "This theoretical relationship is frequently tested as a 1-mark MCQ. The physical rule states that an electric field vector always points directly away from positive source charges and directly towards negative source charges. Because potential ($V$) strictly drops as you move further away from positive sources, the mathematical potential gradient is negative along the field lines. Therefore, electrostatic potential always aggressively decreases in the exact direction of the established electric field vector." }
+                    ]
+                }
+            },
+            hard: {
+                ch1: {
+                    title: "CBSE Focus: Electrochemistry (Hard)",
+                    questions: [
+                        { q: "According to the highly rigorous thermodynamic equation $\\Delta G^\\circ = -RT \\ln(K_c)$, if a redox reaction possesses a massively positive standard cell potential ($E^\\circ_{cell}$), what can we definitively conclude about its equilibrium constant ($K_c$)? 📜", o: ["$K_c$ is flawlessly exactly zero.", "$K_c$ is an incredibly tiny, microscopic decimal fraction.", "$K_c$ is a massively, astronomically large number ($K_c \\gg 1$).", "$K_c$ is flawlessly exactly one."], a: 2, logic: "A massively large positive $E^\\circ_{cell}$ explicitly means a highly negative $\\Delta G^\\circ$, which strictly corresponds to a heavily product-favored chemical equilibrium.", note: "A massively positive $E^\\circ_{cell}$ fiercely guarantees that $\\Delta G^\\circ$ is a massively deeply negative number, indicating an incredibly spontaneous forward reaction. The secondary crucial thermodynamic equation $\\Delta G^\\circ = -RT \\ln(K_c)$ connects this immense free energy directly to chemical equilibrium. For a deeply negative $\\Delta G^\\circ$ to physically exist, the natural log term ($\\ln(K_c)$) must be a massively large positive numerical value. The only mathematical way for a pure logarithm to evaluate to a massive positive number is if the internal argument ($K_c$) is itself astronomically massive." },
+                        { q: "When deeply analyzing a specialized 'Concentration Cell' (where both distinct electrodes are made of the exact same metal, like Copper), why does the massive battery reliably produce a functional positive voltage despite having an absolute $E^\\circ_{cell}$ of exactly zero? 📜", o: ["Because the powerful Nernst equation's logarithmically sensitive term is violently driven almost entirely by the severe physical difference in molar concentrations between the two identical half-cells.", "Because the active salt bridge mysteriously generates its own totally internal massive electrical spark.", "Because the two absolutely physically identical rigid metals aggressively repel each other.", "Concentration cells are strictly theoretical and absolutely do not actually ever produce real voltage."], a: 0, logic: "Since the solid anode and the solid cathode are completely identical, $E^\\circ_{cell} = 0$. The entire driving functional voltage is actively generated completely by the physical universe's thermodynamic desire to entirely equalize the massive concentration gradient.", note: "A Concentration Cell is a brilliant thermodynamic anomaly. In a perfectly absolute standard physical setup, you might have a pure Copper solid anode sitting in $0.01\\text{M}$ active $Cu^{2+}$ and a perfectly identical Copper solid cathode sitting in a massively rich $1.0\\text{M}$ $Cu^{2+}$. Because both are identical Copper, their standard potentials fully cancel out. However, the universe strongly despises severe concentration gradients. The Nernst equation perfectly models this; the resulting non-zero logarithmic term becomes the sole mathematical generator of the measured positive cell voltage." },
+                        { q: "When deeply analyzing the degree of dissociation ($\\alpha$) for weak electrolytes using conductivity, the formula is $\\alpha = \\Lambda_m / \\Lambda^\\circ_m$. Why is this specific mathematical ratio highly valid? 📜", o: ["Because strong electrolytes are entirely banned from the formula.", "Because it elegantly compares the actual conducting power of the partially ionized state strictly against the theoretical maximum power if it were 100% fully dissociated.", "Because it perfectly cancels out the mass of the pure water.", "Because Kohlrausch's law explicitly demands it."], a: 1, logic: "The ratio mathematically isolates the fraction of molecules that have successfully broken apart into highly conductive active ions.", note: "Determining the exact dissociation percentage of a weak acid is a legendary application of advanced conductivity measurements. Weak electrolytes stubbornly refuse to fully split into ions. The formula $\\alpha = \\Lambda_m / \\Lambda^\\circ_m$ is an incredibly elegant and powerful ratio. The numerator ($\\Lambda_m$) represents the mediocre, real-world molar conductivity currently being measured in the laboratory. The denominator ($\\Lambda^\\circ_m$) represents the absolute maximum, theoretically perfect conductivity the acid would fiercely possess if it magically achieved $100\\%$ complete dissociation." },
+                        { q: "During the active discharging process of a commercial Lead Storage Battery (a secondary cell), what specific chemical reaction is heavily physically occurring at the solid porous Lead anode? 📜", o: ["Solid $PbO_2$ is aggressively reduced to $PbSO_4$.", "Solid pure Lead ($Pb$) is aggressively oxidized, reacting with heavily concentrated sulfate ions to rapidly form solid $PbSO_4$.", "Aqueous highly acidic protons are violently reduced to pure Hydrogen gas.", "Solid pure Lead completely magically evaporates into the surrounding air."], a: 1, logic: "As a galvanic cell during discharge, the pure lead anode actively loses electrons (oxidation) and precipitates as insoluble lead sulfate.", note: "The Lead Storage battery is heavily featured in board exams. During discharge, it acts entirely as a standard spontaneous Galvanic cell. At the highly porous pure Lead anode, neutral $Pb$ atoms are aggressively oxidized, actively losing two electrons to become $Pb^{2+}$. These highly active ions instantly and violently react with the dense aqueous sulfate ions ($SO_4^{2-}$) suspended heavily in the sulfuric acid electrolyte. This reaction rapidly forms a thick, dense, insoluble layer of solid Lead(II) Sulfate ($PbSO_4$) that aggressively physically coats the metallic anode plate." },
+                        { q: "Why are advanced Hydrogen-Oxygen Fuel Cells considered significantly thermodynamically superior to traditional thermal power plants for large-scale electricity generation? 📜", o: ["Because they magically totally violate the laws of strict thermodynamics.", "Because they aggressively convert the raw chemical energy of fuel directly into electricity with incredibly high theoretical efficiency (often ~70%), entirely bypassing the massive heat-loss inefficiencies of traditional steam turbines.", "Because they physically use absolutely zero chemical fuel.", "Because they aggressively massively produce extreme levels of dangerous greenhouse gases."], a: 1, logic: "Fuel cells do not burn fuel to create crude heat; they extract electrical energy directly from the controlled redox reaction, avoiding the severe mechanical efficiency caps of combustion engines.", note: "Fuel cells represent the absolute pinnacle of applied electrochemistry. In a traditional crude thermal plant, coal or gas is violently burned to create massive heat, which boils water into high-pressure steam, which then mechanically spins a heavy turbine to finally generate electricity. Every single aggressive physical transition in this highly crude chain violently loses massive amounts of energy to sheer entropy (often capping efficiency near $40\\%$). Fuel cells actively avoid this completely. They flawlessly convert the chemical free energy of continuous hydrogen and oxygen fuel strictly and directly into a massive flow of electricity." },
+                        { q: "What is the exact algebraic mathematical expression for the total electrostatic potential at the exact center of a square of side 'a' with identical charges $+q$ at all four corners? 📜", o: ["Zero", "$\\frac{4kq}{a}$", "$\\frac{4\\sqrt{2}kq}{a}$", "$\\frac{kq}{2a}$"], a: 2, logic: "The distance from corner to center is $a/\\sqrt{2}$. The total potential is $4 \\times (kq / (a/\\sqrt{2})) = 4\\sqrt{2}kq/a$.", note: "Superposition numericals involving symmetric geometric shapes are extremely popular in board examinations. First, you must meticulously calculate the exact geometric distance from any single corner to the exact center of the square. The full diagonal of a square is $a\\sqrt{2}$, so the precise half-diagonal distance to the center is strictly $a/\\sqrt{2}$. The scalar potential generated by just one single corner charge at this center point is $V_1 = kq / (a/\\sqrt{2})$. Because potential is a scalar and all four corner charges are perfectly identical, you simply algebraically add the four identical values together (or mathematically multiply by 4). This straightforward calculation reliably yields the final rigorous answer of $4\\sqrt{2}kq/a$." },
+                        { q: "A positive point charge $+Q$ is kept completely isolated. What geometric shape characterizes its distinct equipotential surfaces? 📜", o: ["Perfectly flat parallel planes", "Perfectly concentric spherical shells", "Coaxial cylinders", "Complex hyperbolic curves"], a: 1, logic: "Since $V = kQ/r$, any surface where the radial distance $r$ is perfectly constant will absolutely have a constant potential, forming a sphere.", note: "Identifying specific equipotential shapes is a highly frequent 1-mark objective question. The mathematical formula for the electrostatic potential of a single isolated point charge is rigorously $V = kQ/r$. This strict equation definitively proves that the absolute potential $V$ relies solely and exclusively on the absolute radial distance $r$ from the central source charge. In rigorous three-dimensional geometry, the locus of all possible points that share the exact same radial distance $r$ from a singular central point forms a perfect mathematical sphere. Therefore, the equipotential surfaces surrounding any isolated point charge naturally and flawlessly manifest as perfectly concentric spherical shells radiating outward." },
+                        { q: "In the rigorous calculus derivation of point charge potential, what specific mathematical operation perfectly transitions the inverse-square force into an inverse-distance potential? 📜", o: ["Vector differentiation", "Scalar multiplication", "Mathematical integration over a distance", "Taking the absolute square root"], a: 2, logic: "Integrating the variable $r^{-2}$ with respect to $dr$ applies the power rule, elegantly resulting in $-r^{-1}$ or $-1/r$.", note: "Understanding the underlying calculus mechanics is essential for mastering advanced electrostatics derivations. The foundational electrostatic Coulomb force is strictly governed by the aggressive inverse-square law, mathematically featuring the term $r^{-2}$. To rigorously calculate the total accumulated mechanical work over a spatial distance, physicists must mathematically integrate this specific force function. The universal mathematical power rule for integrals dictates that integrating $r^{-2}$ completely transforms the term into $-r^{-1}$. This exact mathematical step flawlessly explains why the resulting electrostatic potential formula ($V = kQ/r$) features a simple inverse distance proportionality rather than an inverse-square proportionality. Highlighting this integration step is highly crucial for securing full marks in 3-mark derivation questions." },
+                        { q: "If an alpha particle (charge $+2e$) and a proton (charge $+e$) are placed at exactly identical distances from a source charge, how do their potential energies mathematically compare? 📜", o: ["They are exactly equal.", "The alpha particle has exactly twice the potential energy.", "The proton has exactly twice the potential energy.", "The alpha particle has four times the energy."], a: 1, logic: "Since $U = qV$, and the potential $V$ is identical for both, doubling the test charge $q$ exactly doubles the potential energy $U$.", note: "Board examiners frequently utilize distinct atomic particles to test your conceptual understanding of formulas. In this specific scenario, both theoretical particles are placed at the exact same radial distance from the source charge, meaning they absolutely experience the exact same electrostatic potential ($V$). The critical defining formula connecting potential to energy is $U = qV$. A standard proton possesses a foundational charge of $+e$, while an alpha particle possesses exactly double that charge ($+2e$). Because the alpha particle's test charge magnitude is exactly twice as large, multiplying it by the identical potential $V$ mathematically results in exactly twice the total electrostatic potential energy." },
+                        { q: "A charge $+3Q$ and a charge $-Q$ are separated by distance $d$. Will the point of exact zero potential lie between them, outside them, or both? 📜", o: ["Only exactly between them", "Only completely outside them", "Both exactly between them and outside them", "There is no point of zero potential"], a: 2, logic: "For unlike unequal charges, a zero potential point mathematically exists both between them and outside them on the side of the physically weaker charge.", note: "Locating specific null points is a highly rigorous 3-mark numerical standard in CBSE exams. For two unlike charges to successfully create a point of zero net potential, the purely scalar positive potential must exactly mathematically cancel the purely scalar negative potential ($kQ_1/r_1 = kQ_2/r_2$). This precise mathematical balancing act requires the measurement point to be physically closer to the charge with the smaller absolute magnitude (in this case, the $-Q$ charge). Because potential is a scalar and not constrained by directional vector limits, you can successfully find one valid coordinate situated directly between the charges, and a second valid coordinate situated completely outside them on the side of the weaker charge." }
+                    ]
+                }
+            }
+        }
     };
-    
-    // Keeps track of the chapters we have loaded
-    const registeredTopics = [];
 
-    // This is the magic function that external topic files will call to inject themselves
-    window.registerTopic = function(chapterId, tabLabel, conceptualDataObj, cbseDataObj) {
-        registeredTopics.push({ id: chapterId, label: tabLabel });
-        
-        ['easy', 'medium', 'hard'].forEach(level => {
-            masterQuizData.conceptual[level][chapterId] = conceptualDataObj[level];
-            masterQuizData.cbse[level][chapterId] = cbseDataObj[level];
-        });
-    };
-
-    // --- APPLICATION STATE (WITH LOCAL STORAGE) ---
     let currentMode = 'conceptual';
     let currentLevel = 'easy';
-    let currentChapter = null; // Will be set during init
-    let loggedInUser = localStorage.getItem('cbseChemistryUser') || null;
+    let currentChapter = 'ch1';
+    let loggedInUser = localStorage.getItem('cbseChemChapter2User') || null;
     let userAnswers = {};
     let quizScores = {};
 
@@ -473,84 +308,39 @@
             document.getElementById('app-content').style.display = 'none';
             return;
         }
-
-        // Hide login, show app
         document.getElementById('login-overlay').style.display = 'none';
         document.getElementById('app-content').style.display = 'block';
         
-        // Formatting name
         const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
         document.getElementById('welcome-text').innerText = `Welcome, ${displayName}`;
 
-        // Load saved data specific to the logged-in user
-        const savedAnswers = localStorage.getItem(`cbseChemistryAnswers_${loggedInUser}`);
-        const savedScores = localStorage.getItem(`cbseChemistryScores_${loggedInUser}`);
+        const savedAnswers = localStorage.getItem(`cbseChemChapter2Answers_${loggedInUser}`);
+        const savedScores = localStorage.getItem(`cbseChemChapter2Scores_${loggedInUser}`);
 
-        let parsedAnswers = savedAnswers ? JSON.parse(savedAnswers) : null;
-        let parsedScores = savedScores ? JSON.parse(savedScores) : null;
-
-        // Initialize state arrays
-        if (parsedAnswers && parsedAnswers.conceptual) {
-            userAnswers = parsedAnswers;
-            quizScores = parsedScores;
+        if (savedAnswers && savedScores) {
+            userAnswers = JSON.parse(savedAnswers);
+            quizScores = JSON.parse(savedScores);
         } else {
-            userAnswers = { conceptual: { easy: {}, medium: {}, hard: {} }, cbse: { easy: {}, medium: {}, hard: {} } };
-            quizScores = { conceptual: { easy: {}, medium: {}, hard: {} }, cbse: { easy: {}, medium: {}, hard: {} } };
+            userAnswers = { 
+                conceptual: { easy: {ch1:{}}, medium: {ch1:{}}, hard: {ch1:{}} }, 
+                cbse: { easy: {ch1:{}}, medium: {ch1:{}}, hard: {ch1:{}} } 
+            };
+            quizScores = { 
+                conceptual: { easy: {ch1:null}, medium: {ch1:null}, hard: {ch1:null} }, 
+                cbse: { easy: {ch1:null}, medium: {ch1:null}, hard: {ch1:null} } 
+            };
         }
 
-        // Ensure dynamic chapters exist in user state
-        ['conceptual', 'cbse'].forEach(mode => {
-            ['easy', 'medium', 'hard'].forEach(lvl => {
-                registeredTopics.forEach(topic => {
-                    if(!userAnswers[mode][lvl][topic.id]) userAnswers[mode][lvl][topic.id] = {};
-                    if(quizScores[mode][lvl][topic.id] === undefined) quizScores[mode][lvl][topic.id] = null;
-                });
-            });
-        });
-
-        renderTabs();
-
-        if (registeredTopics.length > 0) {
-            loadQuiz(registeredTopics[0].id); // Load the very first registered topic by default
-        } else {
-            document.getElementById('quiz-title').innerText = "Setup Required: Topics Not Registered";
-            document.getElementById('questions-container').innerHTML = `
-                <div class="feedback-box incorrect" style="display:block; font-size: 1.1rem;">
-                    <strong class="title">⚠️ Topic Registration Missing</strong>
-                    <p style="margin-top: 10px;">The Master Engine is running, but it hasn't received any data from the topic files.</p>
-                    <p style="margin-top: 10px;">This usually happens if the <strong><code>topics/topic2_1.js</code></strong> file is missing the final registration command at the bottom.</p>
-                    <p style="margin-top: 10px;"><strong>How to fix:</strong> Make sure your <code>topic2_1.js</code> file ends with:</p>
-                    <code style="display:block; background: #fff; padding: 10px; margin-top: 10px; border-radius: 4px; color: #0f172a;">window.registerTopic('ch1', 'Topic 2.1: Electrochemical Cells', conceptualData, cbseData);</code>
-                </div>`;
-            document.getElementById('submit-container').innerHTML = '';
-        }
-    }
-
-    // Dynamic UI Builder for the Tabs
-    function renderTabs() {
-        const container = document.getElementById('tabs-container');
-        container.innerHTML = ''; // Clear out any existing HTML
-        
-        registeredTopics.forEach((topic, index) => {
-            const btn = document.createElement('button');
-            btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
-            btn.id = `tab-${topic.id}`;
-            btn.onclick = () => loadQuiz(topic.id);
-            btn.innerHTML = `${topic.label} <span id="badge-${topic.id}"></span>`;
-            container.appendChild(btn);
-        });
-        
         updateTabScores();
+        loadQuiz('ch1'); 
     }
 
-    // Helper to persist state to device storage
     function saveState() {
         if(!loggedInUser) return;
-        localStorage.setItem(`cbseChemistryAnswers_${loggedInUser}`, JSON.stringify(userAnswers));
-        localStorage.setItem(`cbseChemistryScores_${loggedInUser}`, JSON.stringify(quizScores));
+        localStorage.setItem(`cbseChemChapter2Answers_${loggedInUser}`, JSON.stringify(userAnswers));
+        localStorage.setItem(`cbseChemChapter2Scores_${loggedInUser}`, JSON.stringify(quizScores));
     }
     
-    // Feature to forcefully wipe old/broken local storage
     function clearAppData() {
         if (confirm("Are you sure you want to completely clear the local data? This will erase all scores and answers for all accounts on this device.")) {
             localStorage.clear();
@@ -559,14 +349,13 @@
         }
     }
 
-    // --- LOGIN / LOGOUT LOGIC ---
     function handleLogin() {
         const userField = document.getElementById('username').value.trim().toLowerCase();
         const passField = document.getElementById('password').value.trim();
 
         if (validAccounts[userField] && validAccounts[userField] === passField) {
             loggedInUser = userField;
-            localStorage.setItem('cbseChemistryUser', loggedInUser);
+            localStorage.setItem('cbseChemChapter2User', loggedInUser);
             document.getElementById('login-error').style.display = 'none';
             initApp();
         } else {
@@ -574,86 +363,55 @@
         }
     }
 
-    function handleEnter(e) {
-        if (e.key === 'Enter') {
-            handleLogin();
-        }
-    }
+    function handleEnter(e) { if (e.key === 'Enter') handleLogin(); }
+    function handleLogout() { localStorage.removeItem('cbseChemChapter2User'); location.reload(); }
 
-    function handleLogout() {
-        localStorage.removeItem('cbseChemistryUser');
-        location.reload();
-    }
-
-    // --- QUIZ FUNCTIONS ---
     function setMode(mode) {
         currentMode = mode;
-        
-        // Update mode buttons
         document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`mode-${mode}`).classList.add('active');
-
-        // Reload current chapter with new mode
         loadQuiz(currentChapter);
     }
 
     function setLevel(level) {
         currentLevel = level;
-        
-        // Update level buttons
         document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById(`btn-${level}`).classList.add('active');
-
-        // Reload current chapter with new level
         loadQuiz(currentChapter);
     }
 
-    // Dynamically updates scores on ALL rendered tabs
     function updateTabScores() {
-        registeredTopics.forEach(topic => {
-            const score = quizScores[currentMode][currentLevel][topic.id];
-            const activeData = masterQuizData[currentMode][currentLevel][topic.id];
-            const total = activeData ? activeData.questions.length : 0;
-            
-            const badgeElement = document.getElementById(`badge-${topic.id}`);
-            if (badgeElement) {
-                badgeElement.innerHTML = score !== null ? `<span class="score-badge">${score}/${total}</span>` : '';
-            }
-        });
+        const score = quizScores[currentMode][currentLevel]['ch1'];
+        const activeData = masterQuizData[currentMode][currentLevel]['ch1'];
+        const total = activeData ? activeData.questions.length : 0;
+        const badgeElement = document.getElementById(`badge-ch1`);
+        if (badgeElement) {
+            badgeElement.innerHTML = score !== null ? `<span class="score-badge">${score}/${total}</span>` : '';
+        }
     }
 
     function loadQuiz(chapterId) {
         currentChapter = chapterId;
-        
-        // Update Chapter Tabs Visually
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         const activeTab = document.getElementById(`tab-${chapterId}`);
         if(activeTab) activeTab.classList.add('active');
         
         updateTabScores();
 
-        // Show quiz view, hide report view
         document.getElementById('quiz-view').classList.add('active');
         document.getElementById('report-view').classList.remove('active');
-
-        // Toggle legend based on mode
         document.getElementById('cbse-legend').style.display = (currentMode === 'cbse') ? 'block' : 'none';
 
         const activeData = masterQuizData[currentMode][currentLevel][chapterId];
         if(!activeData) return;
 
-        // Set Title
         document.getElementById('quiz-title').innerText = activeData.title;
-
-        // Render Questions
         const container = document.getElementById('questions-container');
         container.innerHTML = '';
 
         activeData.questions.forEach((qObj, index) => {
             const qDiv = document.createElement('div');
             qDiv.className = 'question-block';
-            
-            // Check state to see if this was already answered previously
             const answeredOption = userAnswers[currentMode][currentLevel][chapterId][index];
             const isAnswered = answeredOption !== undefined;
             
@@ -661,29 +419,22 @@
             qObj.o.forEach((opt, optIndex) => {
                 const isChecked = isAnswered && answeredOption === optIndex;
                 let optionClasses = 'option-label ';
-                
-                // If the question is answered, apply styling classes
                 if (isAnswered) {
                     optionClasses += 'locked ';
-                    if (optIndex === qObj.a) {
-                        optionClasses += 'correct-choice ';
-                    } else if (isChecked) {
-                        optionClasses += 'incorrect-choice ';
-                    }
+                    if (optIndex === qObj.a) optionClasses += 'correct-choice ';
+                    else if (isChecked) optionClasses += 'incorrect-choice ';
                 }
 
                 optionsHTML += `
                     <label class="${optionClasses}" id="label-${currentMode}-${currentLevel}-${chapterId}-${index}-${optIndex}">
                         <input type="radio" name="q-${currentMode}-${currentLevel}-${chapterId}-${index}" value="${optIndex}" 
-                        ${isChecked ? 'checked' : ''}
-                        ${isAnswered ? 'disabled' : ''}
+                        ${isChecked ? 'checked' : ''} ${isAnswered ? 'disabled' : ''}
                         onchange="selectAnswer('${chapterId}', ${index}, ${optIndex})">
                         ${opt}
                     </label>
                 `;
             });
 
-            // Set up the immediate feedback box if already answered
             let feedbackHTML = '';
             if (isAnswered) {
                 const isCorrect = answeredOption === qObj.a;
@@ -698,15 +449,10 @@
                 feedbackHTML = `<div id="feedback-${currentMode}-${currentLevel}-${chapterId}-${index}" class="feedback-box"></div>`;
             }
 
-            qDiv.innerHTML = `
-                <div class="question-text">${index + 1}. ${qObj.q}</div>
-                <div class="options-grid">${optionsHTML}</div>
-                ${feedbackHTML}
-            `;
+            qDiv.innerHTML = `<div class="question-text">${index + 1}. ${qObj.q}</div><div class="options-grid">${optionsHTML}</div>${feedbackHTML}`;
             container.appendChild(qDiv);
         });
 
-        // Setup Submit/View Report Button Logic
         const submitContainer = document.getElementById('submit-container');
         const totalQ = activeData.questions.length;
 
@@ -718,49 +464,34 @@
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Typeset MathJax for newly injected elements
         if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
             MathJax.typesetPromise([container, document.getElementById('quiz-title')]).catch(err => console.log(err));
         }
     }
 
-    // Handles user selecting an answer visually and in state
     window.selectAnswer = function(chapterId, qIndex, optIndex) {
-        // LOCK IN ANSWER: Check if already answered
         if (userAnswers[currentMode][currentLevel][chapterId][qIndex] !== undefined) return;
 
-        // Save answer to state
         userAnswers[currentMode][currentLevel][chapterId][qIndex] = optIndex;
-        saveState(); // Update local storage
+        saveState();
         
         const qObj = masterQuizData[currentMode][currentLevel][chapterId].questions[qIndex];
         const isCorrect = optIndex === qObj.a;
         
-        // Visual update - Lock the options and show correct/incorrect colors
         for(let i=0; i<4; i++) {
             const label = document.getElementById(`label-${currentMode}-${currentLevel}-${chapterId}-${qIndex}-${i}`);
             const input = label.querySelector('input');
-            
             if (label && input) {
                 label.classList.add('locked');
-                input.disabled = true; // Disable all inputs for this question
-                
-                if (i === qObj.a) {
-                    label.classList.add('correct-choice'); // Highlight the real answer
-                } else if (i === optIndex) {
-                    label.classList.add('incorrect-choice'); // Strike-through wrong guess
-                }
+                input.disabled = true;
+                if (i === qObj.a) label.classList.add('correct-choice');
+                else if (i === optIndex) label.classList.add('incorrect-choice');
             }
         }
         
-        // Show immediate feedback note with justification
         const feedbackBox = document.getElementById(`feedback-${currentMode}-${currentLevel}-${chapterId}-${qIndex}`);
         feedbackBox.className = `feedback-box ${isCorrect ? 'correct' : 'incorrect'}`;
-        feedbackBox.innerHTML = `
-            <strong class="title">${isCorrect ? '✓ Correct!' : '✗ Incorrect.'}</strong>
-            <div class="logic-section">Logic: ${qObj.logic}</div>
-            <div class="note-section"><strong>Learning Note:</strong> ${qObj.note}</div>
-        `;
+        feedbackBox.innerHTML = `<strong class="title">${isCorrect ? '✓ Correct!' : '✗ Incorrect.'}</strong><div class="logic-section">Logic: ${qObj.logic}</div><div class="note-section"><strong>Learning Note:</strong> ${qObj.note}</div>`;
         feedbackBox.style.display = 'block';
 
         if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
@@ -774,21 +505,16 @@
         const answeredQ = Object.keys(userAnswers[currentMode][currentLevel][currentChapter]).length;
 
         if (answeredQ < totalQ) {
-            const confirmSubmit = confirm(`You have only answered ${answeredQ} out of ${totalQ} questions. Unanswered questions will be marked wrong. Do you want to submit anyway?`);
-            if(!confirmSubmit) return;
+            if(!confirm(`You have only answered ${answeredQ} out of ${totalQ} questions. Unanswered questions will be marked wrong. Do you want to submit anyway?`)) return;
         }
 
-        // Calculate and save score persistently
         let score = 0;
         activeData.questions.forEach((qObj, index) => {
-            if (userAnswers[currentMode][currentLevel][currentChapter][index] === qObj.a) {
-                score++;
-            }
+            if (userAnswers[currentMode][currentLevel][currentChapter][index] === qObj.a) score++;
         });
         
         quizScores[currentMode][currentLevel][currentChapter] = score;
-        saveState(); // Update local storage
-        
+        saveState();
         updateTabScores();
         showReport();
     }
@@ -798,7 +524,6 @@
         const score = quizScores[currentMode][currentLevel][currentChapter];
         const totalQ = data.questions.length;
 
-        // Hide quiz, show report
         document.getElementById('quiz-view').classList.remove('active');
         document.getElementById('report-view').classList.add('active');
         
@@ -818,98 +543,60 @@
                 <div class="review-item ${isCorrect ? 'correct' : 'incorrect'}">
                     <span class="review-badge ${badgeClass}">${badgeText}</span>
                     <div class="question-text">${index + 1}. ${qObj.q}</div>
-                    
-                    <p style="margin-bottom: 5px;"><strong>Your Answer:</strong> 
-                        <span style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'}">${userAnswerText}</span>
-                    </p>
-                    
+                    <p style="margin-bottom: 5px;"><strong>Your Answer:</strong> <span style="color: ${isCorrect ? 'var(--success)' : 'var(--danger)'}">${userAnswerText}</span></p>
                     ${!isCorrect ? `<p style="margin-bottom: 5px;"><strong>Correct Answer:</strong> <span style="color: var(--success); font-weight: bold;">${qObj.o[qObj.a]}</span></p>` : ''}
-                    
-                    <div class="explanation">
-                        <div class="logic-section">Logic: ${qObj.logic}</div>
-                        <div class="note-section"><strong>Learning Note:</strong> ${qObj.note}</div>
-                    </div>
+                    <div class="explanation"><div class="logic-section">Logic: ${qObj.logic}</div><div class="note-section"><strong>Learning Note:</strong> ${qObj.note}</div></div>
                 </div>
             `;
         });
 
         const percentage = ((score / totalQ) * 100).toFixed(0);
-        const dateString = new Date().toLocaleDateString();
         const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
 
         reportContainer.innerHTML = `
             <div class="report-header">
                 <h2>Performance Report</h2>
                 <h3 style="color: var(--text-light);">${data.title}</h3>
-                <p>Student: <strong>${displayName}</strong> | Generated on: ${dateString}</p>
+                <p>Student: <strong>${displayName}</strong> | Generated on: ${new Date().toLocaleDateString()}</p>
             </div>
-            
-            <div class="score-box">
-                <p>TOTAL MARKS OBTAINED</p>
-                <h2>${score} / ${totalQ}</h2>
-                <p>Accuracy: ${percentage}%</p>
-            </div>
-
+            <div class="score-box"><p>TOTAL MARKS OBTAINED</p><h2>${score} / ${totalQ}</h2><p>Accuracy: ${percentage}%</p></div>
             <h3 style="margin-bottom: 20px; text-align: center; color: var(--primary-dark);">Detailed Review</h3>
             ${reviewHTML}
         `;
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([reportContainer]).catch(err => console.log(err));
-        }
+        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) MathJax.typesetPromise([reportContainer]).catch(err => console.log(err));
     }
 
-    window.backToQuizzes = function() {
-        // Navigate back WITHOUT clearing answers
-        loadQuiz(currentChapter);
-    }
+    window.backToQuizzes = function() { loadQuiz(currentChapter); }
     
     window.retakeQuiz = function() {
-        // Explicitly clear answers for retake
-        const confirmRetake = confirm(`Are you sure you want to erase your score and retake this quiz?`);
-        if(!confirmRetake) return;
-        
+        if(!confirm(`Are you sure you want to erase your score and retake this quiz?`)) return;
         userAnswers[currentMode][currentLevel][currentChapter] = {};
         quizScores[currentMode][currentLevel][currentChapter] = null;
-        saveState(); // Update local storage
-        
+        saveState();
         loadQuiz(currentChapter);
     }
 
     window.exportPDF = function() {
         const element = document.getElementById('printable-report');
-        const filename = `Chemistry_Report_${loggedInUser}_${currentMode}_${currentLevel}_${currentChapter}.pdf`;
-        
-        // Configure PDF options
         const opt = {
-            margin:       [15, 15, 15, 15],
-            filename:     filename,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+            margin: [15, 15, 15, 15], filename: `Chemistry_Report_${loggedInUser}_${currentMode}_${currentLevel}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
-
-        // Generate and save
         html2pdf().set(opt).from(element).save();
     }
 
     window.exportAllScores = function() {
-        // Create a temporary container for the master report
         const tempDiv = document.createElement('div');
-        tempDiv.style.padding = '30px';
-        tempDiv.style.fontFamily = 'sans-serif';
-        tempDiv.style.color = '#0f172a';
-        
+        tempDiv.style.padding = '30px'; tempDiv.style.fontFamily = 'sans-serif'; tempDiv.style.color = '#0f172a';
         const displayModeText = currentMode === 'cbse' ? 'CBSE Board Exam Focus' : 'Conceptual Focus';
         
-        // Formatter perfectly restricted to Marks & Percentage only.
         const getScoreText = (val, level, ch) => {
             if (val !== null) {
-                const activeData = masterQuizData[currentMode][level][ch];
-                const total = activeData ? activeData.questions.length : 0;
+                const total = masterQuizData[currentMode][level][ch].questions.length;
                 if(total === 0) return '<span style="color: #64748b;">No Questions Available</span>';
                 const percentage = ((val / total) * 100).toFixed(0);
                 return `<strong style="color: #10b981;">Marks: ${val} / ${total} &nbsp;&nbsp;|&nbsp;&nbsp; Percentage: ${percentage}%</strong>`;
@@ -918,21 +605,9 @@
         };
         
         const displayName = loggedInUser.charAt(0).toUpperCase() + loggedInUser.slice(1);
-
-        // Dynamically build the PDF blocks based strictly on registered topics
         const buildLevelBlock = (levelName, levelKey, bgColor) => {
-            let listHTML = '';
-            registeredTopics.forEach(topic => {
-                listHTML += `<li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>${topic.label}</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores[currentMode][levelKey][topic.id], levelKey, topic.id)}</span></li>`;
-            });
-            return `
-                <div style="margin-bottom: 30px;">
-                    <h2 style="background: ${bgColor}; color: white; padding: 10px; border-radius: 6px;">${levelName} Scores</h2>
-                    <ul style="list-style: none; padding: 0; font-size: 18px; line-height: 2;">
-                        ${listHTML}
-                    </ul>
-                </div>
-            `;
+            let listHTML = `<li style="border-bottom: 1px solid #e2e8f0; padding: 10px 0;"><strong>Overall Chapter</strong> <br> <span style="display: block; margin-top: 5px;">${getScoreText(quizScores[currentMode][levelKey]['ch1'], levelKey, 'ch1')}</span></li>`;
+            return `<div style="margin-bottom: 30px;"><h2 style="background: ${bgColor}; color: white; padding: 10px; border-radius: 6px;">${levelName} Scores</h2><ul style="list-style: none; padding: 0; font-size: 18px; line-height: 2;">${listHTML}</ul></div>`;
         };
 
         tempDiv.innerHTML = `
@@ -946,32 +621,14 @@
         `;
 
         const opt = {
-            margin:       15,
-            filename:     `Chemistry_Master_Score_Report_${loggedInUser}_${currentMode}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: 15, filename: `Chemistry_Master_Score_Report_${loggedInUser}_${currentMode}.pdf`,
+            image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-
-        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
-            MathJax.typesetPromise([tempDiv]).then(() => html2pdf().set(opt).from(tempDiv).save());
-        } else {
-            html2pdf().set(opt).from(tempDiv).save();
-        }
+        if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) { MathJax.typesetPromise([tempDiv]).then(() => html2pdf().set(opt).from(tempDiv).save()); } 
+        else { html2pdf().set(opt).from(tempDiv).save(); }
     }
 
-</script>
-
-<!-- ========================================== -->
-<!-- LINK EXTERNAL TOPIC FILES HERE -->
-<!-- ========================================== -->
-<!-- We will inject the <script src="topics/topic2_1.js"></script> here in the next step -->
-<script src="topics/topic2_1.js"></script>
-
-<script>
-    // Initialize application after all external topic scripts are loaded
     window.onload = initApp;
 </script>
-
 </body>
 </html>
