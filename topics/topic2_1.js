@@ -22,6 +22,13 @@ const conceptualData = {
                 a: 2, 
                 logic: "The salt bridge provides a pathway for inert ions to migrate, neutralizing the excess charge building up in the half-cells.", 
                 note: "As a galvanic cell operates, oxidation at the anode floods the solution with positive ions, while reduction at the cathode depletes positive ions. The salt bridge (often an agar gel containing inert salts like KCl) supplies negative ions to the anode half-cell and positive ions to the cathode half-cell to maintain perfect electrical neutrality." 
+            },
+            { 
+                q: "By standard convention, the Standard Hydrogen Electrode (SHE) is assigned an electrode potential of exactly what value at all temperatures?", 
+                o: ["$1.00\\text{ V}$", "$-1.00\\text{ V}$", "$0.00\\text{ V}$", "$10.0\\text{ V}$"], 
+                a: 2, 
+                logic: "The SHE is chosen as the universal baseline reference point, so its potential is arbitrarily but universally defined as zero.", 
+                note: "Absolute electrode potentials cannot be measured directly; we can only physically measure the potential difference between two electrodes. To create a standardized table of potentials, chemists required a universal reference point. By strict international agreement, the standard reduction potential of the SHE is assigned a value of exactly $0.00\\text{ V}$ at all temperatures." 
             }
         ]
     },
@@ -41,6 +48,13 @@ const conceptualData = {
                 a: 2, 
                 logic: "A larger external voltage acts as a stronger pump, forcing electrons to flow backward against their natural spontaneous direction.", 
                 note: "A galvanic cell operates spontaneously, pushing electrons out of the anode. If you hook up an external power source and apply an opposing voltage that dominates the system ($E_{ext} > E_{cell}$), it forces the electrons to flow in absolute reverse. This unnatural reverse flow physically forces the non-spontaneous reverse chemical reaction to occur, actively recharging the battery as an electrolytic cell." 
+            },
+            { 
+                q: "Why can't you physically measure the absolute electrode potential of a single, isolated half-cell?", 
+                o: ["Because the voltage is too high for normal voltmeters.", "Because oxidation or reduction cannot occur independently without a corresponding reaction to accept or provide electrons.", "Because the solution will instantly boil.", "Because the ions move too slowly to register."], 
+                a: 1, 
+                logic: "Redox reactions are coupled; an electron cannot simply be 'lost' unless there is a physical destination for it to go.", 
+                note: "A half-cell potential is essentially the tendency of an electrode to lose or gain electrons. However, oxidation (electron loss) absolutely cannot happen in a vacuum; it strictly requires a paired reduction reaction to actively accept those specific electrons. Because an isolated half-cell has no complete circuit for electrons to flow through, no electrical potential difference can physically manifest or be measured." 
             }
         ]
     },
@@ -60,6 +74,13 @@ const conceptualData = {
                 a: 1, 
                 logic: "A lower (more negative) reduction potential means the substance prefers the reverse reaction—oxidation—making it the optimal electron source.", 
                 note: "The standard electrode tables exclusively list *reduction* potentials. Silver possesses a high positive value ($+0.80\\text{V}$), meaning it strongly 'wants' to be reduced. Zinc possesses a negative reduction potential ($-0.76\\text{V}$), meaning it actively resists being reduced. However, reversing the chemical equation flips the mathematical sign, proving Zinc has a highly positive *oxidation* potential ($+0.76\\text{V}$). Coupling them forces Zinc to act as the ultimate electron source (the anode)." 
+            },
+            { 
+                q: "Why does the physical buildup of a massive electrical double layer at the metal-solution interface heavily dictate the final eventual true equilibrium absolute electrode potential?", 
+                o: ["It causes the solution to rapidly boil.", "The spatial separation of charges creates an intense microscopic electric field that rapidly opposes and eventually totally halts further ion migration.", "It physically crushes the solid electrode.", "It totally converts the metal into a gas."], 
+                a: 1, 
+                logic: "As metal ions dissolve, they leave negative electrons behind, creating an electrostatic gradient that physically pulls back against further dissolution until equilibrium is reached.", 
+                note: "When a solid metal rod dissolves, it creates a severely dense charge separation called an electrical double layer. This double layer generates an incredibly intense, microscopic electric field pointing toward the metal, fiercely pulling positively charged ions back. When this extreme electrostatic backward pull perfectly matches the chemical forward push to dissolve, the dynamic system hits perfect equilibrium." 
             }
         ]
     }
@@ -82,6 +103,13 @@ const cbseData = {
                 a: 2, 
                 logic: "The salt bridge explicitly provides a vital pathway for inert spectator ions to migrate, neutralizing the aggressive excess charge building up in both half-cells.", 
                 note: "Board examiners frequently test the specific functions of this crucial component. Continuous oxidation at the anode violently floods that solution with excess positive ions, while continuous reduction at the cathode severely depletes positive ions. The salt bridge actively supplies negative ions to the anode half-cell and positive ions to the cathode half-cell to maintain perfect electrical harmony and prevent the reaction from halting." 
+            },
+            { 
+                q: "In a standard Daniell cell operating normally, which specific metal acts as the active anode? 📜", 
+                o: ["Pure Copper", "Pure Silver", "Solid Zinc", "Inert Platinum"], 
+                a: 2, 
+                logic: "Zinc fundamentally possesses a higher oxidation potential than copper, meaning it loses electrons much more readily and undergoes oxidation.", 
+                note: "Identifying the correct electrodes is a highly mandatory skill for any electrochemical schematic. In a standard Daniell cell, the anode is universally the solid zinc electrode. Because zinc is fundamentally a more reactive metal than copper, solid zinc atoms rapidly dissolve into the surrounding aqueous solution as positive $Zn^{2+}$ ions, making it the primary site of oxidation." 
             }
         ]
     },
@@ -101,6 +129,13 @@ const cbseData = {
                 a: 1, 
                 logic: "A massive high positive reduction potential explicitly means the substance desperately and aggressively 'wants' to be reduced, meaning it fiercely forces aggressive oxidation upon others.", 
                 note: "The standard electrochemical series rigorously ranks chemical species exclusively by their Standard Reduction Potential ($E^\\circ$). Elements situated at the very extreme top of this table possess a massive tendency to forcefully rip electrons violently away from other innocent substances in order to greedily reduce themselves. Because they forcefully and aggressively cause the severe oxidation of other chemical species, they are strictly classified as incredibly powerful, dominant oxidizing agents." 
+            },
+            { 
+                q: "If an aggressive external opposing voltage ($E_{ext}$) is heavily applied to a discharging Galvanic cell and $E_{ext}$ becomes strictly greater than the cell's natural $E_{cell}$, what physically happens? 📜", 
+                o: ["The cell violently explodes.", "The cell continues operating highly normally but at a drastically faster rate.", "The underlying chemical reaction completely and aggressively reverses, effectively violently turning it into an electrolytic cell.", "The internal salt bridge instantly solidifies."], 
+                a: 2, 
+                logic: "A massively larger external voltage acts as a significantly stronger pump, forcefully overwhelming the battery and forcing electrons to aggressively flow backward against their natural spontaneous direction.", 
+                note: "A healthy galvanic cell operates completely spontaneously, powerfully pushing electrons out of the negative anode. If you actively hook up an external power source and aggressively apply an opposing voltage, it fiercely fights the cell. The very moment $E_{ext} > E_{cell}$, the external power source completely dominates the system. It aggressively forces the massive flow of electrons in absolute, total reverse, recharging the battery as an electrolytic cell." 
             }
         ]
     },
@@ -115,11 +150,25 @@ const cbseData = {
                 note: "This sophisticated question rigorously tests the deepest boundary strictly between intensive and strictly extensive foundational physical properties. The measured standard cell potential ($E^\\circ_{cell}$) is fiercely and fundamentally an intensive property, representing the energy 'push' exclusively felt by each individual electron. Conversely, Gibbs Free Energy ($\\Delta G^\\circ$) is an extensive property; explicitly multiplying the reaction by a larger $n$ perfectly multiplies the total deliverable bulk energy, but leaves the per-electron voltage untouched." 
             },
             { 
-                q: "Why exactly does the incredible physical buildup of a highly massive, intense electrical double layer directly at the rigid metal-solution interface incredibly heavily dictate the final eventual true equilibrium absolute electrode potential?", 
+                q: "Why exactly does the incredible physical buildup of a highly massive, intense electrical double layer directly at the rigid metal-solution interface incredibly heavily dictate the final eventual true equilibrium absolute electrode potential? 📜", 
                 o: ["It violently causes the entire bulk solution to violently rapidly boil.", "The extreme spatial separation of dense massive charges fiercely creates an intense microscopic internal electric field that rapidly aggressively opposes and eventually totally violently halts all further ion migration.", "It violently physically and fiercely crushes the solid metallic electrode.", "It totally and magically converts the solid metal into a violent gas."], 
                 a: 1, 
                 logic: "As solid metal ions violently dissolve, they abandon highly negative mass electrons behind, fiercely creating an immense electrostatic gradient that physically and violently pulls back completely against further massive dissolution until rigid equilibrium is incredibly reached.", 
                 note: "The extremely deep microscopic massive origin of standard half-cell potential is deeply rooted in highly advanced physical electrostatics. When a solid metal rod dissolves, it creates a severely dense charge separation called an electrical double layer. This double layer generates an incredibly intense, microscopic electric field pointing toward the metal, fiercely pulling positively charged ions back. When this extreme electrostatic backward pull perfectly matches the chemical forward push to dissolve, the dynamic system hits perfect equilibrium." 
+            },
+            { 
+                q: "In the highly strict, meticulous measurement of Standard Electrode Potentials, why is the highly inert, solid Platinum (Pt) electrode incredibly and meticulously chosen specifically for the Standard Hydrogen Electrode (SHE)? 📜", 
+                o: ["Solid Platinum is massively highly conductive, provides an incredibly rigid, flawless surface for severe gas dissociation, and chemically completely and utterly ignores the highly acidic, aggressive solution.", "Solid Platinum is the absolute cheapest available laboratory metal.", "Solid Platinum readily and actively dissolves to violently provide massive extra ions.", "Solid Platinum selectively and aggressively blocks microscopic protons."], 
+                a: 0, 
+                logic: "A flawless, mathematically ideal reference electrode deeply requires a highly exceptionally conductive solid surface that aggressively facilitates the critically necessary electron transfer without ever chemically actively participating in the actual reaction itself.", 
+                note: "Constructing the flawless Standard Hydrogen Electrode (SHE) is an incredibly extreme engineering challenge. The core driving chemical reaction is the violent, active equilibrium completely between aqueous highly acidic hydrogen ions ($H^+$) and violently bubbling pure hydrogen gas ($H_2$). Neither of these distinct physical states can easily or physically act as a solid conductive wire. To physically bridge this massive gap, meticulous chemists absolutely require a highly specific inert metallic solid electrode like Platinum." 
+            },
+            { 
+                q: "In the highly rigorous thermodynamic derivation of an active electrochemical cell, why does the maximum electrical work definitively done by the system flawlessly equal exactly the *decrease* in the massive Gibbs free energy ($-\\Delta G$)? 📜", 
+                o: ["Because physical energy is always carelessly lost as violent heat.", "Because Gibbs free energy flawlessly and mathematically represents the absolute, theoretical maximum non-expansion (highly useful) work a completely closed system can physically perform.", "Because extremely tiny electrons inherently have negative electrical charge.", "Because the entire system volume violently and aggressively increases rapidly."], 
+                a: 1, 
+                logic: "By strict thermodynamic definition, absolutely any highly spontaneous, massive drop in an active system's free energy perfectly dictates the absolute theoretical maximum of useful, electrical work it can flawlessly output.", 
+                note: "Advanced chemical thermodynamics categorizes massive physical work into two main types: crude expansion work and elegant non-expansion work (like meticulously pushing trillions of tiny electrons seamlessly through a wire). For absolutely any process operating at completely constant pressure and temperature, the exact mathematical change in Gibbs Free Energy ($\\Delta G$) strictly and flawlessly quantifies the absolute theoretical maximum amount of highly useful, highly non-expansion work the chemical system can possibly deliver to the completely outside world." 
             }
         ]
     }
