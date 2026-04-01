@@ -513,7 +513,15 @@
         if (registeredTopics.length > 0) {
             loadQuiz(registeredTopics[0].id); // Load the very first registered topic by default
         } else {
-            document.getElementById('quiz-title').innerText = "No topics loaded. Please add topic script files.";
+            document.getElementById('quiz-title').innerText = "Setup Required: Topics Not Registered";
+            document.getElementById('questions-container').innerHTML = `
+                <div class="feedback-box incorrect" style="display:block; font-size: 1.1rem;">
+                    <strong class="title">⚠️ Topic Registration Missing</strong>
+                    <p style="margin-top: 10px;">The Master Engine is running, but it hasn't received any data from the topic files.</p>
+                    <p style="margin-top: 10px;">This usually happens if the <strong><code>topics/topic2_1.js</code></strong> file is missing the final registration command at the bottom.</p>
+                    <p style="margin-top: 10px;"><strong>How to fix:</strong> Make sure your <code>topic2_1.js</code> file ends with:</p>
+                    <code style="display:block; background: #fff; padding: 10px; margin-top: 10px; border-radius: 4px; color: #0f172a;">window.registerTopic('ch1', 'Topic 2.1: Electrochemical Cells', conceptualData, cbseData);</code>
+                </div>`;
             document.getElementById('submit-container').innerHTML = '';
         }
     }
